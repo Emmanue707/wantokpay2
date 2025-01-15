@@ -66,17 +66,20 @@ try {
             $stmt->execute([$transfer->id]);
             break;
 
-        case 'payment_method.attached':
-            $paymentMethod = $event->data->object;
-            $stmt = $db->prepare("UPDATE users SET has_payment_method = 1 WHERE stripe_customer_id = ?");
-            $stmt->execute([$paymentMethod->customer]);
-            break;
-
-        case 'payment_method.detached':
-            $paymentMethod = $event->data->object;
-            $stmt = $db->prepare("UPDATE users SET has_payment_method = 0 WHERE stripe_customer_id = ?");
-            $stmt->execute([$paymentMethod->customer]);
-            break;
+            case 'payment_method.attached':
+                $paymentMethod = $event->data->object;
+                $stmt = $db->prepare("UPDATE users SET stripe_customer_id = ?, has_payment_method = 1 
+                                     WHERE stripe_customer_id = ?");
+                $stmt->execute([$paymentMethod->customer, $paymentMethod->customer]);
+                break;
+            
+            case 'payment_method.detached':
+                $paymentMethod = $event->data->object;
+                $stmt = $db->prepare("UPDATE users SET has_payment_method = 0 
+                                     WHERE stripe_customer_id = ?");
+                $stmt->execute([$paymentMethod->customer]);
+                break;
+            
 
         case 'customer.subscription.created':
             $subscription = $event->data->object;
