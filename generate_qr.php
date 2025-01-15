@@ -47,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php">Home</a>
+                </li>
                 <?php if(!isset($_SESSION['user_id'])): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="login.php">Login</a>
@@ -59,6 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <a class="nav-link" href="dashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="scan_qr.php">Scan QR</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="generate_qr.php">Generate QR</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="logout.php">Logout</a>
                     </li>
                 <?php endif; ?>
@@ -66,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </nav>
+
 
 
     <div class="container mt-4">
