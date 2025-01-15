@@ -8,14 +8,21 @@ $db = $database->getConnection();
 $user = new User($db);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user->username = $_POST['username'];
-    $user->email = $_POST['email'];
-    $user->password = $_POST['password'];
-    
-    if($user->create()) {
-        $_SESSION['success'] = "Registration successful! Please login.";
-        header("Location: login.php");
-        exit();
+    // Add validation for username and email uniqueness
+    $stmt = $db->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
+    $stmt->execute([$_POST['email'], $_POST['username']]);
+    if($stmt->rowCount() > 0) {
+        $error = "Email or username already exists";
+    } else {
+        $user->username = $_POST['username'];
+        $user->email = $_POST['email'];
+        $user->password = $_POST['password'];
+        
+        if($user->create()) {
+            $_SESSION['success'] = "Registration successful! Please login.";
+            header("Location: login.php");
+            exit();
+        }
     }
 }
 ?>
