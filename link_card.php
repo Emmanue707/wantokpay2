@@ -104,10 +104,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
+        console.log('Stripe script loaded');
         const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
         const elements = stripe.elements();
         const card = elements.create('card');
+        console.log('Card element created');
         card.mount('#card-element');
+        console.log('Card mounted');
 
         const form = document.getElementById('payment-form');
         form.addEventListener('submit', async (event) => {

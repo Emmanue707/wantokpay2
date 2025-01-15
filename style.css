@@ -214,3 +214,11 @@ footer {
     border-radius: 5px;
     margin: 1rem 0;
 }
+
+#card-element {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: white;
+    min-height: 40px;
+}
