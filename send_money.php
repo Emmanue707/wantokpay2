@@ -21,6 +21,10 @@ if ($recipient) {
     $user->id = $_SESSION['user_id'];
     
     if ($user->transfer($recipient['id'], $_POST['amount'])) {
+        // After successful transfer
+        $stmt = $db->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, type, status) 
+                             VALUES (?, ?, ?, 'p2p', 'completed')");
+        $stmt->execute([$_SESSION['user_id'], $recipient['id'], $_POST['amount']]);
         $_SESSION['success'] = "Money sent successfully!";
     } else {
         $_SESSION['error'] = "Transfer failed. Please check your balance.";

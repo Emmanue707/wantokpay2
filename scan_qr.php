@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'Database.php';
-require_once '/User.php';
+require_once 'User.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $qr_data = json_decode($_POST['qr_data'], true);
@@ -14,6 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user->id = $_SESSION['user_id'];
         
         if ($user->transfer($qr_data['merchant_id'], $qr_data['amount'])) {
+            // Record the QR payment transaction
+            $stmt = $db->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, type, status) 
+                                VALUES (?, ?, ?, 'qr_payment', 'completed')");
+            $stmt->execute([$_SESSION['user_id'], $qr_data['merchant_id'], $qr_data['amount']]);
+            
             echo json_encode(['success' => true]);
             exit();
         }

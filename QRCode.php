@@ -21,7 +21,7 @@ class QRCodeGenerator {
         
         $query = "INSERT INTO " . $this->table . " 
                  SET merchant_id=:merchant_id, amount=:amount, 
-                     description=:description";
+                     description=:description, status='active'";
         
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":merchant_id", $merchant_id);

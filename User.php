@@ -16,15 +16,15 @@ class User {
     public function create() {
         $query = "INSERT INTO " . $this->table . " 
                  SET username=:username, email=:email, 
-                     password_hash=:password_hash";
+                     password_hash=:password_hash, balance=0.00";
         
         $stmt = $this->conn->prepare($query);
         
-        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+        $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
         
         $stmt->bindParam(":username", $this->username);
         $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":password_hash", $this->password);
+        $stmt->bindParam(":password_hash", $password_hash);
         
         return $stmt->execute();
     }
