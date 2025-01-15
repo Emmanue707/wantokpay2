@@ -2,29 +2,10 @@
 session_start();
 require_once 'Database.php';
 require_once 'User.php';
+require_once 'vendor/autoload.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $qr_data = json_decode($_POST['qr_data'], true);
-    
-    if ($qr_data && isset($qr_data['merchant_id']) && isset($qr_data['amount'])) {
-        $database = new Database();
-        $db = $database->getConnection();
-        
-        $user = new User($db);
-        $user->id = $_SESSION['user_id'];
-        
-        if ($user->transfer($qr_data['merchant_id'], $qr_data['amount'])) {
-            // Record the QR payment transaction
-            $stmt = $db->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, type, status) 
-                                VALUES (?, ?, ?, 'qr_payment', 'completed')");
-            $stmt->execute([$_SESSION['user_id'], $qr_data['merchant_id'], $qr_data['amount']]);
-            
-            echo json_encode(['success' => true]);
-            exit();
-        }
-    }
-    
-    echo json_encode(['success' => false]);
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
     exit();
 }
 ?>
@@ -35,14 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan QR - WANTOK PAY</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/html5-qrcode"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link href="style.css" rel="stylesheet">
-
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="index.php">WANTOK PAY</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -69,17 +46,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </nav>
-
-    <div class="container mt-4">
-        <div id="reader"></div>
-        <div id="result"></div>
-    </div>
     
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Scan QR Code to Pay</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="reader"></div>
+                        <div id="payment-status" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
+        const stripe = Stripe('your_publishable_key');
+        
         function onScanSuccess(decodedText) {
-            document.getElementById('result').innerHTML = `QR Code detected: ${decodedText}`;
-            // Send to server for processing
-            fetch('scan_qr.php', {
+            const qrData = JSON.parse(decodedText);
+            
+            fetch('process_payment.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -89,9 +81,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Payment successful!');
-                    window.location.href = 'dashboard.php';
+                    return stripe.confirmCardPayment(data.payment_intent);
                 }
+                throw new Error('Payment failed');
+            })
+            .then(result => {
+                if (result.error) {
+                    document.getElementById('payment-status').innerHTML = 
+                        `<div class="alert alert-danger">${result.error.message}</div>`;
+                } else {
+                    document.getElementById('payment-status').innerHTML = 
+                        '<div class="alert alert-success">Payment successful!</div>';
+                    setTimeout(() => window.location.href = 'dashboard.php', 2000);
+                }
+            })
+            .catch(error => {
+                document.getElementById('payment-status').innerHTML = 
+                    `<div class="alert alert-danger">${error.message}</div>`;
             });
         }
 

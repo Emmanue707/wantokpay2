@@ -14,6 +14,7 @@ class QRCodeGenerator {
         $qr_data = [
             'merchant_id' => $merchant_id,
             'amount' => $amount,
+            'description' => $description,
             'timestamp' => time()
         ];
         
@@ -30,6 +31,18 @@ class QRCodeGenerator {
         
         if($stmt->execute()) {
             return $qr->writeString();
+        }
+        return false;
+    }
+
+    public function processQRPayment($qr_data, $user_id) {
+        $data = json_decode($qr_data, true);
+        
+        if ($data && isset($data['merchant_id']) && isset($data['amount'])) {
+            $user = new User($this->conn);
+            $user->id = $user_id;
+            
+            return $user->processPayment($data['merchant_id'], $data['amount']);
         }
         return false;
     }

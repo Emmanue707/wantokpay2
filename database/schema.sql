@@ -3,7 +3,7 @@ CREATE TABLE users (
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    balance DECIMAL(10,2) DEFAULT 0.00,
+    stripe_customer_id VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -12,8 +12,8 @@ CREATE TABLE transactions (
     sender_id INT,
     receiver_id INT,
     amount DECIMAL(10,2) NOT NULL,
-    type ENUM('p2p', 'qr_payment') NOT NULL,
-    status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+    type ENUM('qr_payment', 'card_payment') NOT NULL,
+    status ENUM('completed', 'failed') DEFAULT 'completed',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sender_id) REFERENCES users(id),
     FOREIGN KEY (receiver_id) REFERENCES users(id)
