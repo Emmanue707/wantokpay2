@@ -1,5 +1,15 @@
 <?php
 session_start();
+
+// At the top after session_start()
+$database = new Database();
+$db = $database->getConnection();
+$stmt = $db->prepare("SELECT email FROM users WHERE id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$_SESSION['email'] = $user['email'];
+
+
 require_once 'Database.php';
 require_once 'vendor/autoload.php';
 
@@ -48,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h5>Link Your Card</h5>
                     </div>
                     <div class="card-body">
-                        <form id="payment-form">
+                        <form id="payment-form" method="POST" action="link_card.php">
                             <div class="mb-3">
                                 <div id="card-element" class="form-control"></div>
                                 <div id="card-errors" class="text-danger mt-2"></div>
@@ -71,12 +81,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const form = document.getElementById('payment-form');
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+    
             const {token, error} = await stripe.createToken(card);
-
+    
             if (error) {
                 const errorElement = document.getElementById('card-errors');
                 errorElement.textContent = error.message;
             } else {
+                const form = document.getElementById('payment-form');
                 const hiddenInput = document.createElement('input');
                 hiddenInput.setAttribute('type', 'hidden');
                 hiddenInput.setAttribute('name', 'stripeToken');
