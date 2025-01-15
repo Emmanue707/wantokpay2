@@ -68,6 +68,12 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php">Logout</a>
                 </li>
+                <li class="nav-item">
+    <a class="nav-link" href="#" id="userProfileBtn">
+        <i class="bi bi-person-circle fs-5"></i>
+    </a>
+</li>
+
             </ul>
         </div>
     </div>
@@ -173,7 +179,52 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
+    <div class="modal fade" id="userProfileModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Profile Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-circle display-1"></i>
+                </div>
+                <div class="mb-3">
+                    <label class="fw-bold">Username:</label>
+                    <p id="profileUsername"></p>
+                </div>
+                <div class="mb-3">
+                    <label class="fw-bold">Email:</label>
+                    <p id="profileEmail"></p>
+                </div>
+                <div class="mb-3">
+                    <label class="fw-bold">Member Since:</label>
+                    <p id="profileCreatedAt"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+document.getElementById('userProfileBtn').addEventListener('click', async () => {
+    try {
+        const response = await fetch('user_details.php');
+        const userData = await response.json();
+        
+        document.getElementById('profileUsername').textContent = userData.username;
+        document.getElementById('profileEmail').textContent = userData.email;
+        document.getElementById('profileCreatedAt').textContent = new Date(userData.created_at).toLocaleDateString();
+        
+        new bootstrap.Modal(document.getElementById('userProfileModal')).show();
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+    }
+});
+</script>
+
 </body>
 </html>

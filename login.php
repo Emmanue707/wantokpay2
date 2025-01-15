@@ -44,27 +44,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li class="nav-item">
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
-                <?php if(!isset($_SESSION['user_id'])): ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register.php">Register</a>
-                    </li>
-                <?php else: ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="scan_qr.php">Scan QR</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="generate_qr.php">Generate QR</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a>
-                    </li>
-                <?php endif; ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.php">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="scan_qr.php">Scan QR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="generate_qr.php">Generate QR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">Logout</a>
+                </li>
+                <li class="nav-item">
+    <a class="nav-link" href="#" id="userProfileBtn">
+        <i class="bi bi-person-circle fs-5"></i>
+    </a>
+</li>
+
             </ul>
         </div>
     </div>
