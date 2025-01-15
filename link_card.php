@@ -130,27 +130,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const form = document.getElementById('payment-form');
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
-
-            // Disable the submit button to prevent double clicks
+            
             const submitButton = form.querySelector('button[type="submit"]');
             submitButton.disabled = true;
-
-            // Create a Stripe token for the card
+            
             const {token, error} = await stripe.createToken(card);
-
+            
             if (error) {
                 const errorElement = document.getElementById('card-errors');
                 errorElement.textContent = error.message;
                 submitButton.disabled = false;
             } else {
-                // Create hidden input for the token
                 const hiddenInput = document.createElement('input');
                 hiddenInput.setAttribute('type', 'hidden');
                 hiddenInput.setAttribute('name', 'stripeToken');
                 hiddenInput.setAttribute('value', token.id);
                 form.appendChild(hiddenInput);
                 
-                // Submit the form
+                // This will submit the form and trigger the PHP redirect to dashboard
                 form.submit();
             }
         });
