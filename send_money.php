@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once '../config/Database.php';
-require_once '../models/User.php';
+require_once 'Database.php';
+require_once 'User.php';
 
 if (!isset($_SESSION['user_id']) || !isset($_POST['recipient_email']) || !isset($_POST['amount'])) {
     header("Location: dashboard.php");

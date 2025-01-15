@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once '../config/Database.php';
-require_once '../models/User.php';
+require_once 'Database.php';
+require_once '/User.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $qr_data = json_decode($_POST['qr_data'], true);

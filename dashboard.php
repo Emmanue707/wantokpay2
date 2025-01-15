@@ -5,9 +5,9 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-require_once '../config/Database.php';
-require_once '../models/User.php';
-require_once '../models/QRCode.php';
+require_once 'Database.php';
+require_once '/User.php';
+require_once '/QRCode.php';
 
 $database = new Database();
 $db = $database->getConnection();
