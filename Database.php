@@ -3,7 +3,7 @@ class Database {
     private $host = "localhost";
     private $db_name = "u787474055_wantokpay2";  // Your existing database name
     private $username = "u787474055_panther707"; // Your existing username
-    private $password = "Blackpanther707@";      // Your existing password
+    private $password = "Blackpanther707@707";      // Your existing password
     public $conn;
     
     public function getConnection() {
