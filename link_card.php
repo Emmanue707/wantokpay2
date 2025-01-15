@@ -105,24 +105,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const elements = stripe.elements();
         const card = elements.create('card');
         card.mount('#card-element');
-
         const form = document.getElementById('payment-form');
-        form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', async (event) => {
             event.preventDefault();
-
-            stripe.createToken(card).then(function(result) {
-                if (result.error) {
-                    const errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    const tokenInput = document.createElement('input');
-                    tokenInput.type = 'hidden';
-                    tokenInput.name = 'stripeToken';
-                    tokenInput.value = result.token.id;
-                    form.appendChild(tokenInput);
-                    form.submit();
-                }
-            });
+            
+            // Disable the submit button to prevent double clicks
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            
+            const {token, error} = await stripe.createToken(card);
+            
+            if (error) {
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+                submitButton.disabled = false;
+            } else {
+                // Create hidden input for the token
+                const hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', token.id);
+                form.appendChild(hiddenInput);
+                
+                // Submit the form
+                form.submit();
+            }
+        });
         });
     </script>
 </body>
