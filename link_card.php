@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Link Card - WANTOK PAY</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
@@ -104,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
+        console.log('Page loaded');
         console.log('Stripe script loaded');
         const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
         const elements = stripe.elements();
@@ -113,24 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         console.log('Card mounted');
 
         const form = document.getElementById('payment-form');
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            
-            const {token, error} = await stripe.createToken(card);
-            
-            if (error) {
-                const errorElement = document.getElementById('card-errors');
-                errorElement.textContent = error.message;
-            } else {
-                const form = document.getElementById('payment-form');
-                const hiddenInput = document.createElement('input');
-                hiddenInput.setAttribute('type', 'hidden');
-                hiddenInput.setAttribute('name', 'stripeToken');
-                hiddenInput.setAttribute('value', token.id);
-                form.appendChild(hiddenInput);
-                form.submit();
-            }
-        });
+        console.log('Form found:', form);
     </script>
 </body>
 </html>
