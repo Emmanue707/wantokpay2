@@ -101,34 +101,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-            const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
-            const elements = stripe.elements();
-            const card = elements.create('card', {
-                style: {
-                    base: {
-                        fontSize: '16px',
-                        color: '#32325d',
-                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                        '::placeholder': {
-                            color: '#aab7c4'
-                        }
-                    },
-                    invalid: {
-                        color: '#fa755a',
-                        iconColor: '#fa755a'
+        // Initialize Stripe.js with your public key
+        const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
+        const elements = stripe.elements();
+        
+        // Create an instance of the card Element
+        const card = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#32325d',
+                    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                    '::placeholder': {
+                        color: '#aab7c4'
                     }
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a'
                 }
-            });
-            card.mount('#card-element');        const form = document.getElementById('payment-form');
+            }
+        });
+
+        // Mount the card element to the DOM
+        card.mount('#card-element');
+
+        // Handle form submission
+        const form = document.getElementById('payment-form');
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
-            
+
             // Disable the submit button to prevent double clicks
             const submitButton = form.querySelector('button[type="submit"]');
             submitButton.disabled = true;
-            
+
+            // Create a Stripe token for the card
             const {token, error} = await stripe.createToken(card);
-            
+
             if (error) {
                 const errorElement = document.getElementById('card-errors');
                 errorElement.textContent = error.message;
@@ -144,7 +153,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Submit the form
                 form.submit();
             }
-        });
         });
     </script>
 </body>
