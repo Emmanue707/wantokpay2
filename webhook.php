@@ -3,7 +3,7 @@ require_once 'config/stripe_init.php';
 require_once 'Database.php';
 
 $stripe = new \Stripe\StripeClient('your_stripe_secret_key');
-$endpoint_secret = 'whsec_4a0c9ab898e8d138c8c1748adf25a73b753ed9d57635dedfe256c7693a827f4e';
+$endpoint_secret = 'whsec_Zd4XUA4TW3XD4BeLo9nr4oZU2lohclGs';
 
 $payload = @file_get_contents('php://input');
 $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
