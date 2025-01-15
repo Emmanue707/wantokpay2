@@ -7,12 +7,11 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once 'Database.php';
 require_once 'User.php';
-require_once 'QRCode.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-// Get user balance and recent transactions
+// Get user balance
 $stmt = $db->prepare("SELECT balance FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -21,7 +20,10 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 $stmt = $db->prepare("
     SELECT t.*, 
            u1.username as sender_name,
-           u2.username as receiver_name
+           u2.username as receiver_name,
+           t.created_at,
+           t.amount,
+           t.status
     FROM transactions t
     LEFT JOIN users u1 ON t.sender_id = u1.id
     LEFT JOIN users u2 ON t.receiver_id = u2.id

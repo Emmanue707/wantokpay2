@@ -5,7 +5,6 @@ require_once 'User.php';
 
 $database = new Database();
 $db = $database->getConnection();
-$user = new User($db);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
