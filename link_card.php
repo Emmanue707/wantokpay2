@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'email' => $_SESSION['email']
         ]);
 
-        // Save Stripe customer ID in the database
-        $stmt = $db->prepare("UPDATE users SET stripe_customer_id = ? WHERE id = ?");
+        // Update both stripe_customer_id and has_payment_method
+        $stmt = $db->prepare("UPDATE users SET stripe_customer_id = ?, has_payment_method = 1 WHERE id = ?");
         $stmt->execute([$customer->id, $_SESSION['user_id']]);
 
         // Set success message and redirect
@@ -41,6 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (\Stripe\Exception\CardException $e) {
         // Handle error and display message
         $error = $e->getMessage();
+        $_SESSION['error'] = "Card linking failed: " . $error;
+        header("Location: dashboard.php");
+        exit();
     }
 }
 ?>
