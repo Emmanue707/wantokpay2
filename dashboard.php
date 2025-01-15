@@ -6,8 +6,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once 'Database.php';
-require_once '/User.php';
-require_once '/QRCode.php';
+require_once 'User.php';
+require_once 'QRCode.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -39,10 +39,10 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Dashboard - WANTOK PAY</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link href="style.css" rel="stylesheet">
-
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
+
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="index.php">WANTOK PAY</a>
@@ -54,33 +54,22 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <li class="nav-item">
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
-                <?php if(!isset($_SESSION['user_id'])): ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register.php">Register</a>
-                    </li>
-                <?php else: ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="scan_qr.php">Scan QR</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="generate_qr.php">Generate QR</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a>
-                    </li>
-                <?php endif; ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.php">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="scan_qr.php">Scan QR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="generate_qr.php">Generate QR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">Logout</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
-
-
 
     <div class="container mt-4">
         <div class="row">
@@ -100,12 +89,8 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendMoneyModal">
                                 Send Money
                             </button>
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#scanQRModal">
-                                Scan QR Code
-                            </button>
-                            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#generateQRModal">
-                                Generate QR Code
-                            </button>
+                            <a href="scan_qr.php" class="btn btn-success">Scan QR Code</a>
+                            <a href="generate_qr.php" class="btn btn-info">Generate QR Code</a>
                         </div>
                     </div>
                 </div>
