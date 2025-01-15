@@ -8,11 +8,14 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WANTOK PAY - Papua New Guinea's Digital Payment Solution</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="#">WANTOK PAY</a>
+            <a class="navbar-brand" href="index.php">WANTOK PAY</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -37,7 +40,6 @@ session_start();
             </div>
         </div>
     </nav>
-
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
@@ -64,24 +66,30 @@ session_start();
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
+                    <div class="card-header">
+                        <h5>For Individual Users</h5>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title">For Individual Users</h5>
                         <p class="card-text">Send money, pay bills, and make purchases easily with your phone.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card">
+                    <div class="card-header">
+                        <h5>For Businesses</h5>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title">For Businesses</h5>
                         <p class="card-text">Accept payments, manage transactions, and grow your business.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card">
+                    <div class="card-header">
+                        <h5>For Enterprises</h5>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title">For Enterprises</h5>
                         <p class="card-text">Custom solutions with advanced reporting and analytics.</p>
                     </div>
                 </div>
@@ -89,11 +97,12 @@ session_start();
         </div>
     </div>
 
-    <footer class="bg-light mt-5 py-3">
-        <div class="container text-center">
-            <p>© 2024 WANTOK PAY. All rights reserved.</p>
-        </div>
-    </footer>
+    <footer>
+    <div class="container text-center">
+        <p>&copy; 2024 WANTOK PAY. All rights reserved.</p>
+    </div>
+</footer>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
