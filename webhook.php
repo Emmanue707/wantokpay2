@@ -66,11 +66,46 @@ try {
             $stmt->execute([$transfer->id]);
             break;
 
+        case 'payment_method.attached':
+            $paymentMethod = $event->data->object;
+            $stmt = $db->prepare("UPDATE users SET has_payment_method = 1 WHERE stripe_customer_id = ?");
+            $stmt->execute([$paymentMethod->customer]);
+            break;
+
+        case 'payment_method.detached':
+            $paymentMethod = $event->data->object;
+            $stmt = $db->prepare("UPDATE users SET has_payment_method = 0 WHERE stripe_customer_id = ?");
+            $stmt->execute([$paymentMethod->customer]);
+            break;
+
+        case 'customer.subscription.created':
+            $subscription = $event->data->object;
+            $stmt = $db->prepare("INSERT INTO subscriptions (user_id, stripe_subscription_id, status) VALUES (?, ?, 'active')");
+            $stmt->execute([$subscription->metadata->user_id, $subscription->id]);
+            break;
+
+        case 'customer.subscription.updated':
+            $subscription = $event->data->object;
+            $stmt = $db->prepare("UPDATE subscriptions SET status = ? WHERE stripe_subscription_id = ?");
+            $stmt->execute([$subscription->status, $subscription->id]);
+            break;
+
+        case 'invoice.payment_succeeded':
+            $invoice = $event->data->object;
+            $stmt = $db->prepare("INSERT INTO payments (user_id, amount, stripe_invoice_id) VALUES (?, ?, ?)");
+            $stmt->execute([$invoice->customer, $invoice->amount_paid, $invoice->id]);
+            break;
+
+        case 'customer.dispute.created':
+            $dispute = $event->data->object;
+            $stmt = $db->prepare("UPDATE transactions SET status = 'disputed' WHERE stripe_charge_id = ?");
+            $stmt->execute([$dispute->charge]);
+            break;
+
         default:
             // Log unknown event types for monitoring
             error_log('Received unknown event type ' . $event->type);
     }
-
     http_response_code(200);
 } catch(\UnexpectedValueException $e) {
     http_response_code(400);
