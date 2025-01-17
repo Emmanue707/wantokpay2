@@ -261,16 +261,7 @@ document.getElementById('userProfileBtn').addEventListener('click', async () => 
     }
 });
 
-
-document.getElementById('logoutBtn').addEventListener('click', async () => {
-    try {
-        const response = await fetch('logout.php');
-        if (response.ok) {
-            window.location.href = 'index.php';
-
-
-
-            const searchInput = document.getElementById('searchTransactions');
+const searchInput = document.getElementById('searchTransactions');
 const timeFilter = document.getElementById('timeFilter');
 const transactionRows = document.querySelectorAll('tbody tr');
 
@@ -298,7 +289,6 @@ function filterTransactions() {
 
 searchInput.addEventListener('input', filterTransactions);
 timeFilter.addEventListener('change', filterTransactions);
-
 </script>
 
 </body>
