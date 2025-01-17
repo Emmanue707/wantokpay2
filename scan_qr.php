@@ -93,17 +93,6 @@ if (!isset($_SESSION['user_id'])) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    return stripe.confirmCardPayment(data.payment_intent, {
-                        payment_method: data.payment_method
-                    });
-                }
-                throw new Error('Payment failed');
-            })
-            .then(result => {
-                if (result.error) {
-                    document.getElementById('payment-status').innerHTML = 
-                        `<div class="alert alert-danger">${result.error.message}</div>`;
-                } else {
                     // Show payment confirmation popup
                     const popup = document.createElement('div');
                     popup.className = 'payment-popup';
@@ -141,6 +130,7 @@ if (!isset($_SESSION['user_id'])) {
                     `;
                     document.head.appendChild(style);
 
+                    // Redirect after showing popup
                     setTimeout(() => {
                         window.location.href = 'dashboard.php';
                     }, 2000);
@@ -148,10 +138,9 @@ if (!isset($_SESSION['user_id'])) {
             })
             .catch(error => {
                 document.getElementById('payment-status').innerHTML = 
-                    `<div class="alert alert-danger">${error.message}</div>`;
+                    `<div class="alert alert-danger">Payment processing error. Please try again.</div>`;
             });
         }
-
         html5QrcodeScanner.render(onScanSuccess);
     </script>
 </body>
