@@ -14,6 +14,8 @@ try {
         $payload, $sig_header, $endpoint_secret
     );
 
+    error_log('Webhook received: ' . $event->type);
+
     $database = new Database();
     $db = $database->getConnection();
 

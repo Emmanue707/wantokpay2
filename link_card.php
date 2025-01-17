@@ -30,9 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'email' => $_SESSION['email']
         ]);
 
-        // Update both stripe_customer_id and has_payment_method
+        // Add this logging
+        error_log('Customer created: ' . $customer->id);
+
         $stmt = $db->prepare("UPDATE users SET stripe_customer_id = ?, has_payment_method = 1 WHERE id = ?");
-        $stmt->execute([$customer->id, $_SESSION['user_id']]);
+        if($stmt->execute([$customer->id, $_SESSION['user_id']])) {
+            error_log('Database updated successfully');
+        }
 
         // Set success message and redirect
         $_SESSION['success'] = "Card linked successfully!";
