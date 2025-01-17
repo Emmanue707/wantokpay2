@@ -18,14 +18,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         $stmt->execute([$_SESSION['user_id']]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Create payment intent
-        $payment_intent = \Stripe\PaymentIntent::create([
-            'amount' => $qr_data['amount'] * 100,
+        // Calculate base amount and fee
+        $baseAmount = $qr_data['amount'];
+        $fee = ($baseAmount >= 100) ? $baseAmount * 0.05 : 0;
+        $totalAmount = ($baseAmount + $fee) * 100; // Convert to cents for Stripe
+
+        // Create the main payment intent with the total amount
+        $paymentIntent = \Stripe\PaymentIntent::create([
+            'amount' => $totalAmount,
             'currency' => 'pgk',
             'customer' => $user['stripe_customer_id'],
+            'payment_method' => $defaultPaymentMethod,
+            'payment_method_types' => ['card'],
+            'application_fee_amount' => $fee * 100, // Fee in cents
+            'transfer_data' => [
+                'destination' => 'WANTOK_PAY_CONNECTED_ACCOUNT_ID',
+            ],
             'metadata' => [
                 'qr_payment' => true,
-                'merchant_id' => $qr_data['merchant_id']
+                'base_amount' => $baseAmount,
+                'fee_amount' => $fee
             ]
         ]);
 
