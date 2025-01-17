@@ -12,87 +12,67 @@ require_once 'vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
     try {
-        // Ensure the correct content type is set
         header('Content-Type: application/json');
-
-        // Decode the incoming QR data
-        $qrData = json_decode($_POST['qr_data'], true);
-
-        // Log the QR data for debugging
-        error_log("Received QR data: " . $_POST['qr_data']);
         
-        // Set up the database connection
+        $qrData = json_decode($_POST['qr_data'], true);
+        
         $database = new Database();
         $db = $database->getConnection();
         
-        // Retrieve the user's Stripe customer ID from the database
+        // Get customer payment info
         $stmt = $db->prepare("SELECT stripe_customer_id FROM users WHERE id = ?");
         $stmt->execute([$_SESSION['user_id']]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Log the user data for debugging
-        error_log("Customer data: " . json_encode($user));
-
-        if (empty($user['stripe_customer_id'])) {
-            throw new Exception("User does not have a Stripe customer ID.");
-        }
-
-        // Get payment methods associated with the user's Stripe account
+        
+        // Get customer's default payment method
         $paymentMethods = \Stripe\PaymentMethod::all([
             'customer' => $user['stripe_customer_id'],
             'type' => 'card',
         ]);
-
-        // If no payment method exists, throw an error
-        if (empty($paymentMethods->data)) {
-            throw new Exception("No payment methods found for the user.");
-        }
-
-        // Use the first payment method as the default one
         $defaultPaymentMethod = $paymentMethods->data[0]->id;
-
-        // Create a payment intent with the specified amount and currency
+        
+        // Calculate base amount and fee
+        $baseAmount = $qrData['amount'];
+        $fee = ($baseAmount >= 100) ? $baseAmount * 0.05 : 0;
+        $totalAmount = ($baseAmount + $fee) * 100;
+        
+        // Create payment intent
         $paymentIntent = \Stripe\PaymentIntent::create([
-            'amount' => $qrData['amount'] * 100,  // Amount in cents
-            'currency' => 'pgk',  // Papua New Guinean Kina (ensure this currency is valid in Stripe)
+            'amount' => $totalAmount,
+            'currency' => 'pgk',
             'customer' => $user['stripe_customer_id'],
             'payment_method' => $defaultPaymentMethod,
             'payment_method_types' => ['card'],
+            'off_session' => true,
+            'confirm' => true,
             'metadata' => [
-                'qr_payment' => true
+                'qr_payment' => true,
+                'base_amount' => $baseAmount,
+                'fee_amount' => $fee,
+                'merchant_id' => $qrData['merchant_id']
             ]
         ]);
-
-        // Log the payment intent for debugging
-        error_log("Payment Intent created: " . json_encode($paymentIntent));
-
-        // Create the response data to be sent back
+        
+        // Record transaction in database
+        $stmt = $db->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, type, status) 
+                            VALUES (?, ?, ?, 'qr_payment', 'completed')");
+        $stmt->execute([$_SESSION['user_id'], $qrData['merchant_id'], $baseAmount]);
+        
         $response = [
             'success' => true,
             'payment_intent' => $paymentIntent->client_secret,
-            'payment_method' => $defaultPaymentMethod
+            'payment_method' => $defaultPaymentMethod,
+            'amount' => $totalAmount / 100
         ];
-
-        // Log the response data before sending it
-        error_log("Sending response: " . json_encode($response));
-
-        // Send the response back to the client
+        
         echo json_encode($response);
         exit;
-
+        
     } catch (Exception $e) {
-        // Handle exceptions and errors, send error response
-        error_log("Payment processing error: " . $e->getMessage());
-
-        $errorResponse = [
+        echo json_encode([
             'success' => false,
             'error' => $e->getMessage()
-        ];
-
-        // Log the error response before sending it
-        error_log("Sending error response: " . json_encode($errorResponse));
-
-        echo json_encode($errorResponse);
+        ]);
         exit;
     }
 } else {
