@@ -81,7 +81,14 @@ if (!isset($_SESSION['user_id'])) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    return stripe.confirmCardPayment(data.payment_intent);
+                    return stripe.confirmCardPayment(data.payment_intent, {
+                        payment_method: {
+                            card: card,
+                            billing_details: {
+                                name: 'Customer Name'
+                            }
+                        }
+                    });
                 }
                 throw new Error('Payment failed');
             })
