@@ -68,11 +68,21 @@ if (!isset($_SESSION['user_id'])) {
         // Initialize Stripe
         const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
 
-        // Initialize QR Scanner
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", { fps: 10, qrbox: 250 });
+            // Initialize QR Scanner with back camera configuration
+            let html5QrcodeScanner = new Html5QrcodeScanner(
+                "reader", 
+                { 
+                    fps: 10, 
+                    qrbox: 250,
+                    videoConstraints: {
+                        facingMode: { exact: "environment" }
+                    }
+                }
+            );
 
-        let isProcessing = false;
+            let isProcessing = false;
+
+            // Rest of your existing scanning code remains the same
 
         function onScanSuccess(decodedText) {
             if (isProcessing) return;
