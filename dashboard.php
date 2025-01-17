@@ -77,8 +77,6 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </nav>
     <div class="container mt-4">
-
-
     <?php if (isset($_SESSION['success'])): ?>
     <div class="alert alert-success alert-dismissible fade show">
         <?php 
