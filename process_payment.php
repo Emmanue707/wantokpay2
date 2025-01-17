@@ -28,11 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         // Log customer data
         error_log("Customer data: " . json_encode($user));
         
-        // Create payment intent
+        // Get customer's default payment method
+        $customer = $stripe->customers->retrieve($user['stripe_customer_id']);
+        $paymentMethods = $stripe->paymentMethods->all([
+            'customer' => $user['stripe_customer_id'],
+            'type' => 'card',
+        ]);
+        $defaultPaymentMethod = $paymentMethods->data[0]->id;
+
+        // Create payment intent with payment method
         $paymentIntent = \Stripe\PaymentIntent::create([
             'amount' => $qrData['amount'] * 100,
             'currency' => 'pgk',
             'customer' => $user['stripe_customer_id'],
+            'payment_method' => $defaultPaymentMethod,
             'payment_method_types' => ['card'],
             'metadata' => [
                 'qr_payment' => true
@@ -45,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         $response = [
             'success' => true,
             'payment_intent' => $paymentIntent->client_secret,
-            'customer' => $user['stripe_customer_id']
+            'payment_method' => $defaultPaymentMethod
         ];
         
         error_log("Sending response: " . json_encode($response));

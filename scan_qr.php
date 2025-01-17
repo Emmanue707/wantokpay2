@@ -73,7 +73,6 @@ if (!isset($_SESSION['user_id'])) {
         let html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", { fps: 10, qrbox: 250 });
         html5QrcodeScanner.render(onScanSuccess);
-
         function onScanSuccess(decodedText) {
             const qrData = JSON.parse(decodedText);
             
@@ -87,9 +86,12 @@ if (!isset($_SESSION['user_id'])) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    return stripe.confirmCardPayment(data.payment_intent);
+                    return stripe.confirmCardPayment(data.payment_intent, {
+                        payment_method: data.payment_method
+                    });
                 }
                 throw new Error('Payment failed');
+            })
             })
             .then(result => {
                 if (result.error) {
