@@ -30,12 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
             ]
         ]);
 
-        // Return both payment intent and customer info
-        echo json_encode([
+        header('Content-Type: application/json');
+
+        $response = [
             'success' => true,
             'payment_intent' => $paymentIntent->client_secret,
             'customer' => $user['stripe_customer_id']
-        ]);
+        ];
+
+        echo json_encode($response);
+        exit;
     } catch (\Exception $e) {
         echo json_encode(['success' => false, 'error' => $e->getMessage()]);
     }
