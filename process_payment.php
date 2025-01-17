@@ -7,36 +7,37 @@ require_once 'vendor/autoload.php';
 \Stripe\Stripe::setApiKey('sk_test_51QhYByDUpDhJwyLXGAa1rwi0BavnvBas6DFEFPFeVGUcE1b5PycvTk7vz202yLrnA4xe0WYmEjNJHT2SRmYVj2Jg00cMElEdwT');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
-    $qr_data = json_decode($_POST['qr_data'], true);
-    
     try {
         header('Content-Type: application/json');
-    
+        
         // Log incoming QR data
         error_log("Received QR data: " . $_POST['qr_data']);
-    
+        
         $qrData = json_decode($_POST['qr_data'], true);
-    
+        
         // Get customer payment info
         $database = new Database();
         $db = $database->getConnection();
-    
+        
         $stmt = $db->prepare("SELECT stripe_customer_id FROM users WHERE id = ?");
         $stmt->execute([$_SESSION['user_id']]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+        
+        // Log customer data
+        error_log("Customer data: " . json_encode($user));
+        
         // Get customer's default payment method
         $paymentMethods = $stripe->paymentMethods->all([
             'customer' => $user['stripe_customer_id'],
             'type' => 'card',
         ]);
         $defaultPaymentMethod = $paymentMethods->data[0]->id;
-    
+        
         // Calculate amounts
         $baseAmount = $qrData['amount'];
         $fee = ($baseAmount >= 100) ? $baseAmount * 0.05 : 0;
         $totalAmount = ($baseAmount + $fee) * 100;
-    
+        
         // Create payment intent
         $paymentIntent = \Stripe\PaymentIntent::create([
             'amount' => $totalAmount,
@@ -50,16 +51,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
                 'fee_amount' => $fee
             ]
         ]);
-    
+        
+        // Log payment intent
+        error_log("Payment Intent created: " . json_encode($paymentIntent));
+        
         $response = [
             'success' => true,
             'payment_intent' => $paymentIntent->client_secret,
             'payment_method' => $defaultPaymentMethod
         ];
-    
+        
+        error_log("Sending response: " . json_encode($response));
         echo json_encode($response);
         exit;
-    
+        
     } catch (Exception $e) {
         error_log("Payment processing error: " . $e->getMessage());
         echo json_encode([
@@ -67,4 +72,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
             'error' => $e->getMessage()
         ]);
         exit;
-    }}
+    }
+}
