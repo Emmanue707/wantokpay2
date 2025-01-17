@@ -8,55 +8,42 @@ require_once 'vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
     try {
-        header('Content-Type: application/json');
-        
-        // Log incoming QR data
-        error_log("Received QR data: " . $_POST['qr_data']);
-        
-        $qrData = json_decode($_POST['qr_data'], true);
-        
-        // Get customer payment info
         $database = new Database();
         $db = $database->getConnection();
         
+        // Get customer's Stripe ID
         $stmt = $db->prepare("SELECT stripe_customer_id FROM users WHERE id = ?");
         $stmt->execute([$_SESSION['user_id']]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        // Get customer's default payment method
-        $paymentMethods = $stripe->paymentMethods->all([
+
+        // Get payment method
+        $paymentMethods = \Stripe\PaymentMethod::all([
             'customer' => $user['stripe_customer_id'],
-            'type' => 'card',
+            'type' => 'card'
         ]);
-        $defaultPaymentMethod = $paymentMethods->data[0]->id;
         
+        $defaultPaymentMethod = $paymentMethods->data[0]->id;
+
         // Create payment intent
         $paymentIntent = \Stripe\PaymentIntent::create([
-            'amount' => $qrData['amount'] * 100,
+            'amount' => $qr_data['amount'] * 100,
             'currency' => 'pgk',
             'customer' => $user['stripe_customer_id'],
             'payment_method' => $defaultPaymentMethod,
             'payment_method_types' => ['card'],
             'metadata' => [
-                'qr_payment' => true
+                'qr_payment' => true,
+                'merchant_id' => $qr_data['merchant_id']
             ]
         ]);
-        
-        $response = [
-            'success' => true,
-            'payment_intent' => $paymentIntent->client_secret,
-            'payment_method' => $defaultPaymentMethod
-        ];
-        
-        echo json_encode($response);
-        exit;
-        
-    } catch (Exception $e) {
-        $errorResponse = [
-            'success' => false,
-            'error' => $e->getMessage()
-        ];
-        echo json_encode($errorResponse);
-        exit;
+
+        // Record transaction
+        $stmt = $db->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, type, status) 
+                            VALUES (?, ?, ?, 'qr_payment', 'completed')");
+        $stmt->execute([$_SESSION['user_id'], $qr_data['merchant_id'], $qr_data['amount']]);
+
+        echo json_encode(['success' => true, 'payment_intent' => $paymentIntent->client_secret]);
+    } catch (\Exception $e) {
+        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
     }
 }
