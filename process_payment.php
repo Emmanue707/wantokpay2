@@ -35,29 +35,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         $baseAmount = $qrData['amount'];
         $fee = ($baseAmount >= 100) ? $baseAmount * 0.05 : 0;
         $totalAmount = ($baseAmount + $fee) * 100;
-        
-        // Create payment intent
+
+        // Create payment intent with fee metadata
         $paymentIntent = \Stripe\PaymentIntent::create([
             'amount' => $totalAmount,
             'currency' => 'pgk',
             'customer' => $user['stripe_customer_id'],
             'payment_method' => $defaultPaymentMethod,
             'payment_method_types' => ['card'],
-            'off_session' => true,
-            'confirm' => true,
             'metadata' => [
                 'qr_payment' => true,
                 'base_amount' => $baseAmount,
-                'fee_amount' => $fee,
-                'merchant_id' => $qrData['merchant_id']
+                'fee_amount' => $fee
             ]
         ]);
-        
-        // Record transaction in database
-        $stmt = $db->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, type, status) 
-                            VALUES (?, ?, ?, 'qr_payment', 'completed')");
-        $stmt->execute([$_SESSION['user_id'], $qrData['merchant_id'], $baseAmount]);
-        
+
+        // Record transaction with fee
+        $stmt = $db->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, fee_amount, type, status) 
+                            VALUES (?, ?, ?, ?, 'qr_payment', 'completed')");
+        $stmt->execute([$_SESSION['user_id'], $qrData['merchant_id'], $baseAmount, $fee]);        
         $response = [
             'success' => true,
             'payment_intent' => $paymentIntent->client_secret,

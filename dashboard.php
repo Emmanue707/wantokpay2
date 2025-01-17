@@ -165,6 +165,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <th>Type</th>
                                         <th>Details</th>
                                         <th>Amount</th>
+                                        <th>Fee</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -183,11 +184,9 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <?php else: ?>
                                                     <span class="text-success">Received from <?php echo htmlspecialchars($transaction['sender_name']); ?></span>
                                                 <?php endif; ?>
-                                                <?php if($transaction['qr_description']): ?>
-                                                    <br><small class="text-muted"><?php echo htmlspecialchars($transaction['qr_description']); ?></small>
-                                                <?php endif; ?>
                                             </td>
                                             <td>K<?php echo number_format($transaction['amount'], 2); ?></td>
+                                            <td><?php echo $transaction['fee_amount'] ? 'K'.number_format($transaction['fee_amount'], 2) : '-'; ?></td>
                                             <td>
                                                 <span class="badge bg-<?php echo $transaction['status'] === 'completed' ? 'success' : 'danger'; ?>">
                                                     <?php echo ucfirst($transaction['status']); ?>
@@ -202,8 +201,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="userProfileModal" tabindex="-1">
+    </div>    <div class="modal fade" id="userProfileModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
