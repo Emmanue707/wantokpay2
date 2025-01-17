@@ -246,6 +246,45 @@ document.getElementById('userProfileBtn').addEventListener('click', async () => 
         console.error('Error fetching user details:', error);
     }
 });
+
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try {
+        const response = await fetch('logout.php');
+        if (response.ok) {
+            window.location.href = 'index.php';
+
+
+
+            const searchInput = document.getElementById('searchTransactions');
+const timeFilter = document.getElementById('timeFilter');
+const transactionRows = document.querySelectorAll('tbody tr');
+
+function filterTransactions() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filterValue = timeFilter.value;
+    const currentDate = new Date();
+
+    transactionRows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        const date = new Date(row.querySelector('td:first-child').textContent);
+        let showByDate = true;
+
+        if (filterValue === '30') {
+            const thirtyDaysAgo = new Date(currentDate.setDate(currentDate.getDate() - 30));
+            showByDate = date >= thirtyDaysAgo;
+        } else if (filterValue === 'year') {
+            showByDate = date.getFullYear() === currentDate.getFullYear();
+        }
+
+        const showBySearch = text.includes(searchTerm);
+        row.style.display = (showBySearch && showByDate) ? '' : 'none';
+    });
+}
+
+searchInput.addEventListener('input', filterTransactions);
+timeFilter.addEventListener('change', filterTransactions);
+
 </script>
 
 </body>
