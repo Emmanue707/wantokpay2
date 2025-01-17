@@ -62,17 +62,17 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         // Initialize Stripe and Elements
         const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
         const elements = stripe.elements();
-        const card = elements.create('card');
 
-        // Mount the card element
-        card.mount('#card-element');
+        // Initialize QR Scanner
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
 
         function onScanSuccess(decodedText) {
             const qrData = JSON.parse(decodedText);
@@ -87,14 +87,7 @@ if (!isset($_SESSION['user_id'])) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    return stripe.confirmCardPayment(data.payment_intent, {
-                        payment_method: {
-                            card: card,
-                            billing_details: {
-                                name: 'Customer Name'
-                            }
-                        }
-                    });
+                    return stripe.confirmCardPayment(data.payment_intent);
                 }
                 throw new Error('Payment failed');
             })
@@ -113,10 +106,6 @@ if (!isset($_SESSION['user_id'])) {
                     `<div class="alert alert-danger">${error.message}</div>`;
             });
         }
-
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", { fps: 10, qrbox: 250 });
-        html5QrcodeScanner.render(onScanSuccess);
     </script>
 </body>
 </html>
