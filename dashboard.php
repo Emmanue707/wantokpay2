@@ -243,8 +243,16 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        </div> <!-- Close last container -->
+    </div> <!-- Close any remaining open divs -->
+    
+    <footer>
+        <div class="container text-center">
+            <p>© 2024 WANTOK PAY. All rights reserved.</p>
+        </div>
+    </footer>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
 document.getElementById('userProfileBtn').addEventListener('click', async () => {
