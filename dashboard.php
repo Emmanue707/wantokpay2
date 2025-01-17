@@ -97,6 +97,19 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 <?php endif; ?>
 
+<td><?php 
+    date_default_timezone_set('Pacific/Port_Moresby');
+    echo date('m/d/y', strtotime($transaction['created_at'])); 
+?></td>
+    <div class="alert alert-danger alert-dismissible fade show">
+        <?php 
+        echo $_SESSION['error'];
+        unset($_SESSION['error']);
+        ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
+
 
 
         <div class="row mb-4">
