@@ -93,67 +93,67 @@ if (!isset($_SESSION['user_id'])) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    return stripe.confirmCardPayment(data.payment_intent, {
-                        payment_method: data.payment_method
-                    }).then(result => {
-                        if (result.error) {
-                            throw new Error(result.error.message);
+
+
+
+
+
+
+
+
+
+
+
+                    // Show payment confirmation popup
+                    const popup = document.createElement('div');
+                    popup.className = 'payment-popup';
+                    popup.innerHTML = `
+                        <div class="payment-confirmation">
+                            <h4>Payment Successful!</h4>
+                            <p>Amount: K${qrData.amount}</p>
+                            <p>Paid to: ${qrData.merchant_name}</p>
+                        </div>
+                    `;
+                    document.body.appendChild(popup);
+
+                    // Add popup styles
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        .payment-popup {
+                            position: fixed;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background: white;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                            z-index: 1000;
+                            animation: fadeIn 0.3s ease-out;
                         }
-                        return result;
-                    });
+                        .payment-confirmation {
+                            text-align: center;
+                        }
+                        @keyframes fadeIn {
+                            from { opacity: 0; }
+                            to { opacity: 1; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+
+                    // Redirect after showing popup
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.php';
+                    }, 2000);
                 }
-                throw new Error('Payment failed');
-            })
-            .then(() => {
-                // Show payment confirmation popup
-                const popup = document.createElement('div');
-                popup.className = 'payment-popup';
-                popup.innerHTML = `
-                    <div class="payment-confirmation">
-                        <h4>Payment Successful!</h4>
-                        <p>Amount: K${qrData.amount}</p>
-                        <p>Paid to: ${qrData.merchant_name}</p>
-                    </div>
-                `;
-                document.body.appendChild(popup);
-
-                // Add popup styles
-                const style = document.createElement('style');
-                style.textContent = `
-                    .payment-popup {
-                        position: fixed;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        background: white;
-                        padding: 20px;
-                        border-radius: 8px;
-                        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                        z-index: 1000;
-                        animation: fadeIn 0.3s ease-out;
-                    }
-                    .payment-confirmation {
-                        text-align: center;
-                    }
-                    @keyframes fadeIn {
-                        from { opacity: 0; }
-                        to { opacity: 1; }
-                    }
-                `;
-                document.head.appendChild(style);
-
-                // Redirect after showing popup
-                setTimeout(() => {
-                    window.location.href = 'dashboard.php';
-                }, 2000);
             })
             .catch(error => {
                 document.getElementById('payment-status').innerHTML = 
-                    `<div class="alert alert-danger">${error.message}</div>`;
-                isProcessing = false;
-            });
-        }
 
+                    `<div class="alert alert-danger">Payment processing error. Please try again.</div>`;
+            });
+
+        }
         html5QrcodeScanner.render(onScanSuccess);
     </script>
 </body>
