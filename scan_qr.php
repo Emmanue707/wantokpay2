@@ -104,20 +104,19 @@ if (!isset($_SESSION['user_id'])) {
                     document.getElementById('payment-status').innerHTML = 
                         `<div class="alert alert-danger">${result.error.message}</div>`;
                 } else {
-                    // Create and show payment confirmation popup
-                    const paymentDetails = JSON.parse(decodedText);
+                    // Show payment confirmation popup
                     const popup = document.createElement('div');
                     popup.className = 'payment-popup';
                     popup.innerHTML = `
                         <div class="payment-confirmation">
                             <h4>Payment Successful!</h4>
-                            <p>Amount: K${paymentDetails.amount}</p>
-                            <p>Paid to: ${paymentDetails.merchant_name}</p>
+                            <p>Amount: K${qrData.amount}</p>
+                            <p>Paid to: ${qrData.merchant_name}</p>
                         </div>
                     `;
                     document.body.appendChild(popup);
 
-                    // Add styles for the popup
+                    // Add popup styles
                     const style = document.createElement('style');
                     style.textContent = `
                         .payment-popup {
@@ -142,7 +141,6 @@ if (!isset($_SESSION['user_id'])) {
                     `;
                     document.head.appendChild(style);
 
-                    // Redirect after showing popup
                     setTimeout(() => {
                         window.location.href = 'dashboard.php';
                     }, 2000);
