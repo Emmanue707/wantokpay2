@@ -18,6 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         $qrData = json_decode($_POST['qr_data'], true);
         
         // Get customer payment info
+        $database = new Database();
+        $db = $database->getConnection();
+        
         $stmt = $db->prepare("SELECT stripe_customer_id FROM users WHERE id = ?");
         $stmt->execute([$_SESSION['user_id']]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -26,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         error_log("Customer data: " . json_encode($user));
         
         // Create payment intent
-        $paymentIntent = $stripe->paymentIntents->create([
+        $paymentIntent = \Stripe\PaymentIntent::create([
             'amount' => $qrData['amount'] * 100,
             'currency' => 'pgk',
             'customer' => $user['stripe_customer_id'],
@@ -56,4 +59,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
             'error' => $e->getMessage()
         ]);
         exit;
-    }}
+    }
+}
