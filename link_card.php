@@ -28,22 +28,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
         // Log the token received
         error_log("Stripe token received: " . $_POST['stripeToken']);
-    
-        // Create customer with logging
+        // First verify the Stripe key is set
+        \Stripe\Stripe::setApiKey('your_stripe_secret_key');
+
+        // Create customer with explicit token
         $customer = \Stripe\Customer::create([
-            'source' => $_POST['stripeToken'],
+            'source' => $_POST['stripeToken'],  // This should be the token from the logs
             'email' => $_SESSION['email'],
-            'metadata' => ['user_id' => $_SESSION['user_id']]
+            'metadata' => [
+                'user_id' => $_SESSION['user_id'],
+                'timestamp' => time()
+            ]
         ]);
-    
-        error_log("Stripe customer created successfully. Customer ID: " . $customer->id);
-    
-        // Log database update attempt
+
+        // Log the customer creation response
+        error_log("Customer Created: " . json_encode($customer));
+
+        // Update database with customer ID
         $stmt = $db->prepare("UPDATE users SET stripe_customer_id = ?, has_payment_method = 1 WHERE id = ?");
         $result = $stmt->execute([$customer->id, $_SESSION['user_id']]);
-    
-        error_log("Database update result: " . ($result ? "Success" : "Failed"));
-    
         if ($result) {
             // Verify the update
             $verify = $db->prepare("SELECT stripe_customer_id, has_payment_method FROM users WHERE id = ?");
