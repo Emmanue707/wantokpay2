@@ -24,32 +24,49 @@ if (!isset($_SESSION['user_id'])) {
 // Handle the form submission to link the card
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        // Create a Stripe customer
+        error_log("Starting card linking process for user ID: " . $_SESSION['user_id']);
+    
+        // Log the token received
+        error_log("Stripe token received: " . $_POST['stripeToken']);
+    
+        // Create customer with logging
         $customer = \Stripe\Customer::create([
             'source' => $_POST['stripeToken'],
-            'email' => $_SESSION['email']
+            'email' => $_SESSION['email'],
+            'metadata' => ['user_id' => $_SESSION['user_id']]
         ]);
-
-        // Add this logging
-        error_log('Customer created: ' . $customer->id);
-
+    
+        error_log("Stripe customer created successfully. Customer ID: " . $customer->id);
+    
+        // Log database update attempt
         $stmt = $db->prepare("UPDATE users SET stripe_customer_id = ?, has_payment_method = 1 WHERE id = ?");
-        if($stmt->execute([$customer->id, $_SESSION['user_id']])) {
-            error_log('Database updated successfully');
+        $result = $stmt->execute([$customer->id, $_SESSION['user_id']]);
+    
+        error_log("Database update result: " . ($result ? "Success" : "Failed"));
+    
+        if ($result) {
+            // Verify the update
+            $verify = $db->prepare("SELECT stripe_customer_id, has_payment_method FROM users WHERE id = ?");
+            $verify->execute([$_SESSION['user_id']]);
+            $updated = $verify->fetch(PDO::FETCH_ASSOC);
+            error_log("Verification - Customer ID: " . $updated['stripe_customer_id'] . ", Has Payment Method: " . $updated['has_payment_method']);
         }
-
+    
         // Set success message and redirect
         $_SESSION['success'] = "Card linked successfully!";
         header("Location: dashboard.php");
         exit();
     } catch (\Stripe\Exception\CardException $e) {
+        error_log("Stripe Card Exception: " . $e->getMessage());
         // Handle error and display message
         $error = $e->getMessage();
         $_SESSION['error'] = "Card linking failed: " . $error;
         header("Location: dashboard.php");
         exit();
-    }
-}
+    } catch (\Exception $e) {
+        error_log("General Exception: " . $e->getMessage());
+        throw $e;
+    }}
 ?>
 <!DOCTYPE html>
 <html lang="en">
