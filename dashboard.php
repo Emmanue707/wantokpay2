@@ -27,7 +27,7 @@ $stmt = $db->prepare("
     LEFT JOIN users u2 ON t.receiver_id = u2.id
     LEFT JOIN qr_codes qr ON t.type = 'qr_payment' AND t.receiver_id = qr.merchant_id
     WHERE t.sender_id = ? OR t.receiver_id = ?
-    ORDER BY t.created_at DESC
+    ORDER BY t.created_at DESC LIMIT 15
 ");
 $stmt->execute([$_SESSION['user_id'], $_SESSION['user_id']]);
 $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -79,6 +79,11 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </nav>
 
     <div class="container mt-4">
+    <footer>
+        <div class="container text-center">
+            <p>© 2024 WANTOK PAY. All rights reserved.</p>
+        </div>
+    </footer>
 
 
     <?php if (isset($_SESSION['success'])): ?>
