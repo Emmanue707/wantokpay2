@@ -29,14 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         error_log("Customer data: " . json_encode($user));
         
         // Get customer's default payment method
-        $customer = $stripe->customers->retrieve($user['stripe_customer_id']);
         $paymentMethods = $stripe->paymentMethods->all([
             'customer' => $user['stripe_customer_id'],
             'type' => 'card',
         ]);
         $defaultPaymentMethod = $paymentMethods->data[0]->id;
-
-        // Create payment intent with payment method
+        
+        // Create payment intent
         $paymentIntent = \Stripe\PaymentIntent::create([
             'amount' => $qrData['amount'] * 100,
             'currency' => 'pgk',
