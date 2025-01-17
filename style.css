@@ -374,3 +374,53 @@ footer {
 #reader__header_message {
     display: none !important;
 }
+
+.landing-page {
+    background: linear-gradient(135deg, #2C3E50, #3498DB);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.hero-section {
+    width: 100%;
+    padding: 4rem 0;
+}
+
+.cta-buttons .btn {
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    border-radius: 50px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.feature-item {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
+
+.btn-link {
+    color: white;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    color: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+    .cta-buttons .btn {
+        display: block;
+        margin: 1rem auto;
+        width: 80%;
+    }
+}
