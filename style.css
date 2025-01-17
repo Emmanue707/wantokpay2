@@ -248,24 +248,32 @@ footer {
     background-color: #fefde5 !important;
 }
 .transaction-table {
-    max-height: 500px;
+    max-height: 70vh; /* Viewport-based height */
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
+/* Custom scrollbar styling */
 .transaction-table::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 .transaction-table::-webkit-scrollbar-track {
     background: #f1f1f1;
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 .transaction-table::-webkit-scrollbar-thumb {
     background: var(--primary-color);
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .transaction-table {
+        max-height: 60vh;
+    }
+}
 #searchTransactions {
     width: 250px;
 }

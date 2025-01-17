@@ -15,7 +15,6 @@ $db = $database->getConnection();
 $stmt = $db->prepare("SELECT stripe_customer_id FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
 // Get recent transactions with detailed information
 $stmt = $db->prepare("
     SELECT 
@@ -28,7 +27,7 @@ $stmt = $db->prepare("
     LEFT JOIN users u2 ON t.receiver_id = u2.id
     LEFT JOIN qr_codes qr ON t.type = 'qr_payment' AND t.receiver_id = qr.merchant_id
     WHERE t.sender_id = ? OR t.receiver_id = ?
-    ORDER BY t.created_at DESC LIMIT 15
+    ORDER BY t.created_at DESC
 ");
 $stmt->execute([$_SESSION['user_id'], $_SESSION['user_id']]);
 $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
