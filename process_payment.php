@@ -4,7 +4,7 @@ require_once 'Database.php';
 require_once 'User.php';
 require_once 'vendor/autoload.php';
 
-\Stripe\Stripe::setApiKey('your_stripe_secret_key');
+\Stripe\Stripe::setApiKey('sk_test_51QhYByDUpDhJwyLXGAa1rwi0BavnvBas6DFEFPFeVGUcE1b5PycvTk7vz202yLrnA4xe0WYmEjNJHT2SRmYVj2Jg00cMElEdwT');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
     $qr_data = json_decode($_POST['qr_data'], true);

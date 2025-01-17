@@ -2,7 +2,7 @@
 require_once 'config/stripe_init.php';
 require_once 'Database.php';
 
-$stripe = new \Stripe\StripeClient('your_stripe_secret_key');
+$stripe = new \Stripe\StripeClient('sk_test_51QhYByDUpDhJwyLXGAa1rwi0BavnvBas6DFEFPFeVGUcE1b5PycvTk7vz202yLrnA4xe0WYmEjNJHT2SRmYVj2Jg00cMElEdwT');
 $endpoint_secret = 'whsec_Zd4XUA4TW3XD4BeLo9nr4oZU2lohclGs';
 
 $payload = @file_get_contents('php://input');
