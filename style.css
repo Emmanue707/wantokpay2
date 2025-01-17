@@ -53,7 +53,6 @@ body {
 .nav-link:hover {
     opacity: 0.8;
 }
-
 footer {
     background-color: var(--primary-color);
     color: var(--light-text);
@@ -62,11 +61,25 @@ footer {
     width: 100%;
 }
 
+.transaction-table {
+    max-height: 600px; /* Height that fits approximately 15 transactions */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table tbody {
+    border-top: none;
+}
+
 /* Mobile optimization */
 @media (max-width: 768px) {
     .transaction-table {
-        height: 50vh;
-        -webkit-overflow-scrolling: touch;
+        max-height: 500px;
     }
     
     .table {
