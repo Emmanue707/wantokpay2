@@ -13,7 +13,7 @@ $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 $_SESSION['email'] = $user['email'];
 
-\Stripe\Stripe::setApiKey('your_stripe_secret_key');
+\Stripe\Stripe::setApiKey('sk_test_51QhYByDUpDhJwyLXGAa1rwi0BavnvBas6DFEFPFeVGUcE1b5PycvTk7vz202yLrnA4xe0WYmEjNJHT2SRmYVj2Jg00cMElEdwT');
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Log the token received
         error_log("Stripe token received: " . $_POST['stripeToken']);
         // First verify the Stripe key is set
-        \Stripe\Stripe::setApiKey('your_stripe_secret_key');
+        \Stripe\Stripe::setApiKey('sk_test_51QhYByDUpDhJwyLXGAa1rwi0BavnvBas6DFEFPFeVGUcE1b5PycvTk7vz202yLrnA4xe0WYmEjNJHT2SRmYVj2Jg00cMElEdwT');
 
         // Create customer with explicit token
         $customer = \Stripe\Customer::create([
