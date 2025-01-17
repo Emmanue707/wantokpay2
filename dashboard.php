@@ -177,7 +177,14 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <tbody>
                                     <?php foreach($transactions as $transaction): ?>
                                         <tr>
-                                            <td><?php echo date('M d, Y H:i', strtotime($transaction['created_at'])); ?></td>
+                                        <td>
+                                            <?php 
+                                                    date_default_timezone_set('Pacific/Port_Moresby');
+                                                    $date = new DateTime($transaction['created_at']);
+                                                    echo $date->format('m/d/y H:i'); 
+                                                ?>
+                                            </td>
+
                                             <td>
                                                 <span class="badge bg-<?php echo $transaction['type'] === 'qr_payment' ? 'success' : 'primary'; ?>">
                                                     <?php echo $transaction['type'] === 'qr_payment' ? 'QR Payment' : 'Card Payment'; ?>
