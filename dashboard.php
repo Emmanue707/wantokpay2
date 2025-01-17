@@ -154,10 +154,20 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Recent Transactions</h5>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Recent Transactions</h5>
+                            <div class="d-flex gap-3">
+                                <input type="text" id="searchTransactions" class="form-control" placeholder="Search transactions...">
+                                <select id="timeFilter" class="form-select">
+                                    <option value="all">All Time</option>
+                                    <option value="30">Last 30 Days</option>
+                                    <option value="year">This Year</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div class="table-responsive transaction-table">
                             <table class="table">
                                 <thead>
                                     <tr>

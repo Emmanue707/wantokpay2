@@ -247,7 +247,6 @@ footer {
 .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
 }
-
 .transaction-table {
     max-height: 500px;
     overflow-y: auto;
@@ -268,9 +267,14 @@ footer {
 }
 
 #searchTransactions {
-    min-width: 250px;
+    width: 250px;
 }
 
 #timeFilter {
-    min-width: 150px;
+    width: 150px;
+}
+
+.card-header .d-flex {
+    flex-wrap: wrap;
+    gap: 10px;
 }
