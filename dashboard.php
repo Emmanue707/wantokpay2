@@ -44,10 +44,9 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="index.php">WANTOK PAY  - Dashboard</a>
+        <a class="navbar-brand" href="index.php">WANTOK PAY</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -69,16 +68,14 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a class="nav-link" href="logout.php">Logout</a>
                 </li>
                 <li class="nav-item">
-    <a class="nav-link" href="#" id="userProfileBtn">
-        <i class="bi bi-person-circle fs-5"></i>
-    </a>
-</li>
-
+                    <a class="nav-link" href="#" id="userProfileBtn">
+                        <i class="bi bi-person-circle fs-5"></i>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
-
     <div class="container mt-4">
 
 
