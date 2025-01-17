@@ -18,11 +18,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         $stmt->execute([$_SESSION['user_id']]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Create payment intent
-        $payment_intent = \Stripe\PaymentIntent::create([
+        // Get customer's default payment method
+        $paymentMethods = $stripe->paymentMethods->all([
+            'customer' => $user['stripe_customer_id'],
+            'type' => 'card',
+        ]);
+        $defaultPaymentMethod = $paymentMethods->data[0]->id;
+
+        // Create payment intent with the payment method
+        $paymentIntent = \Stripe\PaymentIntent::create([
             'amount' => $qr_data['amount'] * 100,
             'currency' => 'pgk',
             'customer' => $user['stripe_customer_id'],
+            'payment_method' => $defaultPaymentMethod,
+            'payment_method_types' => ['card'],
             'metadata' => [
                 'qr_payment' => true,
                 'merchant_id' => $qr_data['merchant_id']
@@ -34,7 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
                             VALUES (?, ?, ?, 'qr_payment', 'completed')");
         $stmt->execute([$_SESSION['user_id'], $qr_data['merchant_id'], $qr_data['amount']]);
 
-        echo json_encode(['success' => true, 'payment_intent' => $payment_intent->client_secret]);
+        $response = [
+            'success' => true,
+            'payment_intent' => $paymentIntent->client_secret,
+            'payment_method' => $defaultPaymentMethod
+        ];
+        echo json_encode($response);
     } catch (\Exception $e) {
         echo json_encode(['success' => false, 'error' => $e->getMessage()]);
     }
