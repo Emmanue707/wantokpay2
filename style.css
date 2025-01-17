@@ -67,7 +67,6 @@ footer {
     -webkit-overflow-scrolling: touch;
     border-radius: 8px;
 }
-
 .table {
     margin-bottom: 0;
 }
@@ -76,10 +75,31 @@ footer {
     border-top: none;
 }
 
+.transaction-table {
+    height: 400px; /* Height that fits 10 transactions */
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+/* Custom scrollbar styling */
+.transaction-table::-webkit-scrollbar {
+    width: 6px;
+}
+
+.transaction-table::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.transaction-table::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
 /* Mobile optimization */
 @media (max-width: 768px) {
     .transaction-table {
-        max-height: 500px;
+        height: 350px;
     }
     
     .table {
