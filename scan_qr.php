@@ -62,13 +62,25 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
+        // Initialize Stripe
         const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
-        
+
+        // Initialize QR Scanner
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: 250 });
+
+        let isProcessing = false;
+
         function onScanSuccess(decodedText) {
+            if (isProcessing) return;
+            isProcessing = true;
+            
+            // Stop scanning immediately
+            html5QrcodeScanner.clear();
+            
             const qrData = JSON.parse(decodedText);
             
             fetch('process_payment.php', {
@@ -81,7 +93,9 @@ if (!isset($_SESSION['user_id'])) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    return stripe.confirmCardPayment(data.payment_intent);
+                    return stripe.confirmCardPayment(data.payment_intent, {
+                        payment_method: data.payment_method
+                    });
                 }
                 throw new Error('Payment failed');
             })
@@ -101,8 +115,6 @@ if (!isset($_SESSION['user_id'])) {
             });
         }
 
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", { fps: 10, qrbox: 250 });
         html5QrcodeScanner.render(onScanSuccess);
     </script>
 </body>
