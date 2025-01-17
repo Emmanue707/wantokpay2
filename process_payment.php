@@ -10,37 +10,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
     $qr_data = json_decode($_POST['qr_data'], true);
     
     try {
-        $database = new Database();
-        $db = $database->getConnection();
+        header('Content-Type: application/json');
         
-        // Get the customer's payment method
+        // Log incoming QR data
+        error_log("Received QR data: " . $_POST['qr_data']);
+        
+        $qrData = json_decode($_POST['qr_data'], true);
+        
+        // Get customer payment info
         $stmt = $db->prepare("SELECT stripe_customer_id FROM users WHERE id = ?");
         $stmt->execute([$_SESSION['user_id']]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Create payment intent with the customer's payment method
+        
+        // Log customer data
+        error_log("Customer data: " . json_encode($user));
+        
+        // Create payment intent
         $paymentIntent = $stripe->paymentIntents->create([
-            'amount' => $amount,
+            'amount' => $qrData['amount'] * 100,
             'currency' => 'pgk',
             'customer' => $user['stripe_customer_id'],
             'payment_method_types' => ['card'],
             'metadata' => [
-                'qr_payment' => true,
-                'transaction_id' => $transaction_id
+                'qr_payment' => true
             ]
         ]);
-
-        header('Content-Type: application/json');
-
+        
+        // Log payment intent
+        error_log("Payment Intent created: " . json_encode($paymentIntent));
+        
         $response = [
             'success' => true,
             'payment_intent' => $paymentIntent->client_secret,
             'customer' => $user['stripe_customer_id']
         ];
-
+        
+        error_log("Sending response: " . json_encode($response));
         echo json_encode($response);
         exit;
-    } catch (\Exception $e) {
-        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-    }
-}
+        
+    } catch (Exception $e) {
+        error_log("Payment processing error: " . $e->getMessage());
+        echo json_encode([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+        exit;
+    }}
