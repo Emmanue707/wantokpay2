@@ -66,8 +66,14 @@ if (!isset($_SESSION['user_id'])) {
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
+        // Initialize Stripe and Elements
         const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
-        
+        const elements = stripe.elements();
+        const card = elements.create('card');
+
+        // Mount the card element
+        card.mount('#card-element');
+
         function onScanSuccess(decodedText) {
             const qrData = JSON.parse(decodedText);
             
