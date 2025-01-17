@@ -68,7 +68,7 @@ if (!isset($_SESSION['user_id'])) {
         // Initialize Stripe
         const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
 
-            // Initialize QR Scanner with back camera configuration
+            // Initialize QR Scanner with clean UI
             let html5QrcodeScanner = new Html5QrcodeScanner(
                 "reader", 
                 { 
@@ -76,33 +76,37 @@ if (!isset($_SESSION['user_id'])) {
                     qrbox: 250,
                     videoConstraints: {
                         facingMode: { exact: "environment" }
-                    }
+                    },
+                    showTorchButtonIfSupported: false,
+                    showZoomSliderIfSupported: false,
+                    hideControls: true
                 }
             );
 
             let isProcessing = false;
 
-            // Rest of your existing scanning code remains the same
+            function onScanSuccess(decodedText) {
+                if (isProcessing) return;
+                isProcessing = true;
+    
+                // Stop scanning immediately
+                html5QrcodeScanner.clear();
+    
+                const qrData = JSON.parse(decodedText);
+    
+                fetch('process_payment.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `qr_data=${encodeURIComponent(decodedText)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
 
-        function onScanSuccess(decodedText) {
-            if (isProcessing) return;
-            isProcessing = true;
-            
-            // Stop scanning immediately
-            html5QrcodeScanner.clear();
-            
-            const qrData = JSON.parse(decodedText);
-            
-            fetch('process_payment.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `qr_data=${encodeURIComponent(decodedText)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
+            // Start scanning immediately
+            html5QrcodeScanner.render(onScanSuccess);
 
 
 
