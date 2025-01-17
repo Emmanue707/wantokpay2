@@ -40,31 +40,34 @@ footer {
 }
 /* Navbar Styles */
 .navbar {
-    background-color: var(--primary-color) !important;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .navbar-brand {
+    color: white;
+    font-weight: 600;
     font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--light-text) !important;
 }
 
 .nav-link {
-    color: var(--light-text) !important;
-    font-weight: 500;
+    color: white !important;
+    opacity: 0.8;
     transition: opacity 0.3s;
 }
 
 .nav-link:hover {
-    opacity: 0.8;
+    opacity: 1;
 }
+
 footer {
-    background-color: var(--primary-color);
-    color: var(--light-text);
-    padding: 1.5rem 0;
-    margin-top: auto;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 1rem 0;
+    position: fixed;
+    bottom: 0;
     width: 100%;
 }
 
