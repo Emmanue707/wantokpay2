@@ -54,18 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $updated = $verify->fetch(PDO::FETCH_ASSOC);
             error_log("Verification - Customer ID: " . $updated['stripe_customer_id'] . ", Has Payment Method: " . $updated['has_payment_method']);
         }
-    
-        // Set success message and redirect
-        $_SESSION['success'] = "Card linked successfully!";
-        header("Location: dashboard.php");
-        exit();
+
     } catch (\Stripe\Exception\CardException $e) {
         error_log("Stripe Card Exception: " . $e->getMessage());
-        // Handle error and display message
-        $error = $e->getMessage();
-        $_SESSION['error'] = "Card linking failed: " . $error;
-        header("Location: dashboard.php");
-        exit();
+        throw $e;
     } catch (\Exception $e) {
         error_log("General Exception: " . $e->getMessage());
         throw $e;
