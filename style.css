@@ -378,18 +378,27 @@ footer {
     display: none !important;
 }
 .landing-page {
-    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    background: linear-gradient(135deg, #1e3c72, #2a5298, #2d6cdf);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
     overflow-x: hidden;
     position: relative;
 }
 
+@keyframes gradientBG {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+}
+
 .floating-shapes .shape {
     position: absolute;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
     animation: float 15s infinite;
 }
 
@@ -430,6 +439,7 @@ footer {
     color: white;
     position: relative;
     z-index: 1;
+    padding: 6rem 0;
 }
 
 .hero-content {
@@ -437,15 +447,20 @@ footer {
 }
 
 .main-title {
-    font-size: 4rem;
+    font-size: 5rem;
+    background: linear-gradient(to right, #fff, #e0e0e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2rem;
     font-weight: 700;
-    margin-bottom: 1rem;
     text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .hero-subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 3rem;
+    font-size: 1.8rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 4rem;
     opacity: 0.9;
 }
 
@@ -454,7 +469,13 @@ footer {
 }
 
 .btn-glow {
-    padding: 1rem 3rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.2rem 3.5rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     font-size: 1.2rem;
     border-radius: 50px;
     margin: 0 1rem;
@@ -465,6 +486,14 @@ footer {
 .btn-glow:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.btn-glow.btn-primary {
+    background: linear-gradient(45deg, #2196f3, #2d6cdf);
+}
+
+.btn-glow.btn-outline {
+    border: 2px solid rgba(255, 255, 255, 0.8);
 }
 
 .info-cards {
@@ -493,21 +522,27 @@ footer {
 
 @media (max-width: 768px) {
     .main-title {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
     
     .hero-subtitle {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
+        padding: 0 1rem;
     }
     
     .btn-glow {
-        display: block;
-        margin: 1rem auto;
-        width: 80%;
+        padding: 1rem 2.5rem;
+        margin: 0.5rem;
+        width: auto;
+        min-width: 200px;
     }
     
     .info-cards {
         grid-template-columns: 1fr;
+    }
+    
+    .slider-container {
+        transform: scale(0.8);
     }
 }
 
@@ -530,8 +565,9 @@ footer {
     height: 200px;
     left: 50%;
     transform-origin: center;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     display: flex;
@@ -548,6 +584,12 @@ footer {
     text-align: center;
     padding: 20px;
     color: white;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.slide:hover .slide-content {
+    transform: scale(1);
 }
 
 .slide-content h3 {
@@ -570,4 +612,29 @@ footer {
         width: 250px;
         height: 150px;
     }
+}
+
+.navbar {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    padding: 1.5rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
 }
