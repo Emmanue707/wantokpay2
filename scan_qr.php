@@ -103,45 +103,40 @@ if (!isset($_SESSION['user_id'])) {
     </div>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        const html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader",
-            {
-                fps: 30,
-                qrbox: { width: 250, height: 250 },
-                experimentalFeatures: {
-                    useBarCodeDetectorIfSupported: true
-                },
-                videoConstraints: {
-                    width: { min: 640, ideal: 1920, max: 1920 },
-                    height: { min: 480, ideal: 1080, max: 1080 },
-                    facingMode: { exact: "environment" }
-                },
-                showTorchButtonIfSupported: true,
-                rememberLastUsedCamera: true
-            }
-        );
-
-        // Start scanning immediately
-        window.onload = function() {
-            html5QrcodeScanner.start(
-                { facingMode: "environment" },
-                {
-                    fps: 30,
-                    qrbox: { width: 250, height: 250 }
-                },
-                onScanSuccess
-            ).catch(err => {
-                // Try fallback method if initial attempt fails
-                html5QrcodeScanner.start(
-                    { facingMode: "user" },
+        // Direct camera access implementation
+        const startCamera = async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: { exact: "environment" },
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                });
+                
+                const html5QrcodeScanner = new Html5QrcodeScanner(
+                    "reader",
                     {
-                        fps: 30,
-                        qrbox: { width: 250, height: 250 }
+                        fps: 10,
+                        qrbox: 250,
+                        aspectRatio: 1.0,
+                        showTorchButtonIfSupported: true,
+                        rememberLastUsedCamera: true
                     },
-                    onScanSuccess
+                    false
                 );
-            });
+
+                html5QrcodeScanner.render(onScanSuccess);
+            } catch (error) {
+                // Fallback to front camera if back camera fails
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "user" }
+                });
+            }
         };
+
+        // Start camera when page loads
+        document.addEventListener('DOMContentLoaded', startCamera);
 
         // Hide all HTML5QR scanner controls
         setTimeout(() => {
