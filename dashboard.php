@@ -193,7 +193,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <a href="generate_link.php" class="btn btn-info flex-fill">
                             <i class="bi bi-link-45deg"></i> Request Payment
                         </a>
-                        <a href="pay_with_link.php" class="btn btn-warning flex-fill">
+                        <a href="send_money.php" class="btn btn-warning flex-fill">
                             <i class="bi bi-link"></i> Pay with Link
                         </a>
                     </div>
@@ -201,7 +201,6 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-
         <div class="row">
             <div class="col-md-12">
             <div class="card dashboard-card">
