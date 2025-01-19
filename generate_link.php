@@ -89,7 +89,6 @@ if (!isset($_SESSION['user_id'])) {
                 }
             });
         });
-
         document.getElementById('copyButton').addEventListener('click', function() {
             const linkText = document.getElementById('linkResult').querySelector('strong').textContent;
             navigator.clipboard.writeText(linkText);
