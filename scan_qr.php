@@ -84,6 +84,31 @@ if (!isset($_SESSION['user_id'])) {
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
+
+        .payment-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.payment-confirmation {
+    text-align: center;
+    color: #333;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
     </style>
 </head>
 <body>
@@ -102,37 +127,52 @@ if (!isset($_SESSION['user_id'])) {
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
         const html5QrCode = new Html5Qrcode("reader");
-        const config = {
-            fps: 30, // Higher FPS for better scanning
-            qrbox: { width: 250, height: 250 },
-            aspectRatio: 1.0,
-            formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ]
-        };
+        let isScanning = true;
 
         html5QrCode.start(
             { facingMode: "environment" },
-            config,
+            {
+                fps: 30,
+                qrbox: { width: 250, height: 250 },
+                aspectRatio: 1.0
+            },
             (decodedText) => {
-                // Play success sound
-                new Audio('beep.mp3').play();
-                
-                // Parse QR data
-                const qrData = JSON.parse(decodedText);
-                
-                // Process payment
-                fetch('process_payment.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `qr_data=${encodeURIComponent(decodedText)}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.href = 'dashboard.php';
-                    }
-                });
+                if (isScanning) {
+                    isScanning = false;
+                    html5QrCode.stop();
+
+                    // Parse QR data
+                    const qrData = JSON.parse(decodedText);
+                    
+                    // Create payment confirmation popup
+                    const popup = document.createElement('div');
+                    popup.className = 'payment-popup';
+                    popup.innerHTML = `
+                        <div class="payment-confirmation">
+                            <h4>Payment Details</h4>
+                            <p>Amount: K${qrData.amount}</p>
+                            <p>Merchant: ${qrData.merchant_name}</p>
+                        </div>
+                    `;
+                    document.body.appendChild(popup);
+
+                    // Process payment
+                    fetch('process_payment.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `qr_data=${encodeURIComponent(decodedText)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            setTimeout(() => {
+                                window.location.href = 'dashboard.php';
+                            }, 2000);
+                        }
+                    });
+                }
             }
         );
 
