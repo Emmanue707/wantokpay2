@@ -4,16 +4,18 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
+require_once 'vendor/autoload.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request Payment - WANTOK PAY</title>
+    <title>Generate Payment Link - WANTOK PAY</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body class="dashboard-page">
     <div class="container mt-4">
@@ -47,8 +49,7 @@ if (!isset($_SESSION['user_id'])) {
                             <button type="submit" class="btn btn-primary w-100">Generate Request</button>
                         </form>
                         
-                        <!-- Add this result area div -->
-                        <div id="resultArea" class="mt-3">
+                        <div id="resultArea" class="mt-3" style="display:none;">
                             <div class="alert alert-success">
                                 <div id="linkResult"></div>
                                 <button id="copyButton" class="btn btn-sm btn-outline-primary mt-2">Copy Link</button>
@@ -59,23 +60,22 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-    <script>
-        document.getElementById('requestType').addEventListener('change', function() {
-            const userField = document.getElementById('userField');
-            userField.style.display = this.value === 'specific' ? 'block' : 'none';
-        });
 
-        document.getElementById('requestForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default form submission
-            
+    <script>
+        const stripe = Stripe('your_publishable_key');
+
+        document.getElementById('requestForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
             const formData = new FormData(this);
             
-            fetch('process_request.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
+            try {
+                const response = await fetch('process_request.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
                 if(data.success) {
                     const resultArea = document.getElementById('resultArea');
                     const linkResult = document.getElementById('linkResult');
@@ -90,13 +90,11 @@ if (!isset($_SESSION['user_id'])) {
                         document.getElementById('copyButton').style.display = 'none';
                     }
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error:', error);
-            });
+            }
         });
 
-        // Add copy functionality
         document.getElementById('copyButton').addEventListener('click', function() {
             const linkText = document.getElementById('linkResult').querySelector('strong').textContent;
             navigator.clipboard.writeText(linkText);
