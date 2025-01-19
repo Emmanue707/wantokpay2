@@ -101,37 +101,40 @@ if (!isset($_SESSION['user_id'])) {
 
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        let html5QrCode;
-
-        // Function to start camera with a fallback
-        const startCamera = async () => {
-            try {
-                // Initialize QR scanner with minimal configuration
-                html5QrCode = new Html5Qrcode("reader");
-
-                // Simple camera start
-                await html5QrCode.start(
-                    { facingMode: "environment" },
-                    {
-                        fps: 10,
-                        qrbox: 250,
-                    },
-                    (decodedText, decodedResult) => {
-                        // Handle success
-                        onScanSuccess(decodedText);
-                    },
-                    (errorMessage) => {
-                        // Keep scanning
-                    }
-                );
-            } catch (err) {
-                console.log("Camera start error:", err);
-                alert('Unable to access camera. Please check permissions.');
-            }
+        const html5QrCode = new Html5Qrcode("reader");
+        const config = {
+            fps: 30, // Higher FPS for better scanning
+            qrbox: { width: 250, height: 250 },
+            aspectRatio: 1.0,
+            formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ]
         };
 
-        // Start camera when page loads
-        document.addEventListener('DOMContentLoaded', startCamera);
+        html5QrCode.start(
+            { facingMode: "environment" },
+            config,
+            (decodedText) => {
+                // Play success sound
+                new Audio('beep.mp3').play();
+                
+                // Parse QR data
+                const qrData = JSON.parse(decodedText);
+                
+                // Process payment
+                fetch('process_payment.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `qr_data=${encodeURIComponent(decodedText)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = 'dashboard.php';
+                    }
+                });
+            }
+        );
 
         // Hide unnecessary controls for the scanner
         setTimeout(() => {
@@ -139,72 +142,6 @@ if (!isset($_SESSION['user_id'])) {
                 el.style.display = 'none';
             });
         }, 100);
-        
-        // Function to handle successful scan
-        function onScanSuccess(decodedText) {
-            if (isProcessing) return;
-            isProcessing = true;
-
-            // Stop scanning immediately
-            html5QrcodeScanner.clear();
-
-            const qrData = JSON.parse(decodedText);
-
-            fetch('process_payment.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `qr_data=${encodeURIComponent(decodedText)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const popup = document.createElement('div');
-                    popup.className = 'payment-popup';
-                    popup.innerHTML = `
-                        <div class="payment-confirmation">
-                            <h4>Payment Successful!</h4>
-                            <p>Amount: K${qrData.amount}</p>
-                            <p>Paid to: ${qrData.merchant_name}</p>
-                        </div>
-                    `;
-                    document.body.appendChild(popup);
-
-                    const style = document.createElement('style');
-                    style.textContent = `
-                        .payment-popup {
-                            position: fixed;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            background: white;
-                            padding: 20px;
-                            border-radius: 8px;
-                            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                            z-index: 1000;
-                            animation: fadeIn 0.3s ease-out;
-                        }
-                        .payment-confirmation {
-                            text-align: center;
-                        }
-                        @keyframes fadeIn {
-                            from { opacity: 0; }
-                            to { opacity: 1; }
-                        }
-                    `;
-                    document.head.appendChild(style);
-
-                    // Redirect after showing popup
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.php';
-                    }, 2000);
-                }
-            })
-            .catch(error => {
-                alert('Payment processing error. Please try again.');
-            });
-        }
     </script>
 </body>
 </html>
