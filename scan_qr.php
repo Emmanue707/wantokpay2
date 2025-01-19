@@ -14,6 +14,10 @@ if (!isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
     <title>Scan QR - WANTOK PAY</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
@@ -104,8 +108,11 @@ if (!isset($_SESSION['user_id'])) {
             { 
                 fps: 10,
                 qrbox: 250,
+                aspectRatio: 1.0,
                 videoConstraints: {
-                    facingMode: { exact: "environment" }
+                    facingMode: "environment",
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
                 },
                 showTorchButtonIfSupported: true,
                 rememberLastUsedCamera: true
@@ -113,7 +120,14 @@ if (!isset($_SESSION['user_id'])) {
             false
         );
         
-        html5QrcodeScanner.render(onScanSuccess);
+        // Add error handling for permissions
+        html5QrcodeScanner.render((decodedText) => {
+            onScanSuccess(decodedText);
+        }).catch((err) => {
+            if (err.name === 'NotAllowedError') {
+                alert('Please grant camera permission to use the QR scanner.');
+            }
+        });
         
         // Hide all HTML5QR scanner controls
         setTimeout(() => {
