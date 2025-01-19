@@ -499,12 +499,16 @@ footer {
 .info-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px
-
+/* Unified color palette and animations */
 .dashboard-page {
     background: linear-gradient(135deg, #1e3c72, #2a5298, #2d6cdf);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+    color: white;
 }
 
 .dashboard-page .floating-shapes .shape {
@@ -518,7 +522,78 @@ footer {
 }
 
 .dashboard-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dashboard-card .card-header {
+    background: transparent;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dashboard-card .card-body {
+    color: white;
+}
+
+.table {
+    color: white;
+}
+
+.table thead th {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.table tbody td {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+#searchTransactions, #timeFilter {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+#searchTransactions::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.btn-primary, .btn-success {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.text-success {
+    color: #4CAF50 !important;
+}
+
+.text-danger {
+    color: #f44336 !important;
+}
+
+.badge {
+    backdrop-filter: blur(8px);
+    padding: 0.5rem 1rem;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    box-shadow: none;
 }
