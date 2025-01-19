@@ -377,8 +377,8 @@ footer {
 #reader__header_message {
     display: none !important;
 }
-.landing-page {
-    background: linear-gradient(135deg, #1e3c72, #2a5298, #2d6cdf);
+.dashboard-page {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     min-height: 100vh;
