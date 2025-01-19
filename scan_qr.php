@@ -103,32 +103,46 @@ if (!isset($_SESSION['user_id'])) {
     </div>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", 
-            { 
-                fps: 10,
-                qrbox: 250,
-                aspectRatio: 1.0,
+        const html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader",
+            {
+                fps: 30,
+                qrbox: { width: 250, height: 250 },
+                experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true
+                },
                 videoConstraints: {
-                    facingMode: "environment",
-                    width: { ideal: 1280 },
-                    height: { ideal: 720 }
+                    width: { min: 640, ideal: 1920, max: 1920 },
+                    height: { min: 480, ideal: 1080, max: 1080 },
+                    facingMode: { exact: "environment" }
                 },
                 showTorchButtonIfSupported: true,
                 rememberLastUsedCamera: true
-            },
-            false
-        );
-        
-        // Add error handling for permissions
-        html5QrcodeScanner.render((decodedText) => {
-            onScanSuccess(decodedText);
-        }).catch((err) => {
-            if (err.name === 'NotAllowedError') {
-                alert('Please grant camera permission to use the QR scanner.');
             }
-        });
-        
+        );
+
+        // Start scanning immediately
+        window.onload = function() {
+            html5QrcodeScanner.start(
+                { facingMode: "environment" },
+                {
+                    fps: 30,
+                    qrbox: { width: 250, height: 250 }
+                },
+                onScanSuccess
+            ).catch(err => {
+                // Try fallback method if initial attempt fails
+                html5QrcodeScanner.start(
+                    { facingMode: "user" },
+                    {
+                        fps: 30,
+                        qrbox: { width: 250, height: 250 }
+                    },
+                    onScanSuccess
+                );
+            });
+        };
+
         // Hide all HTML5QR scanner controls
         setTimeout(() => {
             document.querySelectorAll('#reader__dashboard_section_csr button, #reader__dashboard_section_swaplink, #reader__header_message').forEach(el => {
