@@ -21,7 +21,7 @@ if (!isset($_SESSION['user_id'])) {
             <div class="col-md-8">
                 <div class="card dashboard-card">
                     <div class="card-header">
-                        <h5><i class="bi bi-link-45deg"></i> Request Payment</h5>
+                        <h5>Generate Payment Link</h5>
                     </div>
                     <div class="card-body">
                         <form id="requestForm">
@@ -46,7 +46,9 @@ if (!isset($_SESSION['user_id'])) {
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Generate Request</button>
                         </form>
-                        <div id="resultArea" class="mt-3" style="display:none;">
+                        
+                        <!-- Add this result area div -->
+                        <div id="resultArea" class="mt-3">
                             <div class="alert alert-success">
                                 <div id="linkResult"></div>
                                 <button id="copyButton" class="btn btn-sm btn-outline-primary mt-2">Copy Link</button>
