@@ -499,3 +499,26 @@ footer {
 .info-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px
+
+.dashboard-page {
+    background: linear-gradient(135deg, #1e3c72, #2a5298, #2d6cdf);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+}
+
+.dashboard-page .floating-shapes .shape {
+    position: fixed;
+    z-index: 0;
+}
+
+.dashboard-page .container {
+    position: relative;
+    z-index: 1;
+}
+
+.dashboard-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
