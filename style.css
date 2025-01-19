@@ -629,3 +629,29 @@ footer {
     color: white;
     box-shadow: none;
 }
+
+/* Override all white backgrounds with transparency */
+.dashboard-page .card,
+.dashboard-page .table,
+.dashboard-page .card-header,
+.dashboard-page .card-body {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white !important;
+}
+
+.dashboard-page .table thead th,
+.dashboard-page .table tbody td {
+    background: transparent !important;
+    color: white !important;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dashboard-page #searchTransactions,
+.dashboard-page #timeFilter,
+.dashboard-page .form-control,
+.dashboard-page .form-select {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+}
