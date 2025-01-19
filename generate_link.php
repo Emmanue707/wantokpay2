@@ -64,9 +64,8 @@ if (!isset($_SESSION['user_id'])) {
             userField.style.display = this.value === 'specific' ? 'block' : 'none';
         });
 
-        document.getElementById('requestForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
+        function generateRequest() {
+            const formData = new FormData(document.getElementById('requestForm'));
             
             fetch('process_request.php', {
                 method: 'POST',
@@ -75,26 +74,16 @@ if (!isset($_SESSION['user_id'])) {
             .then(response => response.json())
             .then(data => {
                 if(data.success) {
-                    const resultArea = document.getElementById('resultArea');
-                    const linkResult = document.getElementById('linkResult');
-                    resultArea.style.display = 'block';
-                    
                     if(data.requestType === 'general') {
-                        linkResult.innerHTML = `Payment Link: <strong>${data.paymentLink}</strong>`;
-                        document.getElementById('copyButton').style.display = 'block';
+                        window.location.href = data.paymentLink;
                     } else {
-                        linkResult.innerHTML = 'Payment request sent successfully!';
-                        document.getElementById('copyButton').style.display = 'none';
+                        // For specific user requests
+                        alert('Payment request sent successfully!');
+                        window.location.href = 'dashboard.php';
                     }
                 }
             });
-        });
-        document.getElementById('copyButton').addEventListener('click', function() {
-            const linkText = document.getElementById('linkResult').querySelector('strong').textContent;
-            navigator.clipboard.writeText(linkText);
-            this.textContent = 'Copied!';
-            setTimeout(() => this.textContent = 'Copy Link', 2000);
-        });
+        }
     </script>
 </body>
 </html>
