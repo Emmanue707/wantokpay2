@@ -96,7 +96,7 @@
     <!-- Footer -->
     <footer>
         <div class="container text-center">
-            <p>© 2024 WANTOK PAY. All rights reserved.</p>
+            <p>© 2025 WANTOK PAY. All rights reserved.</p>
         </div>
     </footer>
 

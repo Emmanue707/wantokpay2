@@ -57,15 +57,16 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-
     <script>
         document.getElementById('requestType').addEventListener('change', function() {
             const userField = document.getElementById('userField');
             userField.style.display = this.value === 'specific' ? 'block' : 'none';
         });
 
-        function generateRequest() {
-            const formData = new FormData(document.getElementById('requestForm'));
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+            
+            const formData = new FormData(this);
             
             fetch('process_request.php', {
                 method: 'POST',
@@ -74,16 +75,32 @@ if (!isset($_SESSION['user_id'])) {
             .then(response => response.json())
             .then(data => {
                 if(data.success) {
+                    const resultArea = document.getElementById('resultArea');
+                    const linkResult = document.getElementById('linkResult');
+                    resultArea.style.display = 'block';
+                    
                     if(data.requestType === 'general') {
-                        window.location.href = data.paymentLink;
+                        const fullLink = window.location.origin + '/' + data.paymentLink;
+                        linkResult.innerHTML = `<p>Payment Link Generated:</p><strong>${fullLink}</strong>`;
+                        document.getElementById('copyButton').style.display = 'block';
                     } else {
-                        // For specific user requests
-                        alert('Payment request sent successfully!');
-                        window.location.href = 'dashboard.php';
+                        linkResult.innerHTML = 'Payment request sent successfully!';
+                        document.getElementById('copyButton').style.display = 'none';
                     }
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-        }
+        });
+
+        // Add copy functionality
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const linkText = document.getElementById('linkResult').querySelector('strong').textContent;
+            navigator.clipboard.writeText(linkText);
+            this.textContent = 'Copied!';
+            setTimeout(() => this.textContent = 'Copy Link', 2000);
+        });
     </script>
 </body>
 </html>
