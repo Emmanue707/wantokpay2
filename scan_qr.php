@@ -41,7 +41,7 @@ if (!isset($_SESSION['user_id'])) {
         }
         .scan-overlay {
             position: absolute;
-            top: 50%;
+            top: 25%; /* Changed from 50% to move up */
             left: 50%;
             transform: translate(-50%, -50%);
             width: 280px;
@@ -51,7 +51,6 @@ if (!isset($_SESSION['user_id'])) {
             box-shadow: 0 0 0 100vmax rgba(0,0,0,0.7);
             animation: scanPulse 2s infinite;
         }
-
         /* Add corner markers for a tech feel */
         .scan-overlay::before,
         .scan-overlay::after,
