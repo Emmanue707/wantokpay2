@@ -39,20 +39,61 @@ if (!isset($_SESSION['user_id'])) {
             height: 100vh;
             background: transparent;
         }
-        
         .scan-overlay {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            border: 3px solid rgba(255,255,255,0.8);
-            border-radius: 25px;
-            box-shadow: 0 0 0 100vmax rgba(0,0,0,0.5);
-            animation: pulse 2s infinite;
+            width: 280px;
+            height: 280px;
+            border: 3px solid rgba(255,255,255,0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 0 100vmax rgba(0,0,0,0.7);
+            animation: scanPulse 2s infinite;
         }
-        
+
+        /* Add corner markers for a tech feel */
+        .scan-overlay::before,
+        .scan-overlay::after,
+        .scan-overlay span::before,
+        .scan-overlay span::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: #2196f3;
+            border-style: solid;
+        }
+
+        .scan-overlay::before {
+            top: -3px;
+            left: -3px;
+            border-width: 3px 0 0 3px;
+        }
+
+        .scan-overlay::after {
+            top: -3px;
+            right: -3px;
+            border-width: 3px 3px 0 0;
+        }
+
+        .scan-overlay span::before {
+            bottom: -3px;
+            left: -3px;
+            border-width: 0 0 3px 3px;
+        }
+
+        .scan-overlay span::after {
+            bottom: -3px;
+            right: -3px;
+            border-width: 0 3px 3px 0;
+        }
+
+        @keyframes scanPulse {
+            0% { box-shadow: 0 0 0 100vmax rgba(0,0,0,0.7); }
+            50% { box-shadow: 0 0 0 100vmax rgba(0,0,0,0.5); }
+            100% { box-shadow: 0 0 0 100vmax rgba(0,0,0,0.7); }
+        }
         .back-button {
             position: fixed;
             top: 30px;
@@ -122,6 +163,7 @@ if (!isset($_SESSION['user_id'])) {
             <i class="bi bi-qr-code-scan" style="font-size: 3rem;"></i>
             <div>Scanning...</div>
         </div>
+        <div class="scan-overlay"><span></span></div>
     </div>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
