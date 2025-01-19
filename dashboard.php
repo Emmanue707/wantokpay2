@@ -84,17 +84,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="shape shape-3"></div>
 </div>
 
-<div class="d-flex gap-3">
-    <a href="scan_qr.php" class="btn btn-primary flex-fill">
-        <i class="bi bi-qr-code-scan"></i> Scan to Pay
-    </a>
-    <a href="generate_qr.php" class="btn btn-success flex-fill">
-        <i class="bi bi-qr-code"></i> Generate QR
-    </a>
-    <a href="generate_link.php" class="btn btn-info flex-fill">
-        <i class="bi bi-link-45deg"></i> Payment Link
-    </a>
-</div>
+
 
     <div class="container mt-4">
     <?php if (isset($_SESSION['success'])): ?>
