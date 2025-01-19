@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <link href="style.css" rel="stylesheet">
 
 </head>
-<body>
+<body  class="register-page">>
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="index.php">WANTOK PAY</a>
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="card">
+            <div class="card auth-card">
                     <div class="card-header">
                         <h3 class="text-center">Register for WANTOK PAY</h3>
                     </div>

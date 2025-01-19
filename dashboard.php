@@ -43,7 +43,8 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
 </head>
-<body>
+<body class="dashboard-page">
+
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="index.php">WANTOK PAY</a>
@@ -101,7 +102,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="row mb-4">
             <div class="col-md-12">
-                <div class="card">
+            <div class="card dashboard-card">`
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
@@ -127,7 +128,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="row mb-4">
             <div class="col-md-12">
-                <div class="card">
+            <div class="card dashboard-card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Quick Actions</h5>
                     </div>
@@ -147,7 +148,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+            <div class="card dashboard-card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="mb-0">Recent Transactions</h5>
