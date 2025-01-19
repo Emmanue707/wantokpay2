@@ -16,14 +16,12 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <title>Scan QR - WANTOK PAY</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
-    <!-- Add this in the head section -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Update the style section -->
     <style>
         .scan-container {
             position: fixed;
@@ -89,7 +87,6 @@ if (!isset($_SESSION['user_id'])) {
     </style>
 </head>
 <body>
-    <!-- Update the body content -->
     <a href="dashboard.php" class="back-button">
         <i class="bi bi-arrow-left-circle-fill"></i> Back
     </a>
@@ -101,11 +98,15 @@ if (!isset($_SESSION['user_id'])) {
             <div>Scanning...</div>
         </div>
     </div>
+
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        // Direct camera access implementation
+        let html5QrcodeScanner;
+
+        // Function to start camera with a fallback
         const startCamera = async () => {
             try {
+                // Try accessing back camera first
                 const stream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: { exact: "environment" },
@@ -114,7 +115,8 @@ if (!isset($_SESSION['user_id'])) {
                     }
                 });
                 
-                const html5QrcodeScanner = new Html5QrcodeScanner(
+                // Initialize the HTML5 QR code scanner
+                html5QrcodeScanner = new Html5QrcodeScanner(
                     "reader",
                     {
                         fps: 10,
@@ -126,25 +128,49 @@ if (!isset($_SESSION['user_id'])) {
                     false
                 );
 
+                // Render the scanner
                 html5QrcodeScanner.render(onScanSuccess);
             } catch (error) {
-                // Fallback to front camera if back camera fails
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: "user" }
-                });
+                console.error('Back camera not accessible, trying front camera... ', error);
+                try {
+                    // Fallback to front camera if back camera fails
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: "user" }
+                    });
+
+                    // Initialize the HTML5 QR code scanner with front camera
+                    html5QrcodeScanner = new Html5QrcodeScanner(
+                        "reader",
+                        {
+                            fps: 10,
+                            qrbox: 250,
+                            aspectRatio: 1.0,
+                            showTorchButtonIfSupported: true,
+                            rememberLastUsedCamera: true
+                        },
+                        false
+                    );
+
+                    // Render the scanner
+                    html5QrcodeScanner.render(onScanSuccess);
+                } catch (err) {
+                    alert('Unable to access camera. Please check permissions.');
+                    console.error('Error accessing camera: ', err);
+                }
             }
         };
 
         // Start camera when page loads
         document.addEventListener('DOMContentLoaded', startCamera);
 
-        // Hide all HTML5QR scanner controls
+        // Hide unnecessary controls for the scanner
         setTimeout(() => {
             document.querySelectorAll('#reader__dashboard_section_csr button, #reader__dashboard_section_swaplink, #reader__header_message').forEach(el => {
                 el.style.display = 'none';
             });
         }, 100);
         
+        // Function to handle successful scan
         function onScanSuccess(decodedText) {
             if (isProcessing) return;
             isProcessing = true;
@@ -164,7 +190,6 @@ if (!isset($_SESSION['user_id'])) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Show payment confirmation popup
                     const popup = document.createElement('div');
                     popup.className = 'payment-popup';
                     popup.innerHTML = `
@@ -176,7 +201,6 @@ if (!isset($_SESSION['user_id'])) {
                     `;
                     document.body.appendChild(popup);
 
-                    // Add popup styles
                     const style = document.createElement('style');
                     style.textContent = `
                         .payment-popup {
@@ -208,8 +232,7 @@ if (!isset($_SESSION['user_id'])) {
                 }
             })
             .catch(error => {
-                document.getElementById('payment-status').innerHTML = 
-                    `<div class="alert alert-danger">Payment processing error. Please try again.</div>`;
+                alert('Payment processing error. Please try again.');
             });
         }
     </script>
