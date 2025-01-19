@@ -84,6 +84,17 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="shape shape-3"></div>
 </div>
 
+<div class="d-flex gap-3">
+    <a href="scan_qr.php" class="btn btn-primary flex-fill">
+        <i class="bi bi-qr-code-scan"></i> Scan to Pay
+    </a>
+    <a href="generate_qr.php" class="btn btn-success flex-fill">
+        <i class="bi bi-qr-code"></i> Generate QR
+    </a>
+    <a href="generate_link.php" class="btn btn-info flex-fill">
+        <i class="bi bi-link-45deg"></i> Payment Link
+    </a>
+</div>
 
     <div class="container mt-4">
     <?php if (isset($_SESSION['success'])): ?>
@@ -133,6 +144,37 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
+
+
+        <?php if(isset($_SESSION['user_id'])): ?>
+    <?php
+    $stmt = $db->prepare("
+        SELECT pl.*, u.username as merchant_name 
+        FROM payment_links pl 
+        JOIN users u ON pl.merchant_id = u.id 
+        WHERE pl.recipient_username = ? AND pl.status = 'active'
+    ");
+    $stmt->execute([$_SESSION['username']]);
+    $pending_payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
+    
+    <?php if(count($pending_payments) > 0): ?>
+        <div class="payment-requests">
+            <h5>Payment Requests</h5>
+            <?php foreach($pending_payments as $request): ?>
+                <div class="payment-request-card">
+                    <p>Amount: K<?= $request['amount'] ?></p>
+                    <p>From: <?= $request['merchant_name'] ?></p>
+                    <p>Description: <?= $request['description'] ?></p>
+                    <button onclick="payRequest('<?= $request['link_token'] ?>')" class="btn btn-primary">Pay Now</button>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
+
+
+
 
         <div class="row mb-4">
             <div class="col-md-12">
