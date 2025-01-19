@@ -361,7 +361,39 @@ footer {
     width: 150px;
 }
 
-.card-header .d-flex {
+.dashboard-page .card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.table {
+    background: transparent;
+    color: white;
+}
+
+.table thead th {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.table tbody td {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.form-control, .form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}.card-header .d-flex {
     flex-wrap: wrap;
     gap: 10px;
 }
