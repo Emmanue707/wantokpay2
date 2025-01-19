@@ -1,13 +1,49 @@
-/* Dashboard Gradient and Animation */
+/* Primary Dashboard Styling - Maximum Priority */
+.dashboard-page * {
+    z-index: 1;
+}
+
 .dashboard-page {
-    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-    background-size: 400% 400%;
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d) !important;
+    background-size: 400% 400% !important;
     animation: gradientBG 15s ease infinite;
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
-    overflow-x: hidden;
-    position: relative;
-    color: white;
+}
+
+/* Force Transparency on All Cards */
+.dashboard-page .card,
+.dashboard-page .table,
+.dashboard-page .modal-content,
+.dashboard-page .navbar {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+/* Override Bootstrap Table Colors */
+.dashboard-page .table th,
+.dashboard-page .table td,
+.dashboard-page .card-header,
+.dashboard-page .card-body {
+    background: transparent !important;
+    color: white !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Force White Text */
+.dashboard-page h1,
+.dashboard-page h2,
+.dashboard-page h3,
+.dashboard-page h4,
+.dashboard-page h5,
+.dashboard-page h6,
+.dashboard-page p,
+.dashboard-page label,
+.dashboard-page .form-control,
+.dashboard-page .btn {
+    color: white !important;
 }
 
 /* Floating Shapes */
@@ -34,6 +70,7 @@
 .dashboard-page h5 {
     background: linear-gradient(to right, #fff, #e0e0e0);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 700;
     margin-bottom: 1.5rem;
@@ -106,15 +143,4 @@
     .table-responsive {
         margin: 0 -1rem;
     }
-}
-
-/* Override Bootstrap defaults */
-.dashboard-page .card,
-.dashboard-page .table,
-.dashboard-page .card-header,
-.dashboard-page .card-body {
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white !important;
 }
