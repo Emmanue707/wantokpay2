@@ -101,62 +101,32 @@ if (!isset($_SESSION['user_id'])) {
 
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        let html5QrcodeScanner;
+        let html5QrCode;
 
         // Function to start camera with a fallback
         const startCamera = async () => {
             try {
-                // Try accessing back camera first
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        facingMode: { exact: "environment" },
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 }
-                    }
-                });
-                
-                // Initialize the HTML5 QR code scanner
-                html5QrcodeScanner = new Html5QrcodeScanner(
-                    "reader",
+                // Initialize QR scanner with minimal configuration
+                html5QrCode = new Html5Qrcode("reader");
+
+                // Simple camera start
+                await html5QrCode.start(
+                    { facingMode: "environment" },
                     {
                         fps: 10,
                         qrbox: 250,
-                        aspectRatio: 1.0,
-                        showTorchButtonIfSupported: true,
-                        rememberLastUsedCamera: true
                     },
-                    false
+                    (decodedText, decodedResult) => {
+                        // Handle success
+                        onScanSuccess(decodedText);
+                    },
+                    (errorMessage) => {
+                        // Keep scanning
+                    }
                 );
-
-                // Render the scanner
-                html5QrcodeScanner.render(onScanSuccess);
-            } catch (error) {
-                console.error('Back camera not accessible, trying front camera... ', error);
-                try {
-                    // Fallback to front camera if back camera fails
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: "user" }
-                    });
-
-                    // Initialize the HTML5 QR code scanner with front camera
-                    html5QrcodeScanner = new Html5QrcodeScanner(
-                        "reader",
-                        {
-                            fps: 10,
-                            qrbox: 250,
-                            aspectRatio: 1.0,
-                            showTorchButtonIfSupported: true,
-                            rememberLastUsedCamera: true
-                        },
-                        false
-                    );
-
-                    // Render the scanner
-                    html5QrcodeScanner.render(onScanSuccess);
-                } catch (err) {
-                    alert('Unable to access camera. Please check permissions.');
-                    console.error('Error accessing camera: ', err);
-                }
+            } catch (err) {
+                console.log("Camera start error:", err);
+                alert('Unable to access camera. Please check permissions.');
             }
         };
 
