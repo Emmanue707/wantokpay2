@@ -103,16 +103,20 @@
         padding: 12px;
         margin: 0;
     }
-
     /* Transaction Filters Mobile View */
     .card-header .d-flex {
         flex-direction: column;
         gap: 10px;
     }
-
-    #searchTransactions, 
-    #timeFilter {
-        width: 100%;
+    
+    .card-header .d-flex .d-flex {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .form-select-sm, .form-control-sm {
+        flex: 1;
+        min-width: 0;
     }
 
     /* Table Mobile View */
@@ -129,15 +133,12 @@
     .d-flex.gap-3.flex-wrap {
         gap: 10px !important;
     }
-    
-    #searchTransactions,
-    #timeFilter,
-    #typeFilter {
-        width: 100%;
-        margin-bottom: 5px;
-    }
 }
 
+.form-select-sm, .form-control-sm {
+    min-width: 100px;
+    background: rgba(255, 255, 255, 0.1);
+}
 .form-select {
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
