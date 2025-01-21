@@ -11,28 +11,47 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.dashboard-page .floating-shapes {
+    opacity: 0.15; /* Reduce opacity */
+    pointer-events: none; /* Prevent interaction */
+    z-index: 0; /* Keep shapes behind content */
+}
+
+.dashboard-page .container {
+    position: relative;
+    z-index: 2; /* Ensure content stays above shapes */
+}
+
 /* Force Transparency on All Cards */
 .dashboard-page .card,
-.dashboard-page .table,
 .dashboard-page .modal-content,
 .dashboard-page .navbar {
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(8px) !important;
+    background: rgba(255, 255, 255, 0.18) !important;
+    backdrop-filter: blur(12px) !important; /* Increase blur effect */
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     color: white !important;
+}
+
+.dashboard-page .table {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.2) !important;
 }
 
 /* Override Bootstrap Table Colors */
 .dashboard-page .table th,
 .dashboard-page .table td,
-.dashboard-page .card-header,
 .dashboard-page .card-body {
     background: transparent !important;
     color: white !important;
     border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-/* Force White Text */
+.dashboard-page .card-header {
+    background: rgba(255, 255, 255, 0.25) !important;
+    color: white !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}/* Force White Text */
 .dashboard-page h1,
 .dashboard-page h2,
 .dashboard-page h3,
