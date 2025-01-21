@@ -95,29 +95,35 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="row mb-4">
             <div class="col-md-12">
-            <div class="card dashboard-card">`
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h5 class="card-title mb-0">Payment Methods</h5>
-                                <?php if ($user['stripe_customer_id']): ?>
-                                    <p class="text-success mb-0"><i class="bi bi-credit-card"></i> Card Linked</p>
-                                <?php else: ?>
-                                    <p class="text-warning mb-0"><i class="bi bi-exclamation-circle"></i> No Card Linked</p>
-                                <?php endif; ?>
-                            </div>
-                            <div>
-                                <?php if (!$user['stripe_customer_id']): ?>
-                                    <a href="link_card.php" class="btn btn-primary">Link Card</a>
-                                <?php else: ?>
-                                    <a href="link_card.php" class="btn btn-outline-primary">Update Card</a>
-                                <?php endif; ?>
-                            </div>
+            <div class="card payment-method-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Payment Methods</h5>
+                            <?php if ($user['stripe_customer_id']): ?>
+                                <div class="status-indicator card-linked">
+                                    <i class="bi bi-credit-card-fill text-success"></i>
+                                    <span class="text-success">Card Active & Ready</span>
+                                </div>
+                            <?php else: ?>
+                                <div class="status-indicator">
+                                    <i class="bi bi-exclamation-circle text-warning"></i>
+                                    <span class="text-warning">No Card Linked</span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div>
+                            <?php if (!$user['stripe_customer_id']): ?>
+                                <a href="link_card.php" class="btn btn-link-card">Link Card</a>
+                            <?php else: ?>
+                                <a href="link_card.php" class="btn btn-link-card">Update Card</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
 
         <?php if(isset($_SESSION['user_id'])): ?>
