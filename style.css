@@ -470,3 +470,40 @@ label {
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(102, 178, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
     }
 }
+
+/* Payment Method Text */
+.dashboard-page .card-title {
+    font-size: 1.8rem;
+    color: #66B2FF;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(102, 178, 255, 0.3);
+    letter-spacing: 0.5px;
+}
+
+.dashboard-page .status-indicator span {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.dashboard-page .text-success {
+    color: #4CAF50 !important;
+    text-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+/* Update Card Button */
+.dashboard-page .btn-outline-primary {
+    background: rgba(10, 122, 255, 0.15);
+    border: 2px solid #0A7AFF;
+    color: #66B2FF !important;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.dashboard-page .btn-outline-primary:hover {
+    background: #0A7AFF;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(10, 122, 255, 0.3);
+}
