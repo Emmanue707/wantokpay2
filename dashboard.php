@@ -325,76 +325,64 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Add the new transaction filtering script -->
     <script>
-document.getElementById('userProfileBtn').addEventListener('click', async () => {
-    try {
-        const response = await fetch('user_details.php');
-        const userData = await response.json();
-        
-        document.getElementById('profileUsername').textContent = userData.username;
-        document.getElementById('profileEmail').textContent = userData.email;
-        document.getElementById('profileCreatedAt').textContent = new Date(userData.created_at).toLocaleDateString();
-        
-        new bootstrap.Modal(document.getElementById('userProfileModal')).show();
-    } catch (error) {
-        console.error('Error fetching user details:', error);
-    }
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchTransactions');
-    const timeFilter = document.getElementById('timeFilter');
-    const typeFilter = document.getElementById('typeFilter');
-    const transactionRows = document.querySelectorAll('.transaction-table tbody tr');
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchTransactions');
+            const timeFilter = document.getElementById('timeFilter');
+            const typeFilter = document.getElementById('typeFilter');
+            const transactionRows = document.querySelectorAll('.transaction-table tbody tr');
 
-    function filterTransactions() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const timeValue = timeFilter.value;
-        const typeValue = typeFilter.value;
-        const currentDate = new Date();
+            function filterTransactions() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const timeValue = timeFilter.value;
+                const typeValue = typeFilter.value;
+                const currentDate = new Date();
 
-        transactionRows.forEach(row => {
-            // Get row data
-            const rowText = row.textContent.toLowerCase();
-            const dateCell = row.querySelector('td:first-child').textContent;
-            const transactionDate = new Date(dateCell);
-            const typeCell = row.querySelector('.badge').textContent;
-            const detailsCell = row.querySelector('td:nth-child(3)').textContent;
+                transactionRows.forEach(row => {
+                    // Get row data
+                    const rowText = row.textContent.toLowerCase();
+                    const dateCell = row.querySelector('td:first-child').textContent;
+                    const transactionDate = new Date(dateCell);
+                    const typeCell = row.querySelector('.badge').textContent;
+                    const detailsCell = row.querySelector('td:nth-child(3)').textContent;
 
-            // Search filter
-            const matchesSearch = rowText.includes(searchTerm);
+                    // Search filter
+                    const matchesSearch = rowText.includes(searchTerm);
 
-            // Time filter
-            let matchesTime = true;
-            if (timeValue === '30') {
-                const thirtyDaysAgo = new Date();
-                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-                matchesTime = transactionDate >= thirtyDaysAgo;
-            } else if (timeValue === 'year') {
-                matchesTime = transactionDate.getFullYear() === currentDate.getFullYear();
+                    // Time filter
+                    let matchesTime = true;
+                    if (timeValue === '30') {
+                        const thirtyDaysAgo = new Date();
+                        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                        matchesTime = transactionDate >= thirtyDaysAgo;
+                    } else if (timeValue === 'year') {
+                        matchesTime = transactionDate.getFullYear() === currentDate.getFullYear();
+                    }
+
+                    // Type filter
+                    let matchesType = true;
+                    if (typeValue === 'sent') {
+                        matchesType = detailsCell.includes('Paid to');
+                    } else if (typeValue === 'received') {
+                        matchesType = detailsCell.includes('Received from');
+                    } else if (typeValue === 'qr') {
+                        matchesType = typeCell.includes('QR');
+                    } else if (typeValue === 'manual') {
+                        matchesType = !typeCell.includes('QR');
+                    }
+
+                    // Show/hide row based on all filters
+                    row.style.display = (matchesSearch && matchesTime && matchesType) ? '' : 'none';
+                });
             }
 
-            // Type filter
-            let matchesType = true;
-            if (typeValue === 'sent') {
-                matchesType = detailsCell.includes('Paid to');
-            } else if (typeValue === 'received') {
-                matchesType = detailsCell.includes('Received from');
-            } else if (typeValue === 'qr') {
-                matchesType = typeCell.includes('QR');
-            } else if (typeValue === 'manual') {
-                matchesType = !typeCell.includes('QR');
-            }
-
-            // Show/hide row based on all filters
-            row.style.display = (matchesSearch && matchesTime && matchesType) ? '' : 'none';
+            // Add event listeners
+            searchInput.addEventListener('input', filterTransactions);
+            timeFilter.addEventListener('change', filterTransactions);
+            typeFilter.addEventListener('change', filterTransactions);
         });
-    }
-
-    // Add event listeners
-    searchInput.addEventListener('input', filterTransactions);
-    timeFilter.addEventListener('change', filterTransactions);
-    typeFilter.addEventListener('change', filterTransactions);
-});
-</script>
-
+    </script>
 </body>
 </html>
