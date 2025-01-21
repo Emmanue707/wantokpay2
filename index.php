@@ -82,12 +82,8 @@
                     </div>
                 </div>
 
-                <!-- Existing buttons -->
                 <div class="cta-container">
                     <?php if(!isset($_SESSION['user_id'])): ?>
-                        <a href="login.php" class="btn btn-glow btn-primary">Login</a>
-                        <a href="register.php" class="btn btn-glow btn-outline">Register</a>
-                    <?php else: ?>
                         <a href="dashboard.php" class="btn btn-glow btn-primary">Dashboard</a>
                     <?php endif; ?>
                 </div>
