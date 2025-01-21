@@ -90,7 +90,23 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </nav>
 
+<div class="d-flex gap-3 flex-wrap">
+    <input type="text" id="searchTransactions" class="form-control" placeholder="Search transactions...">
+    
+    <select id="timeFilter" class="form-select">
+        <option value="all">All Time</option>
+        <option value="30">Last 30 Days</option>
+        <option value="year">This Year</option>
+    </select>
 
+    <select id="typeFilter" class="form-select">
+        <option value="all">All Transactions</option>
+        <option value="sent">Sent Payments</option>
+        <option value="received">Received Payments</option>
+        <option value="qr">QR Payments</option>
+        <option value="manual">Manual Payments</option>
+    </select>
+</div>
 
     <div class="container mt-4">
     <?php if (isset($_SESSION['success'])): ?>
@@ -334,22 +350,28 @@ document.getElementById('userProfileBtn').addEventListener('click', async () => 
     } catch (error) {
         console.error('Error fetching user details:', error);
     }
-});
-
 const searchInput = document.getElementById('searchTransactions');
 const timeFilter = document.getElementById('timeFilter');
+const typeFilter = document.getElementById('typeFilter');
 const transactionRows = document.querySelectorAll('tbody tr');
 
 function filterTransactions() {
     const searchTerm = searchInput.value.toLowerCase();
     const filterValue = timeFilter.value;
+    const typeValue = typeFilter.value;
     const currentDate = new Date();
 
     transactionRows.forEach(row => {
         const text = row.textContent.toLowerCase();
         const date = new Date(row.querySelector('td:first-child').textContent);
+        const isPaid = row.querySelector('.text-danger') !== null;
+        const isReceived = row.querySelector('.text-success') !== null;
+        const isQR = row.querySelector('.badge').textContent.includes('QR');
+        
         let showByDate = true;
+        let showByType = true;
 
+        // Date filtering
         if (filterValue === '30') {
             const thirtyDaysAgo = new Date(currentDate.setDate(currentDate.getDate() - 30));
             showByDate = date >= thirtyDaysAgo;
@@ -357,13 +379,30 @@ function filterTransactions() {
             showByDate = date.getFullYear() === currentDate.getFullYear();
         }
 
+        // Type filtering
+        switch(typeValue) {
+            case 'sent':
+                showByType = isPaid;
+                break;
+            case 'received':
+                showByType = isReceived;
+                break;
+            case 'qr':
+                showByType = isQR;
+                break;
+            case 'manual':
+                showByType = !isQR;
+                break;
+        }
+
         const showBySearch = text.includes(searchTerm);
-        row.style.display = (showBySearch && showByDate) ? '' : 'none';
+        row.style.display = (showBySearch && showByDate && showByType) ? '' : 'none';
     });
 }
 
 searchInput.addEventListener('input', filterTransactions);
 timeFilter.addEventListener('change', filterTransactions);
+typeFilter.addEventListener('change', filterTransactions);
 </script>
 
 </body>
