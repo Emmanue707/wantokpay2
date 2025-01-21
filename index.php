@@ -45,11 +45,7 @@
         </div>
     </nav>
 
-    <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-    </div>
+   
     <div class="hero-section">
         <div class="container">
             <div class="text-center hero-content">

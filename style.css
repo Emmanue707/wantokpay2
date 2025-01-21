@@ -9,10 +9,7 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* Remove floating shapes */
-.dashboard-page .floating-shapes {
-    display: none;
-}
+
 
 .dashboard-page .container {
     position: relative;
