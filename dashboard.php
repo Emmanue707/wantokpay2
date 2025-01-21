@@ -148,23 +148,18 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 <div class="card dashboard-card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5>Notifications</h5>
-        <div>
-            <span class="badge bg-primary" id="unreadCount"></span>
-            <button class="btn btn-sm btn-outline-light ms-2" onclick="markAllAsRead()">Mark All Read</button>
-        </div>
+        <h5>Payment Requests</h5>
+        <span class="badge bg-primary" id="unreadCount"></span>
     </div>
     <div class="card-body">
-        <div class="notifications-container">
+        <div class="notifications-container" style="max-height: 400px; overflow-y: auto;">
             <?php
             $stmt = $db->prepare("
-                SELECT n.*, 
-                       u.username as sender_name,
-                       t.status as transaction_status,
-                       t.type as transaction_type
+                SELECT n.*, u.username as requester_name, pl.status as payment_status,
+                        n.created_at as notification_time
                 FROM notifications n
-                LEFT JOIN users u ON u.id = n.user_id
-                LEFT JOIN transactions t ON t.id = n.transaction_id
+                JOIN users u ON u.id = n.user_id
+                LEFT JOIN payment_links pl ON pl.link_token = n.link_token
                 WHERE n.user_id = ?
                 ORDER BY n.created_at DESC
             ");
@@ -172,29 +167,26 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
             foreach($notifications as $notification): 
-                $isUnread = $notification['status'] === 'unread';
-                $isPaid = $notification['transaction_status'] === 'completed';
-                $timeAgo = time_elapsed_string($notification['created_at']);
-                $icon = getNotificationIcon($notification['payment_type']);
+                $isUnread = !$notification['is_read'];
+                $isPaid = $notification['payment_status'] === 'used';
+                $timeAgo = time_elapsed_string($notification['notification_time']);
             ?>
-                <div class="notification-item <?= $isUnread ? 'unread' : '' ?>" 
-                     onclick="markAsRead(<?= $notification['id'] ?>)">
-                    <div class="notification-icon">
-                        <i class="bi <?= $icon ?>"></i>
-                    </div>
+                <div class="notification-item <?= $isUnread ? 'unread' : '' ?>">
                     <div class="notification-content">
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between align-items-top">
                             <h6><?= htmlspecialchars($notification['message']) ?></h6>
-                            <small class="notification-time"><?= $timeAgo ?></small>
+                            <small class="text-muted"><?= $timeAgo ?></small>
                         </div>
-                        <?php if($notification['type'] === 'payment_request'): ?>
-                            <?php if(!$isPaid): ?>
-                                <a href="send_money.php?token=<?= $notification['link_token'] ?>" 
-                                   class="btn btn-primary btn-sm mt-2">Pay Now</a>
-                            <?php else: ?>
+                        <p class="mb-2">Amount: K<?= number_format($notification['amount'], 2) ?></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <?php if($isPaid): ?>
                                 <span class="badge bg-success">Paid</span>
+                            <?php else: ?>
+                                <a href="send_money.php?token=<?= $notification['link_token'] ?>" 
+                                    class="btn btn-primary btn-sm">Pay Now</a>
                             <?php endif; ?>
-                        <?php endif; ?>
+                            <small class="text-muted">From: <?= htmlspecialchars($notification['requester_name']) ?></small>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -202,62 +194,35 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<script>
-function markAsRead(notificationId) {
-    fetch('mark_notification_read.php', {
-        method: 'POST',
-        body: JSON.stringify({ notification_id: notificationId })
-    });
-}
 
-function markAllAsRead() {
-    fetch('mark_all_notifications_read.php', {
-        method: 'POST'
-    }).then(() => {
-        document.querySelectorAll('.notification-item.unread')
-            .forEach(item => item.classList.remove('unread'));
-    });
-}
-
-function getNotificationIcon(type) {
-    const icons = {
-        'qr_payment': 'bi-qr-code',
-        'manual_transfer': 'bi-cash',
-        'payment_request': 'bi-envelope',
-        'default': 'bi-bell'
-    };
-    return icons[type] || icons.default;
-}
-</script>
         <div class="row mb-4">
             <div class="col-md-12">
-                <div class="card dashboard-card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Quick Actions</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex gap-3">
-                            <a href="scan_qr.php" class="btn btn-primary flex-fill">
-                                <i class="bi bi-qr-code-scan"></i> Scan to Pay
-                            </a>
-                            <a href="generate_qr.php" class="btn btn-success flex-fill">
-                                <i class="bi bi-qr-code"></i> Generate QR
-                            </a>
-                            <a href="generate_link.php" class="btn btn-info flex-fill">
-                                <i class="bi bi-link-45deg"></i> Request Payment
-                            </a>
-                            <a href="send_money.php" class="btn btn-warning flex-fill">
-                                <i class="bi bi-link"></i> Manual Payment
-                            </a>
-                        </div>
+            <div class="card dashboard-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex gap-3">
+                        <a href="scan_qr.php" class="btn btn-primary flex-fill">
+                            <i class="bi bi-qr-code-scan"></i> Scan to Pay
+                        </a>
+                        <a href="generate_qr.php" class="btn btn-success flex-fill">
+                            <i class="bi bi-qr-code"></i> Generate QR
+                        </a>
+                        <a href="generate_link.php" class="btn btn-info flex-fill">
+                            <i class="bi bi-link-45deg"></i> Request Payment
+                        </a>
+                        <a href="send_money.php" class="btn btn-warning flex-fill">
+                            <i class="bi bi-link"></i> Manual Payment
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-
+    </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="card dashboard-card">
+            <div class="card dashboard-card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="mb-0">Recent Transactions</h5>
