@@ -27,9 +27,9 @@ if (isset($_GET['token'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <style>
-        .payment-link-input {
+        .payment-section {
             background: #173A5E;
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
@@ -43,6 +43,16 @@ if (isset($_GET['token'])) {
             color: #66B2FF;
             margin-bottom: 10px;
         }
+        .section-title {
+            color: #66B2FF;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .divider {
+            border-top: 1px solid rgba(102, 178, 255, 0.2);
+            margin: 30px 0;
+        }
     </style>
 </head>
 <body class="dashboard-page">
@@ -55,7 +65,9 @@ if (isset($_GET['token'])) {
                     </div>
                     <div class="card-body">
                         <?php if (!$paymentDetails): ?>
-                            <div class="payment-link-input">
+                            <!-- Payment Link Section -->
+                            <div class="payment-section">
+                                <h6 class="section-title">Payment Link</h6>
                                 <form id="linkForm">
                                     <div class="mb-3">
                                         <label>Paste Payment Link</label>
@@ -64,9 +76,29 @@ if (isset($_GET['token'])) {
                                     <button type="submit" class="btn btn-primary w-100">Load Payment Details</button>
                                 </form>
                             </div>
-                        <?php endif; ?>
 
-                        <?php if ($paymentDetails): ?>
+                            <div class="divider"></div>
+
+                            <!-- Custom Payment Section -->
+                            <div class="payment-section">
+                                <h6 class="section-title">Custom Payment</h6>
+                                <form id="customPaymentForm">
+                                    <div class="mb-3">
+                                        <label>Username</label>
+                                        <input type="text" name="recipient_username" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Amount (K)</label>
+                                        <input type="number" name="amount" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Description</label>
+                                        <input type="text" name="description" class="form-control" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Send Payment</button>
+                                </form>
+                            </div>
+                        <?php else: ?>
                             <div class="payment-details">
                                 <h6>Payment Request Details</h6>
                                 <p><strong>To:</strong> <?= htmlspecialchars($paymentDetails['merchant_name']) ?></p>
@@ -74,7 +106,7 @@ if (isset($_GET['token'])) {
                                 <p><strong>Description:</strong> <?= htmlspecialchars($paymentDetails['description']) ?></p>
                             </div>
 
-                            <form id="payment-form" method="POST">
+                            <form id="payment-form">
                                 <input type="hidden" name="token" value="<?= $_GET['token'] ?>">
                                 <input type="hidden" name="recipient_username" value="<?= $paymentDetails['merchant_name'] ?>">
 
@@ -107,9 +139,9 @@ if (isset($_GET['token'])) {
             }
         });
 
-        document.getElementById('payment-form')?.addEventListener('submit', async (e) => {
+        const handlePaymentSubmit = async (formElement, e) => {
             e.preventDefault();
-            const formData = new FormData(e.target);
+            const formData = new FormData(formElement);
 
             try {
                 const response = await fetch('process_payment.php', {
@@ -126,7 +158,12 @@ if (isset($_GET['token'])) {
             } catch (error) {
                 console.error('Error:', error);
             }
-        });
+        };
+
+        document.getElementById('payment-form')?.addEventListener('submit', 
+            (e) => handlePaymentSubmit(e.target, e));
+        document.getElementById('customPaymentForm')?.addEventListener('submit', 
+            (e) => handlePaymentSubmit(e.target, e));
     </script>
 </body>
 </html>
