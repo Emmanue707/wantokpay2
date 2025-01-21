@@ -231,32 +231,33 @@ function getNotificationIcon(type) {
 </script>
         <div class="row mb-4">
             <div class="col-md-12">
-            <div class="card dashboard-card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Quick Actions</h5>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex gap-3">
-                        <a href="scan_qr.php" class="btn btn-primary flex-fill">
-                            <i class="bi bi-qr-code-scan"></i> Scan to Pay
-                        </a>
-                        <a href="generate_qr.php" class="btn btn-success flex-fill">
-                            <i class="bi bi-qr-code"></i> Generate QR
-                        </a>
-                        <a href="generate_link.php" class="btn btn-info flex-fill">
-                            <i class="bi bi-link-45deg"></i> Request Payment
-                        </a>
-                        <a href="send_money.php" class="btn btn-warning flex-fill">
-                            <i class="bi bi-link"></i> Manual Payment
-                        </a>
+                <div class="card dashboard-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex gap-3">
+                            <a href="scan_qr.php" class="btn btn-primary flex-fill">
+                                <i class="bi bi-qr-code-scan"></i> Scan to Pay
+                            </a>
+                            <a href="generate_qr.php" class="btn btn-success flex-fill">
+                                <i class="bi bi-qr-code"></i> Generate QR
+                            </a>
+                            <a href="generate_link.php" class="btn btn-info flex-fill">
+                                <i class="bi bi-link-45deg"></i> Request Payment
+                            </a>
+                            <a href="send_money.php" class="btn btn-warning flex-fill">
+                                <i class="bi bi-link"></i> Manual Payment
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
         <div class="row">
             <div class="col-md-12">
-            <div class="card dashboard-card">
+                <div class="card dashboard-card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="mb-0">Recent Transactions</h5>
