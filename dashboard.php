@@ -90,27 +90,6 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </nav>
 
-<div class="card-header">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0">Recent Transactions</h5>
-        <div class="d-flex gap-3">
-            <input type="text" id="searchTransactions" class="form-control" placeholder="Search transactions...">
-            <select id="typeFilter" class="form-select">
-                <option value="all">All Types</option>
-                <option value="sent">Sent Payments</option>
-                <option value="received">Received Payments</option>
-                <option value="qr">QR Payments</option>
-                <option value="manual">Manual Payments</option>
-            </select>
-            <select id="timeFilter" class="form-select">
-                <option value="all">All Time</option>
-                <option value="30">Last 30 Days</option>
-                <option value="year">This Year</option>
-            </select>
-        </div>
-    </div>
-</div>
-
     <div class="container mt-4">
     <?php if (isset($_SESSION['success'])): ?>
     <div class="alert alert-success alert-dismissible fade show">
