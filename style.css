@@ -1,11 +1,10 @@
-/* Main Dashboard Layout */
+/* Dashboard Styling */
 .dashboard-page {
     background: #0A1929;
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
 }
 
-/* Navbar Styling */
 .dashboard-page .navbar {
     background: #132F4C !important;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -25,12 +24,12 @@
     color: #66B2FF !important;
 }
 
-/* Card Styling */
 .dashboard-page .card {
     background: #132F4C !important;
     border: none !important;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    margin-bottom: 20px;
 }
 
 .dashboard-page .card-header {
@@ -39,24 +38,32 @@
     border-radius: 12px 12px 0 0;
 }
 
-/* Table Styling */
+.dashboard-page .card-header h5 {
+    color: #66B2FF;
+    font-weight: 600;
+}
+
+.dashboard-page .form-control {
+    background: #173A5E !important;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #B2BAC2 !important;
+    border-radius: 8px;
+}
+
 .dashboard-page .table {
-    background: transparent !important;
+    color: #B2BAC2 !important;
 }
 
 .dashboard-page .table th {
     background: #173A5E !important;
     color: #66B2FF !important;
-    font-weight: 500;
-    border-bottom: none;
-}
-
-.dashboard-page .table td {
-    color: #B2BAC2 !important;
     border-color: rgba(255,255,255,0.1);
 }
 
-/* Button Styling */
+.dashboard-page .table td {
+    border-color: rgba(255,255,255,0.1);
+}
+
 .dashboard-page .btn {
     border-radius: 8px;
     padding: 10px 20px;
@@ -64,68 +71,26 @@
     transition: all 0.3s ease;
 }
 
-.dashboard-page .btn-primary {
-    background: #0A7AFF !important;
-    border: none;
+.dashboard-page .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(10,122,255,0.3);
 }
 
-.dashboard-page .btn-success {
-    background: #1DB954 !important;
-    border: none;
-}
+/* Quick Actions Buttons */
+.dashboard-page .btn-primary { background: #0A7AFF !important; border: none; }
+.dashboard-page .btn-success { background: #1DB954 !important; border: none; }
+.dashboard-page .btn-info { background: #00B4D8 !important; border: none; }
+.dashboard-page .btn-warning { background: #FF9800 !important; border: none; }
 
-.dashboard-page .btn-info {
-    background: #00B4D8 !important;
-    border: none;
-}
-
-.dashboard-page .btn-warning {
-    background: #FF9800 !important;
-    border: none;
-}
-
-/* Form Controls */
-.dashboard-page .form-control {
-    background: #173A5E !important;
-    border: 1px solid rgba(255,255,255,0.1);
-    color: #B2BAC2 !important;
-}
-
-.dashboard-page .form-control:focus {
-    box-shadow: 0 0 0 2px rgba(102,178,255,0.25);
-}
-
-/* Badge Styling */
-.dashboard-page .badge {
-    padding: 6px 12px;
-    border-radius: 6px;
-}
-
-/* Text Colors */
-.dashboard-page .text-success {
-    color: #1DB954 !important;
-}
-
-.dashboard-page .text-danger {
-    color: #FF4B4B !important;
-}
-
-/* Footer */
-.dashboard-page footer {
-    background: #132F4C;
-    padding: 20px 0;
-    margin-top: 40px;
-}
-
-/* Responsive Adjustments */
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
-    .dashboard-page .card {
-        margin-bottom: 20px;
-    }
-    
     .dashboard-page .btn {
         width: 100%;
         margin-bottom: 10px;
+    }
+    
+    .dashboard-page .card {
+        margin: 1rem;
     }
 }
 /* Landing Page Styling */
