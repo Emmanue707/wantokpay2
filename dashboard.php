@@ -339,7 +339,61 @@ document.getElementById('userProfileBtn').addEventListener('click', async () => 
     } catch (error) {
         console.error('Error fetching user details:', error);
     }
+});
+
 const searchInput = document.getElementById('searchTransactions');
+const timeFilter = document.getElementById('timeFilter');
+const typeFilter = document.getElementById('typeFilter');
+const transactionRows = document.querySelectorAll('tbody tr');
+
+function filterTransactions() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filterValue = timeFilter.value;
+    const typeValue = typeFilter.value;
+    const currentDate = new Date();
+
+    transactionRows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        const date = new Date(row.querySelector('td:first-child').textContent);
+        const isPaid = row.querySelector('.text-danger') !== null;
+        const isReceived = row.querySelector('.text-success') !== null;
+        const isQR = row.querySelector('.badge').textContent.includes('QR');
+        
+        let showByDate = true;
+        let showByType = true;
+
+        // Date filtering
+        if (filterValue === '30') {
+            const thirtyDaysAgo = new Date(currentDate.setDate(currentDate.getDate() - 30));
+            showByDate = date >= thirtyDaysAgo;
+        } else if (filterValue === 'year') {
+            showByDate = date.getFullYear() === currentDate.getFullYear();
+        }
+
+        // Type filtering
+        switch(typeValue) {
+            case 'sent':
+                showByType = isPaid;
+                break;
+            case 'received':
+                showByType = isReceived;
+                break;
+            case 'qr':
+                showByType = isQR;
+                break;
+            case 'manual':
+                showByType = !isQR;
+                break;
+        }
+
+        const showBySearch = text.includes(searchTerm);
+        row.style.display = (showBySearch && showByDate && showByType) ? '' : 'none';
+    });
+}
+
+searchInput.addEventListener('input', filterTransactions);
+timeFilter.addEventListener('change', filterTransactions);
+typeFilter.addEventListener('change', filterTransactions);
 const timeFilter = document.getElementById('timeFilter');
 const typeFilter = document.getElementById('typeFilter');
 const transactionRows = document.querySelectorAll('tbody tr');
