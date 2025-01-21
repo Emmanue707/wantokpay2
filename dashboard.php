@@ -173,20 +173,14 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
                 <div class="notification-item <?= $isUnread ? 'unread' : '' ?>">
                     <div class="notification-content">
-                        <div class="d-flex justify-content-between align-items-top">
+                        <div class="d-flex justify-content-between">
                             <h6><?= htmlspecialchars($notification['message']) ?></h6>
-                            <small class="text-muted"><?= $timeAgo ?></small>
+                            <small class="notification-time"><?= $timeAgo ?></small>
                         </div>
-                        <p class="mb-2">Amount: K<?= number_format($notification['amount'], 2) ?></p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <?php if($isPaid): ?>
-                                <span class="badge bg-success">Paid</span>
-                            <?php else: ?>
-                                <a href="send_money.php?token=<?= $notification['link_token'] ?>" 
-                                    class="btn btn-primary btn-sm">Pay Now</a>
-                            <?php endif; ?>
-                            <small class="text-muted">From: <?= htmlspecialchars($notification['requester_name']) ?></small>
-                        </div>
+                        <?php if($notification['type'] === 'payment_request' && !$isPaid): ?>
+                            <a href="send_money.php?token=<?= $notification['link_token'] ?>" 
+                               class="btn btn-primary btn-sm mt-2">Pay Now</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
