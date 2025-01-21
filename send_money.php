@@ -1,12 +1,22 @@
 <?php
 session_start();
 require_once 'Database.php';
-require_once 'User.php';
 require_once 'vendor/autoload.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
+$db = new Database();
+$db = $db->getConnection();
+
+// Get payment details if token exists
+$paymentDetails = null;
+if (isset($_GET['token'])) {
+    $stmt = $db->prepare("
+        SELECT pl.*, u.username as merchant_name 
+        FROM payment_links pl 
+        JOIN users u ON pl.merchant_id = u.id 
+        WHERE pl.link_token = ? AND pl.status = 'active'
+    ");
+    $stmt->execute([$_GET['token']]);
+    $paymentDetails = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
 <!DOCTYPE html>
@@ -16,10 +26,10 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send Money - WANTOK PAY</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
-<body>
+<body class="dashboard-page">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="index.php">WANTOK PAY</a>
@@ -53,26 +63,38 @@ if (!isset($_SESSION['user_id'])) {
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Send Money</h5>
+                        <h5>Send Payment</h5>
                     </div>
                     <div class="card-body">
-                        <form id="payment-form" method="POST">
-                            <div class="mb-3">
-                                <label>Recipient Email</label>
-                                <input type="email" name="recipient_email" class="form-control" required>
+                        <?php if ($paymentDetails): ?>
+                            <div class="payment-details mb-4">
+                                <h6>Payment Request Details</h6>
+                                <p>From: <?= htmlspecialchars($paymentDetails['merchant_name']) ?></p>
+                                <p>Description: <?= htmlspecialchars($paymentDetails['description']) ?></p>
                             </div>
+                        <?php endif; ?>
+
+                        <form id="payment-form">
+                            <?php if ($paymentDetails): ?>
+                                <input type="hidden" name="token" value="<?= $_GET['token'] ?>">
+                            <?php endif; ?>
+
                             <div class="mb-3">
                                 <label>Amount (K)</label>
-                                <input type="number" name="amount" step="0.01" class="form-control" required>
+                                <input type="number" 
+                                       name="amount" 
+                                       class="form-control" 
+                                       value="<?= $paymentDetails ? $paymentDetails['amount'] : '' ?>"
+                                       <?= $paymentDetails && !empty($paymentDetails['recipient_username']) ? 'readonly' : '' ?> 
+                                       required>
                             </div>
-                            <div class="mb-3">
-                                <label>Card Details</label>
-                                <div id="card-element" class="form-control">
-                                    <!-- Stripe Elements will create the card input here -->
-                                </div>
-                                <div id="card-errors" class="text-danger mt-2"></div>
+
+                            <div id="card-element" class="form-control mb-3">
+                                <!-- Stripe card element -->
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Send Money</button>
+                            <div id="card-errors" class="text-danger mb-3"></div>
+
+                            <button type="submit" class="btn btn-primary w-100">Send Payment</button>
                         </form>
                     </div>
                 </div>
@@ -81,7 +103,6 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://js.stripe.com/v3/"></script>
     <script>
         const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
         const elements = stripe.elements();
@@ -91,18 +112,37 @@ if (!isset($_SESSION['user_id'])) {
         const form = document.getElementById('payment-form');
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const {token, error} = await stripe.createToken(card);
+
+            const {error, paymentMethod} = await stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+            });
 
             if (error) {
                 const errorElement = document.getElementById('card-errors');
                 errorElement.textContent = error.message;
-            } else {
-                const hiddenInput = document.createElement('input');
-                hiddenInput.setAttribute('type', 'hidden');
-                hiddenInput.setAttribute('name', 'stripeToken');
-                hiddenInput.setAttribute('value', token.id);
-                form.appendChild(hiddenInput);
-                form.submit();
+                return;
+            }
+
+            // Create payment
+            const formData = new FormData(form);
+            formData.append('payment_method_id', paymentMethod.id);
+
+            try {
+                const response = await fetch('process_payment.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    window.location.href = 'dashboard.php?payment=success';
+                } else {
+                    document.getElementById('card-errors').textContent = result.error;
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
         });
     </script>
