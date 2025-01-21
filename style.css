@@ -490,20 +490,12 @@ label {
     text-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
 }
 
-/* Update Card Button */
+/* Update Card Button Text */
 .dashboard-page .btn-outline-primary {
-    background: #66B2FF !important;
-    border: none;
-    color: #FFFFFF !important;
+    color: #66B2FF !important;
     font-weight: 600;
-    padding: 12px 30px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
-    box-shadow: 0 4px 15px rgba(102, 178, 255, 0.3);
-    position: relative;
-    z-index: 10;
 }
 
 .dashboard-page .btn-outline-primary:hover {
