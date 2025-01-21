@@ -501,7 +501,7 @@ label {
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
-    box-shadow: 0 4px 15px rgba(102, 178, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(39, 135, 231, 0.926);
 }
 
 .dashboard-page .btn-outline-primary:hover {
