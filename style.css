@@ -2,44 +2,13 @@
 .dashboard-page * {
     z-index: 1;
 }
-
 /* Modern gradient background */
 .dashboard-page {
-    background: linear-gradient(
-        45deg, 
-        #FF3CAC 0%, 
-        #784BA0 50%, 
-        #2B86C5 100%
-    ) !important;
-    background-size: 200% 200% !important;
-    animation: gradientFlow 15s ease infinite;
+    background: #1a237e !important; /* Deep blue */
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
 }
 
-/* Animated gradient flow */
-@keyframes gradientFlow {
-    0% { background-position: 0% 50% }
-    50% { background-position: 100% 50% }
-    100% { background-position: 0% 50% }
-}
-
-/* Sleek pattern overlay */
-.dashboard-page::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 100% 50%, transparent 20%, rgba(255,255,255,0.03) 21%, rgba(255,255,255,0.03) 34%, transparent 35%, transparent),
-        radial-gradient(circle at 0% 50%, transparent 20%, rgba(255,255,255,0.03) 21%, rgba(255,255,255,0.03) 34%, transparent 35%, transparent);
-    background-size: 50px 100px;
-    opacity: 0.6;
-    pointer-events: none;
-    z-index: 1;
-}
 /* Remove floating shapes */
 .dashboard-page .floating-shapes {
     display: none;
@@ -51,7 +20,13 @@
 }
 
 /* Force Transparency on All Cards */
-.dashboard-page .card,
+.dashboard-page .card {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white !important;
+}
+
 .dashboard-page .modal-content,
 .dashboard-page .navbar {
     background: rgba(255, 255, 255, 0.18) !important;
@@ -61,6 +36,12 @@
 }
 
 .dashboard-page .table {
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.dashboard-page .card-header {
+    background: rgba(255, 255, 255, 0.18) !important;
+}
     position: relative;
     z-index: 2;
     background: rgba(255, 255, 255, 0.2) !important;
