@@ -70,9 +70,13 @@ require_once 'vendor/autoload.php';
             </div>
         </div>
     </div>
-
     <script>
         const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
+
+        document.getElementById('requestType').addEventListener('change', function() {
+            document.getElementById('userField').style.display = 
+                this.value === 'specific' ? 'block' : 'none';
+        });
 
         document.getElementById('requestForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -91,19 +95,23 @@ require_once 'vendor/autoload.php';
                     const linkResult = document.getElementById('linkResult');
                     resultArea.style.display = 'block';
                     
-                    // Generate full payment link
-                    const fullLink = `${window.location.origin}/send_money.php?token=${data.clientSecret}`;
-                    linkResult.innerHTML = `
-                        <p>Payment Link Generated:</p>
-                        <div class="payment-link">${fullLink}</div>
-                    `;
-                    
-                    document.getElementById('copyButton').style.display = 'block';
+                    if(data.requestType === 'general') {
+                        const fullLink = `${window.location.origin}/${data.paymentLink}`;
+                        linkResult.innerHTML = `
+                            <p>Payment Link Generated:</p>
+                            <div class="payment-link">${fullLink}</div>
+                        `;
+                        document.getElementById('copyButton').style.display = 'block';
+                    } else {
+                        linkResult.innerHTML = '<p>Payment request sent successfully!</p>';
+                        document.getElementById('copyButton').style.display = 'none';
+                    }
                 }
             } catch (error) {
                 console.error('Error:', error);
             }
         });
+
         document.getElementById('copyButton').addEventListener('click', function() {
             const linkText = document.getElementById('linkResult').querySelector('strong').textContent;
             navigator.clipboard.writeText(linkText);

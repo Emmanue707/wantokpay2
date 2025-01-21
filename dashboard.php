@@ -126,34 +126,31 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-
-        <?php if(isset($_SESSION['user_id'])): ?>
-    <?php
-    $stmt = $db->prepare("
-        SELECT pl.*, u.username as merchant_name 
-        FROM payment_links pl 
-        JOIN users u ON pl.merchant_id = u.id 
-        WHERE pl.recipient_username = ? AND pl.status = 'active'
-    ");
-    $stmt->execute([$_SESSION['username']]);
-    $pending_payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    ?>
-    
-    <?php if(count($pending_payments) > 0): ?>
-        <div class="payment-requests">
-            <h5>Payment Requests</h5>
-            <?php foreach($pending_payments as $request): ?>
-                <div class="payment-request-card">
-                    <p>Amount: K<?= $request['amount'] ?></p>
-                    <p>From: <?= $request['merchant_name'] ?></p>
-                    <p>Description: <?= $request['description'] ?></p>
-                    <button onclick="payRequest('<?= $request['link_token'] ?>')" class="btn btn-primary">Pay Now</button>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-<?php endif; ?>
-
+<div class="card dashboard-card">
+    <div class="card-header">
+        <h5>Payment Requests</h5>
+    </div>
+    <div class="card-body">
+        <?php
+        $stmt = $db->prepare("
+            SELECT n.*, u.username as requester_name 
+            FROM notifications n
+            JOIN users u ON u.id = n.user_id
+            WHERE n.user_id = ? AND n.type = 'payment_request'
+            ORDER BY n.created_at DESC
+        ");
+        $stmt->execute([$_SESSION['user_id']]);
+        $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach($notifications as $notification): ?>
+            <div class="notification-item">
+                <p><?= htmlspecialchars($notification['message']) ?></p>
+                <a href="send_money.php?token=<?= $notification['link_token'] ?>" 
+                            class="btn btn-primary">Pay Now</a>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
 
 
 

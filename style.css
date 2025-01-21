@@ -503,3 +503,18 @@ label {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(102, 178, 255, 0.4);
 }
+
+.notification-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-item p {
+    margin: 0;
+    color: #66B2FF;
+}

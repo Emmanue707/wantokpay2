@@ -15,39 +15,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $merchant_id = $_SESSION['user_id'];
     
     // Create Stripe Payment Intent
-    try {
-        $payment_intent = \Stripe\PaymentIntent::create([
-            'amount' => $amount * 100, // Convert to cents
-            'currency' => 'pgk',
-            'description' => $description,
-            'metadata' => [
-                'merchant_id' => $merchant_id
-            ]
-        ]);
-    } catch(\Stripe\Exception\ApiErrorException $e) {
-        error_log('Stripe API Error: ' . $e->getMessage());
-        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-        exit;
-    }
-    
-    // Generate unique link token
-    $link_token = $payment_intent->client_secret;
-    
+    $payment_intent = \Stripe\PaymentIntent::create([
+        'amount' => $amount * 100,
+        'currency' => 'pgk',
+        'description' => $description,
+        'metadata' => [
+            'merchant_id' => $merchant_id
+        ]
+    ]);
     if ($requestType === 'specific') {
         $username = $_POST['username'];
-        $stmt = $db->prepare("INSERT INTO payment_links (merchant_id, amount, description, recipient_username, link_token, stripe_payment_intent, status) VALUES (?, ?, ?, ?, ?, ?, 'active')");
-        $stmt->execute([$merchant_id, $amount, $description, $username, $link_token, $payment_intent->id]);
+        
+        // Get recipient's user_id
+        $stmt = $db->prepare("SELECT id FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        $recipient = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($recipient) {
+            // Create payment link
+            $stmt = $db->prepare("INSERT INTO payment_links (merchant_id, amount, description, recipient_username, link_token, status) VALUES (?, ?, ?, ?, ?, 'active')");
+            $stmt->execute([$merchant_id, $amount, $description, $username, $payment_intent->client_secret]);
+            
+            // Create notification
+            $message = "New payment request of K{$amount} from {$_SESSION['username']}";
+            $stmt = $db->prepare("INSERT INTO notifications (user_id, type, message, link_token, amount) VALUES (?, 'payment_request', ?, ?, ?)");
+            $stmt->execute([$recipient['id'], $message, $payment_intent->client_secret, $amount]);
+        }
+        
+        echo json_encode([
+            'success' => true,
+            'requestType' => 'specific',
+            'message' => 'Payment request sent successfully'
+        ]);
     } else {
-        $stmt = $db->prepare("INSERT INTO payment_links (merchant_id, amount, description, link_token, stripe_payment_intent, status) VALUES (?, ?, ?, ?, ?, 'active')");
-        $stmt->execute([$merchant_id, $amount, $description, $link_token, $payment_intent->id]);
+        // Handle general payment link
+        $stmt = $db->prepare("INSERT INTO payment_links (merchant_id, amount, description, link_token, status) VALUES (?, ?, ?, ?, 'active')");
+        $stmt->execute([$merchant_id, $amount, $description, $payment_intent->client_secret]);
+        
+        echo json_encode([
+            'success' => true,
+            'requestType' => 'general',
+            'clientSecret' => $payment_intent->client_secret,
+            'paymentLink' => "send_money.php?token=" . $payment_intent->client_secret
+        ]);
     }
-    
-    $paymentLink = "send_money.php?token=" . $link_token;
-    
-    echo json_encode([
-        'success' => true,
-        'requestType' => $requestType,
-        'paymentLink' => $paymentLink,
-        'clientSecret' => $payment_intent->client_secret
-    ]);
 }
