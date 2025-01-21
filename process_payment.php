@@ -46,10 +46,29 @@ try {
                 'merchant_id' => $qrData['merchant_id']
             ]
         ]);
-        
         // Record QR transaction
         $stmt = $db->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, type, status) VALUES (?, ?, ?, 'qr_payment', 'completed')");
         $stmt->execute([$_SESSION['user_id'], $qrData['merchant_id'], $baseAmount]);
+        
+        $transactionId = $db->lastInsertId();
+    
+        // Create notification for QR payment received
+        $message = "You received K{$baseAmount} via QR Payment";
+        $stmt = $db->prepare("INSERT INTO notifications (
+            user_id, 
+            type, 
+            message, 
+            amount, 
+            payment_type, 
+            transaction_id, 
+            status
+        ) VALUES (?, 'payment_received', ?, ?, 'qr_payment', ?, 'unread')");
+        $stmt->execute([
+            $qrData['merchant_id'], 
+            $message, 
+            $baseAmount, 
+            $transactionId
+        ]);
         
         echo json_encode([
             'success' => true,
@@ -59,7 +78,6 @@ try {
         ]);
         exit;
     }
-
     // Handle username-based payments
     if (isset($_POST['recipient_username'])) {
         // Get recipient's details
