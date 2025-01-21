@@ -298,3 +298,89 @@
 .login-page a:hover {
     text-shadow: 0 0 8px rgba(255,255,255,0.6);
 }
+
+/* QR Code Generator Page Styling */
+body {
+    background: #0A1929;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.card {
+    background: #132F4C !important;
+    border: none !important;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    margin-top: 2rem;
+}
+
+.card-header {
+    background: #173A5E !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px 12px 0 0;
+}
+
+.card-header h5 {
+    color: #66B2FF;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.form-control {
+    background: #173A5E !important;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #B2BAC2 !important;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 2px rgba(102,178,255,0.25);
+}
+
+label {
+    color: #B2BAC2;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.btn-primary {
+    background: #0A7AFF !important;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(10,122,255,0.3);
+}
+
+/* QR Code Display Section */
+.text-center {
+    margin-top: 2rem;
+}
+
+.text-center h5 {
+    color: #66B2FF;
+    margin-bottom: 1.5rem;
+}
+
+.text-center img {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    padding: 1rem;
+    background: white;
+    max-width: 300px;
+}
+
+.text-center p {
+    color: #B2BAC2;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+}
