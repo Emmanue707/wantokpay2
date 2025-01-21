@@ -398,3 +398,110 @@ label {
 .navbar-toggler:focus {
     box-shadow: 0 0 0 2px rgba(102, 178, 255, 0.25);
 }
+
+/* Registration Page Styling */
+.register-page {
+    background: #0A1929;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.register-page .navbar {
+    background: #132F4C !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.register-page .navbar-brand {
+    color: #66B2FF !important;
+    font-weight: 600;
+}
+
+.register-page .nav-link {
+    color: #B2BAC2 !important;
+    transition: color 0.3s ease;
+}
+
+.register-page .nav-link:hover {
+    color: #66B2FF !important;
+}
+
+.register-page .auth-card {
+    background: #132F4C !important;
+    border: none !important;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    margin-top: 2rem;
+}
+
+.register-page .card-header {
+    background: #173A5E !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px 12px 0 0;
+}
+
+.register-page .card-header h3 {
+    color: #66B2FF;
+    font-weight: 600;
+}
+
+.register-page .form-control {
+    background: #173A5E !important;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #B2BAC2 !important;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.register-page .form-control:focus {
+    box-shadow: 0 0 0 2px rgba(102,178,255,0.25);
+}
+
+.register-page label {
+    color: #B2BAC2;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.register-page .btn-primary {
+    background: #0A7AFF !important;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.register-page .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(10,122,255,0.3);
+}
+
+.register-page a {
+    color: #66B2FF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.register-page a:hover {
+    color: #0A7AFF;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .register-page .auth-card {
+        margin: 1rem;
+    }
+    
+    .register-page .btn-primary {
+        width: 100%;
+    }
+    
+    .register-page .navbar-toggler {
+        border: 2px solid #66B2FF !important;
+        padding: 8px;
+    }
+    
+    .register-page .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(102, 178, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+    }
+}
