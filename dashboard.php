@@ -11,6 +11,27 @@ require_once 'User.php';
 $database = new Database();
 $db = $database->getConnection();
 
+// Add the time_elapsed_string function here
+function time_elapsed_string($datetime) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    if ($diff->d < 1) {
+        if ($diff->h < 1) {
+            if ($diff->i < 1) {
+                return 'Just now';
+            }
+            return $diff->i . ' min ago';
+        }
+        return $diff->h . ' hours ago';
+    }
+    if ($diff->d < 7) {
+        return $diff->d . ' days ago';
+    }
+    return $ago->format('M j, Y');
+}
+
 // Get user's card status
 $stmt = $db->prepare("SELECT stripe_customer_id FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
@@ -125,33 +146,53 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-
 <div class="card dashboard-card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <h5>Payment Requests</h5>
+        <span class="badge bg-primary" id="unreadCount"></span>
     </div>
     <div class="card-body">
-        <?php
-        $stmt = $db->prepare("
-            SELECT n.*, u.username as requester_name 
-            FROM notifications n
-            JOIN users u ON u.id = n.user_id
-            WHERE n.user_id = ? AND n.type = 'payment_request'
-            ORDER BY n.created_at DESC
-        ");
-        $stmt->execute([$_SESSION['user_id']]);
-        $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        foreach($notifications as $notification): ?>
-            <div class="notification-item">
-                <p><?= htmlspecialchars($notification['message']) ?></p>
-                <a href="send_money.php?token=<?= $notification['link_token'] ?>" 
-                            class="btn btn-primary">Pay Now</a>
-            </div>
-        <?php endforeach; ?>
+        <div class="notifications-container" style="max-height: 400px; overflow-y: auto;">
+            <?php
+            $stmt = $db->prepare("
+                SELECT n.*, u.username as requester_name, pl.status as payment_status,
+                        n.created_at as notification_time
+                FROM notifications n
+                JOIN users u ON u.id = n.user_id
+                LEFT JOIN payment_links pl ON pl.link_token = n.link_token
+                WHERE n.user_id = ?
+                ORDER BY n.created_at DESC
+            ");
+            $stmt->execute([$_SESSION['user_id']]);
+            $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach($notifications as $notification): 
+                $isUnread = !$notification['is_read'];
+                $isPaid = $notification['payment_status'] === 'used';
+                $timeAgo = time_elapsed_string($notification['notification_time']);
+            ?>
+                <div class="notification-item <?= $isUnread ? 'unread' : '' ?>">
+                    <div class="notification-content">
+                        <div class="d-flex justify-content-between align-items-top">
+                            <h6><?= htmlspecialchars($notification['message']) ?></h6>
+                            <small class="text-muted"><?= $timeAgo ?></small>
+                        </div>
+                        <p class="mb-2">Amount: K<?= number_format($notification['amount'], 2) ?></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <?php if($isPaid): ?>
+                                <span class="badge bg-success">Paid</span>
+                            <?php else: ?>
+                                <a href="send_money.php?token=<?= $notification['link_token'] ?>" 
+                                    class="btn btn-primary btn-sm">Pay Now</a>
+                            <?php endif; ?>
+                            <small class="text-muted">From: <?= htmlspecialchars($notification['requester_name']) ?></small>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
-
 
 
         <div class="row mb-4">
