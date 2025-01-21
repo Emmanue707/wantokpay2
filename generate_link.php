@@ -62,7 +62,7 @@ require_once 'vendor/autoload.php';
     </div>
 
     <script>
-        const stripe = Stripe('your_publishable_key');
+        const stripe = Stripe('pk_test_51QhYByDUpDhJwyLXF2lYx388XY2itWsvCHxxIMs80XAAvHapt0nEp4DU3fANUji9tRYICQZpQON4xq4nANcPNKud00DbOoP1me');
 
         document.getElementById('requestForm').addEventListener('submit', async function(e) {
             e.preventDefault();
