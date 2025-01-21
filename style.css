@@ -159,17 +159,53 @@
     z-index: 1;
 }
 
+/* Neon Text Effects */
 .landing-page .main-title {
-    font-size: 4rem;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 1.5rem;
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.8),
+                 0 0 20px rgba(255,255,255,0.8),
+                 0 0 30px #ff00de,
+                 0 0 40px #ff00de;
+    letter-spacing: 2px;
 }
 
 .landing-page .hero-subtitle {
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 3rem;
+    font-size: 1.8rem;
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255,255,255,0.6),
+                 0 0 15px #00ffff;
+    letter-spacing: 1px;
+}
+
+.landing-page .slide h3 {
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255,255,255,0.6),
+                 0 0 20px #00ff99;
+    letter-spacing: 1.5px;
+}
+
+.landing-page .navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #fff, #00ffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(0,255,255,0.5);
+}
+
+.landing-page .nav-link {
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba(255,255,255,0.5);
+    transition: all 0.3s ease;
+}
+
+.landing-page .nav-link:hover {
+    text-shadow: 0 0 12px rgba(255,255,255,0.8),
+                 0 0 20px #00ffff;
+    transform: scale(1.05);
 }
 
 .landing-page .slider-container {
