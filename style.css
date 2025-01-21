@@ -504,9 +504,26 @@ label {
     box-shadow: 0 8px 25px rgba(102, 178, 255, 0.4);
 }
 .notifications-container {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
     scrollbar-width: thin;
     scrollbar-color: #66B2FF #173A5E;
 }
+
+.notifications-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notifications-container::-webkit-scrollbar-track {
+    background: #173A5E;
+}
+
+.notifications-container::-webkit-scrollbar-thumb {
+    background-color: #66B2FF;
+    border-radius: 10px;
+}
+
 .notification-item {
     display: flex;
     align-items: flex-start;
@@ -517,8 +534,8 @@ label {
     border-radius: 8px;
     margin-bottom: 10px;
     transition: all 0.3s ease;
+    min-height: 80px;
 }
-
 .notification-item.unread {
     background: rgba(102, 178, 255, 0.1);
     border-left: 4px solid #66B2FF;
