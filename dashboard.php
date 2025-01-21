@@ -148,7 +148,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 <div class="card dashboard-card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5>Payment Requests</h5>
+        <h5>Notifications</h5>
         <span class="badge bg-primary" id="unreadCount"></span>
     </div>
     <div class="card-body">
