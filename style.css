@@ -244,3 +244,73 @@
 .landing-page .nav-link {
     color: white !important;
 }
+
+.login-page {
+    background: linear-gradient(135deg, #2a3a7c, #c22f2f, #fecb3d) !important;
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-page .auth-card {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.login-page .card-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-page .card-header h3 {
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 0 5px rgba(255,255,255,0.4);
+}
+
+.login-page .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px;
+}
+
+.login-page .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+.login-page label {
+    color: white;
+    font-weight: 500;
+    text-shadow: 0 0 5px rgba(255,255,255,0.4);
+}
+
+.login-page .btn-primary {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    padding: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.login-page .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
+.login-page a {
+    color: #ffffff;
+    text-decoration: none;
+    text-shadow: 0 0 5px rgba(255,255,255,0.4);
+}
+
+.login-page a:hover {
+    text-shadow: 0 0 8px rgba(255,255,255,0.6);
+}
