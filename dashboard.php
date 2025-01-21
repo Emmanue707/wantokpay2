@@ -44,7 +44,6 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="style.css" rel="stylesheet">
 </head>
 <body class="dashboard-page">
-
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="index.php">WANTOK PAY</a>
@@ -60,12 +59,6 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a class="nav-link" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="scan_qr.php">Scan QR</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="generate_qr.php">Generate QR</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="logout.php">Logout</a>
                 </li>
                 <li class="nav-item">
@@ -77,7 +70,6 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </nav>
-
 
 
 
