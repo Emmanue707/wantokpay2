@@ -608,3 +608,38 @@ label {
     color: #B2BAC2;
     font-size: 0.8rem;
 }
+
+.transaction-table {
+    max-height: 600px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #66B2FF #173A5E;
+}
+
+.transaction-table::-webkit-scrollbar {
+    width: 6px;
+}
+
+.transaction-table::-webkit-scrollbar-track {
+    background: #173A5E;
+    border-radius: 10px;
+}
+
+.transaction-table::-webkit-scrollbar-thumb {
+    background-color: #66B2FF;
+    border-radius: 10px;
+}
+
+/* Keep header fixed while scrolling */
+.transaction-table thead th {
+    position: sticky;
+    top: 0;
+    background: #173A5E;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .transaction-table {
+        max-height: 500px;
+    }
+}
