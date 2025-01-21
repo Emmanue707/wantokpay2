@@ -492,7 +492,7 @@ label {
 
 /* Update Card Button */
 .dashboard-page .btn-outline-primary {
-    background: rgba(10, 122, 255, 0.15);
+    background: rgba(66, 144, 240, 0.81);
     border: 2px solid #0A7AFF;
     color: #66B2FF !important;
     font-weight: 600;
