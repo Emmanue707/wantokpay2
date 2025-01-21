@@ -144,3 +144,74 @@
         margin: 0 -1rem;
     }
 }
+
+.landing-page {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d) !important;
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.landing-page .hero-section {
+    padding: 100px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.landing-page .main-title {
+    font-size: 4rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+.landing-page .hero-subtitle {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 3rem;
+}
+
+.landing-page .slider-container {
+    margin: 50px 0;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.landing-page .slide {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    transition: transform 0.3s ease;
+}
+
+.landing-page .slide:hover {
+    transform: translateY(-5px);
+}
+
+.landing-page .btn-glow {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    margin: 10px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.landing-page .btn-glow:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.landing-page .navbar {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(8px);
+}
+
+.landing-page .navbar-brand,
+.landing-page .nav-link {
+    color: white !important;
+}
