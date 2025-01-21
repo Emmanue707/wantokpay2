@@ -16,6 +16,9 @@ require_once 'vendor/autoload.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <style>
         .payment-link {
             background: #173A5E;
