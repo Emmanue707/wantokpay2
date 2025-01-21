@@ -172,7 +172,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <i class="bi bi-link-45deg"></i> Request Payment
                         </a>
                         <a href="send_money.php" class="btn btn-warning flex-fill">
-                            <i class="bi bi-link"></i> Pay with Link
+                            <i class="bi bi-link"></i> Manual Payment
                         </a>
                     </div>
                 </div>
