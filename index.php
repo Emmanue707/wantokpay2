@@ -39,12 +39,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="about.php">About</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-glow btn-primary" href="login.php">Login</a>
-                        </li>
-                        <li class="nav-item ms-2">
-                            <a class="nav-link btn btn-glow btn-outline" href="register.php">Register</a>
-                        </li>
                     <?php endif; ?>
                 </ul>
             </div>
