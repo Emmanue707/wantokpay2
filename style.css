@@ -492,18 +492,20 @@ label {
 
 /* Update Card Button */
 .dashboard-page .btn-outline-primary {
-    background: rgba(66, 144, 240, 0.81);
-    border: 2px solid #0A7AFF;
-    color: #66B2FF !important;
+    background: linear-gradient(45deg, #00E676, #00B4D8);
+    border: none;
+    color: #FFFFFF !important;
     font-weight: 600;
     padding: 12px 30px;
     border-radius: 10px;
     transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
 }
 
 .dashboard-page .btn-outline-primary:hover {
-    background: #0A7AFF;
-    color: white !important;
+    background: linear-gradient(45deg, #00B4D8, #00E676);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(10, 122, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 230, 118, 0.4);
 }
