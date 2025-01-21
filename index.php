@@ -90,7 +90,7 @@
     <!-- Footer -->
     <footer>
         <div class="container text-center">
-            <p>© 2025 WANTOK PAY. All rights reserved.</p>
+            <p>© 2025 WANTOK PAY. Developed by Waghi Tech.</p>
         </div>
     </footer>
 
