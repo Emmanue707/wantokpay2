@@ -44,14 +44,6 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="style.css" rel="stylesheet">
 </head>
 <body class="dashboard-page">
-<style>
-    .btn-link-card {
-        color: #66B2FF !important;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-</style>
 
 <nav class="navbar navbar-expand-lg">
     <div class="container">

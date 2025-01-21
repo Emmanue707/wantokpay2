@@ -16,8 +16,18 @@ require_once 'vendor/autoload.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
-</head>
-<body class="dashboard-page">
+    <style>
+        .payment-link {
+            background: #173A5E;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            word-break: break-all;
+            color: #66B2FF;
+            font-weight: 500;
+        }
+    </style>
+</head><body class="dashboard-page">
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -81,20 +91,19 @@ require_once 'vendor/autoload.php';
                     const linkResult = document.getElementById('linkResult');
                     resultArea.style.display = 'block';
                     
-                    if(data.requestType === 'general') {
-                        const fullLink = window.location.origin + '/' + data.paymentLink;
-                        linkResult.innerHTML = `<p>Payment Link Generated:</p><strong>${fullLink}</strong>`;
-                        document.getElementById('copyButton').style.display = 'block';
-                    } else {
-                        linkResult.innerHTML = 'Payment request sent successfully!';
-                        document.getElementById('copyButton').style.display = 'none';
-                    }
+                    // Generate full payment link
+                    const fullLink = `${window.location.origin}/send_money.php?token=${data.clientSecret}`;
+                    linkResult.innerHTML = `
+                        <p>Payment Link Generated:</p>
+                        <div class="payment-link">${fullLink}</div>
+                    `;
+                    
+                    document.getElementById('copyButton').style.display = 'block';
                 }
             } catch (error) {
                 console.error('Error:', error);
             }
         });
-
         document.getElementById('copyButton').addEventListener('click', function() {
             const linkText = document.getElementById('linkResult').querySelector('strong').textContent;
             navigator.clipboard.writeText(linkText);
