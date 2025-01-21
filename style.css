@@ -144,9 +144,9 @@
         margin: 0 -1rem;
     }
 }
-
+/* Refined Neon Effects */
 .landing-page {
-    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d) !important;
+    background: linear-gradient(135deg, #2a3a7c, #c22f2f, #fecb3d) !important;
     background-size: 400% 400% !important;
     animation: gradientBG 15s ease infinite;
     min-height: 100vh;
@@ -159,41 +159,33 @@
     z-index: 1;
 }
 
-/* Neon Text Effects */
 .landing-page .main-title {
     font-size: 4.5rem;
-    font-weight: 800;
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255,255,255,0.8),
-                 0 0 20px rgba(255,255,255,0.8),
-                 0 0 30px #ff00de,
-                 0 0 40px #ff00de;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255,255,255,0.6),
+                  0 0 15px rgba(255,0,221,0.4);
     letter-spacing: 2px;
 }
 
 .landing-page .hero-subtitle {
     font-size: 1.8rem;
-    color: #fff;
-    text-shadow: 0 0 8px rgba(255,255,255,0.6),
-                 0 0 15px #00ffff;
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(255,255,255,0.4);
     letter-spacing: 1px;
 }
 
 .landing-page .slide h3 {
-    color: #fff;
-    font-weight: 700;
-    text-shadow: 0 0 10px rgba(255,255,255,0.6),
-                 0 0 20px #00ff99;
-    letter-spacing: 1.5px;
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 0 5px rgba(255,255,255,0.4);
 }
 
 .landing-page .navbar-brand {
     font-size: 1.8rem;
-    font-weight: 700;
-    background: linear-gradient(to right, #fff, #00ffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 15px rgba(0,255,255,0.5);
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255,255,255,0.4);
 }
 
 .landing-page .nav-link {
@@ -204,20 +196,23 @@
 
 .landing-page .nav-link:hover {
     text-shadow: 0 0 12px rgba(255,255,255,0.8),
-                 0 0 20px #00ffff;
+                  0 0 20px #00ffff;
     transform: scale(1.05);
 }
 
-.landing-page .slider-container {
-    margin: 50px 0;
-    background: rgba(255, 255, 255, 0.15);
+/* Brighter Container Backgrounds */
+.landing-page .slider-container,
+.landing-page .navbar {
+    background: rgba(255, 255, 255, 0.18);
     backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 15px;
     padding: 30px;
 }
 
 .landing-page .slide {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
     padding: 20px;
     margin: 15px 0;
@@ -228,23 +223,21 @@
     transform: translateY(-5px);
 }
 
+/* Enhanced Button Styling */
 .landing-page .btn-glow {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     padding: 15px 40px;
     font-size: 1.1rem;
     margin: 10px;
     border-radius: 30px;
     transition: all 0.3s ease;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .landing-page .btn-glow:hover {
     transform: translateY(-3px);
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-}
-
-.landing-page .navbar {
-    background: rgba(255, 255, 255, 0.1) !important;
-    backdrop-filter: blur(8px);
 }
 
 .landing-page .navbar-brand,
