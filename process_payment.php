@@ -130,3 +130,20 @@ try {
     }
     echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 }
+
+// Add this after successful transaction creation
+function createPaymentNotification($db, $receiverId, $amount, $paymentType, $transactionId, $senderId) {
+    $senderStmt = $db->prepare("SELECT username FROM users WHERE id = ?");
+    $senderStmt->execute([$senderId]);
+    $sender = $senderStmt->fetch(PDO::FETCH_ASSOC);
+
+    $message = "You received K{$amount} from {$sender['username']} via " . ucfirst($paymentType);
+    
+    $stmt = $db->prepare("INSERT INTO notifications (user_id, type, message, amount, payment_type, transaction_id, status) 
+                         VALUES (?, 'payment_received', ?, ?, ?, ?, 'unread')");
+    $stmt->execute([$receiverId, $message, $amount, $paymentType, $transactionId]);
+}
+
+// Add this after successful transaction insertion
+$transactionId = $db->lastInsertId();
+createPaymentNotification($db, $recipient['id'], $amount, 'manual_transfer', $transactionId, $_SESSION['user_id']);

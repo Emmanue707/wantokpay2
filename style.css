@@ -507,8 +507,11 @@ label {
     scrollbar-width: thin;
     scrollbar-color: #66B2FF #173A5E;
 }
-
 .notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    cursor: pointer;
     background: rgba(255, 255, 255, 0.05);
     padding: 15px;
     border-radius: 8px;
@@ -519,6 +522,26 @@ label {
 .notification-item.unread {
     background: rgba(102, 178, 255, 0.1);
     border-left: 4px solid #66B2FF;
+}
+
+.notification-icon {
+    background: rgba(102, 178, 255, 0.1);
+    padding: 10px;
+    border-radius: 50%;
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-icon i {
+    color: #66B2FF;
+    font-size: 1.2rem;
+}
+
+.notification-content {
+    flex: 1;
 }
 
 .notification-item h6 {
@@ -532,6 +555,6 @@ label {
 }
 
 .notification-time {
-    font-size: 0.8rem;
     color: #B2BAC2;
+    font-size: 0.8rem;
 }

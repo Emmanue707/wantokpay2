@@ -148,18 +148,23 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 <div class="card dashboard-card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5>Payment Requests</h5>
-        <span class="badge bg-primary" id="unreadCount"></span>
+        <h5>Notifications</h5>
+        <div>
+            <span class="badge bg-primary" id="unreadCount"></span>
+            <button class="btn btn-sm btn-outline-light ms-2" onclick="markAllAsRead()">Mark All Read</button>
+        </div>
     </div>
     <div class="card-body">
-        <div class="notifications-container" style="max-height: 400px; overflow-y: auto;">
+        <div class="notifications-container">
             <?php
             $stmt = $db->prepare("
-                SELECT n.*, u.username as requester_name, pl.status as payment_status,
-                        n.created_at as notification_time
+                SELECT n.*, 
+                       u.username as sender_name,
+                       t.status as transaction_status,
+                       t.type as transaction_type
                 FROM notifications n
-                JOIN users u ON u.id = n.user_id
-                LEFT JOIN payment_links pl ON pl.link_token = n.link_token
+                LEFT JOIN users u ON u.id = n.user_id
+                LEFT JOIN transactions t ON t.id = n.transaction_id
                 WHERE n.user_id = ?
                 ORDER BY n.created_at DESC
             ");
@@ -167,26 +172,29 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
             foreach($notifications as $notification): 
-                $isUnread = !$notification['is_read'];
-                $isPaid = $notification['payment_status'] === 'used';
-                $timeAgo = time_elapsed_string($notification['notification_time']);
+                $isUnread = $notification['status'] === 'unread';
+                $isPaid = $notification['transaction_status'] === 'completed';
+                $timeAgo = time_elapsed_string($notification['created_at']);
+                $icon = getNotificationIcon($notification['payment_type']);
             ?>
-                <div class="notification-item <?= $isUnread ? 'unread' : '' ?>">
+                <div class="notification-item <?= $isUnread ? 'unread' : '' ?>" 
+                     onclick="markAsRead(<?= $notification['id'] ?>)">
+                    <div class="notification-icon">
+                        <i class="bi <?= $icon ?>"></i>
+                    </div>
                     <div class="notification-content">
-                        <div class="d-flex justify-content-between align-items-top">
+                        <div class="d-flex justify-content-between">
                             <h6><?= htmlspecialchars($notification['message']) ?></h6>
-                            <small class="text-muted"><?= $timeAgo ?></small>
+                            <small class="notification-time"><?= $timeAgo ?></small>
                         </div>
-                        <p class="mb-2">Amount: K<?= number_format($notification['amount'], 2) ?></p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <?php if($isPaid): ?>
-                                <span class="badge bg-success">Paid</span>
-                            <?php else: ?>
+                        <?php if($notification['type'] === 'payment_request'): ?>
+                            <?php if(!$isPaid): ?>
                                 <a href="send_money.php?token=<?= $notification['link_token'] ?>" 
-                                    class="btn btn-primary btn-sm">Pay Now</a>
+                                   class="btn btn-primary btn-sm mt-2">Pay Now</a>
+                            <?php else: ?>
+                                <span class="badge bg-success">Paid</span>
                             <?php endif; ?>
-                            <small class="text-muted">From: <?= htmlspecialchars($notification['requester_name']) ?></small>
-                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -194,7 +202,33 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
+<script>
+function markAsRead(notificationId) {
+    fetch('mark_notification_read.php', {
+        method: 'POST',
+        body: JSON.stringify({ notification_id: notificationId })
+    });
+}
 
+function markAllAsRead() {
+    fetch('mark_all_notifications_read.php', {
+        method: 'POST'
+    }).then(() => {
+        document.querySelectorAll('.notification-item.unread')
+            .forEach(item => item.classList.remove('unread'));
+    });
+}
+
+function getNotificationIcon(type) {
+    const icons = {
+        'qr_payment': 'bi-qr-code',
+        'manual_transfer': 'bi-cash',
+        'payment_request': 'bi-envelope',
+        'default': 'bi-bell'
+    };
+    return icons[type] || icons.default;
+}
+</script>
         <div class="row mb-4">
             <div class="col-md-12">
             <div class="card dashboard-card">
