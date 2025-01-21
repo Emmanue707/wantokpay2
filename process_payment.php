@@ -60,62 +60,70 @@ try {
         exit;
     }
 
-    // Handle link payments
-    if (isset($_POST['token'])) {
-        // Get payment link details
-        $stmt = $db->prepare("SELECT * FROM payment_links WHERE link_token = ? AND status = 'active'");
-        $stmt->execute([$_POST['token']]);
-        $paymentLink = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Handle username-based payments
+    if (isset($_POST['recipient_username'])) {
+        // Get recipient's details
+        $stmt = $db->prepare("SELECT id, username FROM users WHERE username = ?");
+        $stmt->execute([$_POST['recipient_username']]);
+        $recipient = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$paymentLink) {
-            throw new Exception('Invalid or expired payment link');
+        if (!$recipient) {
+            throw new Exception('Recipient not found');
         }
-    }
 
-    // Calculate fee (5% for amounts >= 100)
-    $amount = floatval($_POST['amount']);
-    $fee = ($amount >= 100) ? $amount * 0.05 : 0;
-    $totalAmount = ($amount + $fee) * 100; // Convert to cents
+        // Get sender's payment info
+        $stmt = $db->prepare("SELECT stripe_customer_id FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $sender = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Create payment intent
-    $paymentIntent = \Stripe\PaymentIntent::create([
-        'amount' => $totalAmount,
-        'currency' => 'pgk',
-        'payment_method' => $_POST['payment_method_id'],
-        'confirm' => true,
-        'metadata' => [
-            'fee_amount' => $fee,
-            'payment_link_id' => $paymentLink['id'] ?? null
-        ]
-    ]);
+        // Calculate amount and fee
+        $amount = floatval($_POST['amount']);
+        $fee = ($amount >= 100) ? $amount * 0.05 : 0;
+        $totalAmount = ($amount + $fee) * 100;
 
-    // Record transaction
-    $db->beginTransaction();
+        // Get sender's default payment method
+        $paymentMethods = \Stripe\PaymentMethod::all([
+            'customer' => $sender['stripe_customer_id'],
+            'type' => 'card',
+        ]);
+        $defaultPaymentMethod = $paymentMethods->data[0]->id;
 
-    // Update payment link status
-    if (isset($paymentLink)) {
-        $stmt = $db->prepare("UPDATE payment_links SET status = 'used' WHERE id = ?");
-        $stmt->execute([$paymentLink['id']]);
+        // Create and confirm payment
+        $paymentIntent = \Stripe\PaymentIntent::create([
+            'amount' => $totalAmount,
+            'currency' => 'pgk',
+            'customer' => $sender['stripe_customer_id'],
+            'payment_method' => $defaultPaymentMethod,
+            'off_session' => true,
+            'confirm' => true,
+            'metadata' => [
+                'sender_id' => $_SESSION['user_id'],
+                'recipient_id' => $recipient['id'],
+                'fee_amount' => $fee
+            ]
+        ]);
 
-        // Mark notification as read if exists
-        if ($paymentLink['recipient_username']) {
+        // Record transaction
+        $db->beginTransaction();
+
+        // Update payment link status if token exists
+        if (isset($_POST['token'])) {
+            $stmt = $db->prepare("UPDATE payment_links SET status = 'used' WHERE link_token = ?");
+            $stmt->execute([$_POST['token']]);
+
+            // Mark notification as read
             $stmt = $db->prepare("UPDATE notifications SET is_read = TRUE WHERE link_token = ?");
             $stmt->execute([$_POST['token']]);
         }
+
+        // Insert transaction record
+        $stmt = $db->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, fee_amount, type, status) VALUES (?, ?, ?, ?, 'card_payment', 'completed')");
+        $stmt->execute([$_SESSION['user_id'], $recipient['id'], $amount, $fee]);
+
+        $db->commit();
+
+        echo json_encode(['success' => true]);
     }
-
-    // Record transaction
-    $stmt = $db->prepare("INSERT INTO transactions (sender_id, receiver_id, amount, fee_amount, type, status) VALUES (?, ?, ?, ?, 'card_payment', 'completed')");
-    $stmt->execute([
-        $_SESSION['user_id'],
-        $paymentLink['merchant_id'] ?? null,
-        $amount,
-        $fee
-    ]);
-
-    $db->commit();
-
-    echo json_encode(['success' => true]);
 } catch (Exception $e) {
     if ($db->inTransaction()) {
         $db->rollBack();
