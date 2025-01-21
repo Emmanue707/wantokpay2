@@ -666,3 +666,15 @@ label {
         max-height: 500px;
     }
 }
+
+.btn-link-card {
+    color: #66B2FF !important;
+    border: 1px solid #66B2FF;
+    background: rgba(102, 178, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-link-card:hover {
+    background: rgba(102, 178, 255, 0.2);
+    transform: translateY(-2px);
+}
