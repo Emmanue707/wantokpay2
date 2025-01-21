@@ -45,50 +45,48 @@
         </div>
     </nav>
 
-   
-    <div class="hero-section">
-        <div class="container">
-            <div class="text-center hero-content">
-                <h1 class="main-title">WANTOK PAY</h1>
-                <p class="hero-subtitle">Transforming Digital Payments in Papua New Guinea</p>
+        <div class="hero-section">
+            <div class="container">
+                <div class="text-center hero-content">
+                    <h1 class="main-title">WANTOK PAY</h1>
+                    <p class="hero-subtitle">Transforming Digital Payments in Papua New Guinea</p>
                 
-                <!-- 3D Sliding Boxes -->
-                <div class="slider-container">
-                    <div class="slider">
-                        <div class="slide">
-                            <div class="slide-content">
-                                <h3>Fast & Secure</h3>
-                                <p>Instant payments with bank-grade security</p>
+                    <!-- Login/Register buttons moved here -->
+                    <div class="cta-container">
+                        <?php if(!isset($_SESSION['user_id'])): ?>
+                            <a href="login.php" class="btn btn-glow btn-primary">Login</a>
+                            <a href="register.php" class="btn btn-glow btn-outline">Register</a>
+                        <?php else: ?>
+                            <a href="dashboard.php" class="btn btn-glow btn-primary">Dashboard</a>
+                        <?php endif; ?>
+                    </div>
+                
+                    <!-- 3D Sliding Boxes -->
+                    <div class="slider-container">
+                        <div class="slider">
+                            <div class="slide">
+                                <div class="slide-content">
+                                    <h3>Fast & Secure</h3>
+                                    <p>Instant payments with bank-grade security</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="slide">
-                            <div class="slide-content">
-                                <h3>QR Payments</h3>
-                                <p>Scan & pay instantly for market purchases</p>
+                            <div class="slide">
+                                <div class="slide-content">
+                                    <h3>QR Payments</h3>
+                                    <p>Scan & pay instantly for market purchases</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="slide">
-                            <div class="slide-content">
-                                <h3>Zero Fees</h3>
-                                <p>No transaction fees under 100 Kina</p>
+                            <div class="slide">
+                                <div class="slide-content">
+                                    <h3>Zero Fees</h3>
+                                    <p>No transaction fees under 100 Kina</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Existing buttons -->
-                <div class="cta-container">
-                    <?php if(!isset($_SESSION['user_id'])): ?>
-                        <a href="login.php" class="btn btn-glow btn-primary">Login</a>
-                        <a href="register.php" class="btn btn-glow btn-outline">Register</a>
-                    <?php else: ?>
-                        <a href="dashboard.php" class="btn btn-glow btn-primary">Dashboard</a>
-                    <?php endif; ?>
-                </div>
             </div>
         </div>
-    </div>
-
     <!-- Footer -->
     <footer>
         <div class="container text-center">
