@@ -3,6 +3,7 @@
     z-index: 1;
 }
 
+/* Enhanced dashboard background */
 .dashboard-page {
     background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d) !important;
     background-size: 400% 400% !important;
@@ -11,10 +12,26 @@
     font-family: 'Poppins', sans-serif;
 }
 
+/* Add subtle mesh pattern overlay */
+.dashboard-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                      linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                      linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%),
+                      linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Remove floating shapes */
 .dashboard-page .floating-shapes {
-    opacity: 0.15; /* Reduce opacity */
-    pointer-events: none; /* Prevent interaction */
-    z-index: 0; /* Keep shapes behind content */
+    display: none;
 }
 
 .dashboard-page .container {
@@ -51,7 +68,9 @@
     background: rgba(255, 255, 255, 0.25) !important;
     color: white !important;
     border-color: rgba(255, 255, 255, 0.2) !important;
-}/* Force White Text */
+}
+
+/* Force White Text */
 .dashboard-page h1,
 .dashboard-page h2,
 .dashboard-page h3,
@@ -63,12 +82,6 @@
 .dashboard-page .form-control,
 .dashboard-page .btn {
     color: white !important;
-}
-
-/* Floating Shapes */
-.dashboard-page .floating-shapes .shape {
-    position: fixed;
-    z-index: 0;
 }
 
 .dashboard-page .container {
@@ -161,6 +174,15 @@
     
     .table-responsive {
         margin: 0 -1rem;
+    }
+
+    .dashboard-page .card {
+        margin: 10px 5px;
+        padding: 15px;
+    }
+    
+    .dashboard-page .table-responsive {
+        margin: 0 -5px;
     }
 }
 /* Refined Neon Effects */
