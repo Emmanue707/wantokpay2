@@ -621,7 +621,6 @@ label {
     color: #66B2FF;
     margin-bottom: 8px;
 }
-
 .notification-item p {
     margin-bottom: 5px;
     color: #B2BAC2;
@@ -632,8 +631,18 @@ label {
     font-size: 0.8rem;
 }
 
-.transaction-table {
+/* Increase Notifications Container Height */
+.notifications-container {
     max-height: 600px;
+    overflow-y: auto;
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #66B2FF #173A5E;
+}
+
+/* Increase Transaction Table Height */
+.transaction-table {
+    max-height: 800px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #66B2FF #173A5E;
@@ -643,6 +652,15 @@ label {
     width: 6px;
 }
 
+@media (max-width: 768px) {
+    .transaction-table {
+        max-height: 700px;
+    }
+    
+    .notifications-container {
+        max-height: 500px;
+    }
+}
 .transaction-table::-webkit-scrollbar-track {
     background: #173A5E;
     border-radius: 10px;
