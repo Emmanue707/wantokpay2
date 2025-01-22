@@ -678,14 +678,17 @@ label {
     background: rgba(102, 178, 255, 0.2);
     transform: translateY(-2px);
 }
-
 .icon-nav {
     background: #132F4C;
     padding: 10px 0;
-    position: sticky;
-    top: 56px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .icon-nav-items {
@@ -710,4 +713,14 @@ label {
 
 .icon-nav-item i {
     display: block;
+}
+
+.section-content {
+    min-height: calc(100vh - 120px);
+    padding: 20px 0;
+    background: #0A1929;
+}
+
+.section-content .card {
+    margin-bottom: 0;
 }
