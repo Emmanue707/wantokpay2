@@ -89,24 +89,27 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </nav>
-  <div class="icon-nav">
-      <div class="container">
-          <div class="icon-nav-items">
-              <a href="#home" class="icon-nav-item active">
-                  <i class="bi bi-house-fill"></i>
-              </a>
-              <a href="#payment-methods" class="icon-nav-item">
-                  <i class="bi bi-credit-card-fill"></i>
-              </a>
-              <a href="#notifications" class="icon-nav-item">
-                  <i class="bi bi-bell-fill"></i>
-              </a>
-              <a href="#transactions" class="icon-nav-item">
-                  <i class="bi bi-clock-history"></i>
-              </a>
-          </div>
-      </div>
-  </div>
+<!-- Navigation icons at the top -->
+<div class="icon-nav">
+    <div class="container">
+        <div class="icon-nav-items">
+            <a href="#home" class="icon-nav-item active">
+                <i class="bi bi-house-fill"></i>
+            </a>
+            <a href="#payment-methods" class="icon-nav-item">
+                <i class="bi bi-credit-card-fill"></i>
+            </a>
+            <a href="#notifications" class="icon-nav-item">
+                <i class="bi bi-bell-fill"></i>
+            </a>
+            <a href="#transactions" class="icon-nav-item">
+                <i class="bi bi-clock-history"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Content sections -->
 <div class="section-content" id="home">
     <!-- Quick Actions section -->
     <div class="row mb-4">
