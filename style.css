@@ -761,12 +761,12 @@ label {
 /* Fixed Footer */
 .dashboard-page footer {
     position: fixed;
-    bottom: 0;
+    bottom: 10px;
     left: 0;
     right: 0;
     background: #132F4C;
     padding: 7px 0;
-    height: 45px;
+    height: 38px;
     z-index: 1050;
     display: flex;
     align-items: center;
