@@ -681,13 +681,22 @@ label {
 
 @media (max-width: 768px) {
     .icon-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        position: sticky;
+        top: 0;
         background: #132F4C;
-        transition: transform 0.3s ease;
         z-index: 1000;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .icon-nav-items {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .icon-nav-item {
+        padding: 8px 15px;
     }
 }
 .icon-nav-items {
