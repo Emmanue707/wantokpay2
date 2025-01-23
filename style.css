@@ -243,7 +243,7 @@
     border: 2px solid #0A7AFF;
     color: #66B2FF !important;
 }
-/* Fixed Footer - Desktop & Mobile */
+/* Landing Page Footer */
 .landing-page footer {
     position: fixed;
     bottom: 0;
@@ -251,10 +251,17 @@
     right: 0;
     background: #132F4C;
     height: 30px;
-    z-index: 1050;
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+}
+
+.landing-page {
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 30px;
 }
 
 .landing-page footer .container {
@@ -266,22 +273,20 @@
 
 .landing-page footer p {
     margin: 0;
-    line-height: 1;
+    color: #B2BAC2;
 }
 
-/* Mobile View */
 @media (max-width: 768px) {
     .landing-page footer {
         height: 20px;
     }
-
+    
     .landing-page {
         padding-bottom: 20px;
     }
-
+    
     .landing-page footer p {
         font-size: 0.8rem;
-        margin: 0;
     }
 }
 .login-page {
