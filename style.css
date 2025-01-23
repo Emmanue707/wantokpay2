@@ -759,11 +759,11 @@ label {
 
 @media (max-width: 768px) {
     .dashboard-page footer {
-        height: 15px;
+        height: 10px;
     }
 
     .dashboard-page {
-        padding-bottom: 15px;
+        padding-bottom: 10px;
     }
 
     .dashboard-page footer p {
