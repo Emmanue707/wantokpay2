@@ -440,7 +440,11 @@ document.getElementById('userProfileBtn').addEventListener('click', function() {
         });
 });
 
-
+$(document).ready(function() {
+    $('#userProfileBtn').click(function() {
+        $('#userProfileModal').modal('show');
+    });
+});
 
     </script>
 </body>
