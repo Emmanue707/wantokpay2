@@ -849,21 +849,21 @@ label {
     }
 }
 
-/* Minimal spacing from navbar */
+/* Remove all top spacing */
 .dashboard-page .container.mt-4 {
-    margin-top: 2px !important;
+    margin-top: 0 !important;
 }
 
-/* Tight card spacing */
+/* Minimal card spacing */
 .dashboard-page .row.mb-4 {
-    margin-bottom: 2px !important;
+    margin-bottom: 1px !important;
 }
 
 .dashboard-page .card.dashboard-card {
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
-/* Compact section spacing */
+/* Remove section padding */
 .section-content {
-    padding: 2px 0;
+    padding: 0;
 }
