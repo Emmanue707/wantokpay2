@@ -867,3 +867,26 @@ label {
 .section-content {
     padding: 0;
 }
+
+@media (max-width: 768px) {
+    .dashboard-page .container.mt-4,
+    .dashboard-page .container {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .dashboard-page .row.mb-4,
+    .dashboard-page .row {
+        margin: 0 !important;
+    }
+
+    .section-content {
+        padding: 0;
+        margin: 0;
+    }
+
+    .dashboard-page .card.dashboard-card {
+        margin: 0;
+        border-radius: 0;
+    }
+}
