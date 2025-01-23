@@ -113,9 +113,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!-- Content sections -->
 <div class="container mt-4">
     <!-- Success/Error alerts -->
-    <div class="notifications-container" style="max-height: 300px; overflow-y: auto; padding-right: 10px; scrollbar-width: thin; scrollbar-color: #66B2FF #173A5E;">
-    </div>
-</div>
+    
     <div class="section-content" id="home">
         <!-- Quick Actions section -->
         <div class="row mb-4">
