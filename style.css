@@ -757,7 +757,6 @@ label {
     padding-top: 56px; /* Height of navbar */
     padding-bottom: 48px; /* Reduced from 60px to 48px */
 }
-
 /* Fixed Footer */
 .dashboard-page footer {
     position: fixed;
@@ -765,15 +764,16 @@ label {
     left: 0;
     right: 0;
     background: #132F4C;
-    padding: 9px 0; /* Reduced from 15px to 12px */
+    padding: 8px 0; /* Reduced from 15px to 8px for a noticeable change */
     z-index: 1050;
 }
 
 /* Update scrollable content area calculation */
 .section-content {
-    min-height: calc(100vh - 104px); /* Reduced from 116px to 104px */
+    min-height: calc(100vh - 92px); /* Reduced from 116px to 92px */
     overflow-y: auto;
     padding: 20px 0;
+}
 }    background: #132F4C;
     padding: 15px 0;
     z-index: 1050;
