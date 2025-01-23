@@ -764,22 +764,25 @@ label {
     left: 0;
     right: 0;
     background: #132F4C;
-    padding: 8px 0; /* Reduced from 15px to 8px for a noticeable change */
+    padding: 4px 0; /* Minimal padding to fit the text */
     z-index: 1050;
+    height: 30px; /* Fixed height to match text size */
+    display: flex;
+    align-items: center; /* Centers the text vertically */
+}
+
+/* Update the content padding to match new footer height */
+.dashboard-page {
+    padding-top: 56px;
+    padding-bottom: 30px; /* Matches footer height */
 }
 
 /* Update scrollable content area calculation */
 .section-content {
-    min-height: calc(100vh - 92px); /* Reduced from 116px to 92px */
+    min-height: calc(100vh - 86px); /* Adjusted for new footer height */
     overflow-y: auto;
     padding: 20px 0;
 }
-}    background: #132F4C;
-    padding: 15px 0;
-    z-index: 1050;
-}
-
-/* Scrollable Content Area */
 .section-content {
     min-height: calc(100vh - 116px); /* viewport height minus navbar and footer */
     overflow-y: auto;
