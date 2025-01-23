@@ -794,7 +794,7 @@ label {
 /* Main Content Area */
 .dashboard-page {
     padding-top: 56px; /* Height of navbar */
-    padding-bottom: 45px; /* Height of footer */
+    padding-bottom: 25px; /* Height of footer */
 }
 
 /* Fixed Footer */
