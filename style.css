@@ -274,15 +274,14 @@
     padding: 20px 0;
     color: #B2BAC2;
 }
-
 .login-page {
+    background-color: #2a3a7c !important; /* Fallback color */
     background: linear-gradient(135deg, #2a3a7c, #c22f2f, #fecb3d) !important;
     background-size: 400% 400% !important;
     animation: gradientBG 15s ease infinite;
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
 }
-
 .login-page .auth-card {
     background: rgba(255, 255, 255, 0.18);
     backdrop-filter: blur(8px);
@@ -981,4 +980,10 @@ label {
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 6px 15px;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
