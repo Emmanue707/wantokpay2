@@ -4,7 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WANTOK PAY - Modern Payment Solution</title>
+    <!-- Add these SEO meta tags -->
+    <meta name="description" content="WANTOK PAY - The leading digital payment solution in Papua New Guinea. Fast, secure, and zero-fee transactions under 100 Kina. Instant QR payments for market purchases.">
+    <meta name="keywords" content="wantok pay, papua new guinea payments, digital payments PNG, QR payments, mobile money PNG, instant payments">
+    <meta name="author" content="Waghi Tech">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph tags for social sharing -->
+    <meta property="og:title" content="WANTOK PAY - Modern Payment Solution">
+    <meta property="og:description" content="Transform your digital payments in Papua New Guinea with fast, secure, and zero-fee transactions.">
+    <meta property="og:image" content="[Your-Logo-URL]">
+    <meta property="og:url" content="[Your-Website-URL]">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WANTOK PAY - Modern Payment Solution">
+    <meta name="twitter:description" content="Transform your digital payments in Papua New Guinea with fast, secure, and zero-fee transactions.">
+    
+    <title>WANTOK PAY - Modern Payment Solution | Digital Payments Papua New Guinea</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
@@ -44,48 +61,50 @@
             </div>
         </div>
     </nav>
-
-        <div class="hero-section">
-            <div class="container">
-                <div class="text-center hero-content">
-                    <h1 class="main-title">WANTOK PAY</h1>
-                    <p class="hero-subtitle">Transforming Digital Payments in Papua New Guinea</p>
-                
-                    <!-- Login/Register buttons moved here -->
-                    <div class="cta-container">
-                        <?php if(!isset($_SESSION['user_id'])): ?>
-                            <a href="login.php" class="btn btn-glow btn-primary">Login</a>
-                            <a href="register.php" class="btn btn-glow btn-outline">Register</a>
-                        <?php else: ?>
-                            <a href="dashboard.php" class="btn btn-glow btn-primary">Dashboard</a>
-                        <?php endif; ?>
-                    </div>
-                
-                    <!-- 3D Sliding Boxes -->
-                    <div class="slider-container">
-                        <div class="slider">
-                            <div class="slide">
-                                <div class="slide-content">
-                                    <h3>Fast & Secure</h3>
-                                    <p>Instant payments with bank-grade security</p>
-                                </div>
+<main role="main">
+    <article class="hero-section">
+        <div class="container">
+            <header class="text-center hero-content">
+                <h1 class="main-title">WANTOK PAY</h1>
+                <p class="hero-subtitle">Transforming Digital Payments in Papua New Guinea</p>
+            
+                <!-- Login/Register buttons moved here -->
+                <div class="cta-container">
+                    <?php if(!isset($_SESSION['user_id'])): ?>
+                        <a href="login.php" class="btn btn-glow btn-primary">Login</a>
+                        <a href="register.php" class="btn btn-glow btn-outline">Register</a>
+                    <?php else: ?>
+                        <a href="dashboard.php" class="btn btn-glow btn-primary">Dashboard</a>
+                    <?php endif; ?>
+                </div>
+            
+                <!-- 3D Sliding Boxes -->
+                <div class="slider-container">
+                    <div class="slider">
+                        <div class="slide">
+                            <div class="slide-content">
+                                <h3>Fast & Secure</h3>
+                                <p>Instant payments with bank-grade security</p>
                             </div>
-                            <div class="slide">
-                                <div class="slide-content">
-                                    <h3>QR Payments</h3>
-                                    <p>Scan & pay instantly for market purchases</p>
-                                </div>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-content">
+                                <h3>QR Payments</h3>
+                                <p>Scan & pay instantly for market purchases</p>
                             </div>
-                            <div class="slide">
-                                <div class="slide-content">
-                                    <h3>Zero Fees</h3>
-                                    <p>No transaction fees under 100 Kina</p>
-                                </div>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-content">
+                                <h3>Zero Fees</h3>
+                                <p>No transaction fees under 100 Kina</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </header>
+        </div>
+    </article>
+</main>
         </div>
     <!-- Footer -->
     <footer>
@@ -95,5 +114,19 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FinancialService",
+  "name": "WANTOK PAY",
+  "description": "Digital payment solution in Papua New Guinea offering fast, secure transactions with zero fees under 100 Kina",
+  "areaServed": "Papua New Guinea",
+  "offers": {
+    "@type": "Offer",
+    "description": "Zero transaction fees under 100 Kina"
+  }
+}
+</script>
+
 </body>
 </html>
