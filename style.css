@@ -764,7 +764,7 @@ label {
     left: 0;
     right: 0;
     background: #132F4C;
-    padding: 9px 0; /* Minimal padding to fit the text */
+    padding: 13px 0; /* Minimal padding to fit the text */
     z-index: 1050;
     height: 50px; /* Fixed height to match text size */
     display: flex;
