@@ -85,7 +85,7 @@
 /* Mobile Optimization for Dashboard Cards */
 @media (max-width: 768px) {
     .dashboard-page .card.dashboard-card {
-        width: 99%;
+        width: 100%;
         margin: 0 auto;
     }
     
