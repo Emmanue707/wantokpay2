@@ -930,3 +930,38 @@ label {
         border-radius: 0;
     }
 }
+
+.notification-item h6 {
+    color: #66B2FF;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-bottom: 8px;
+}
+
+.notification-item p {
+    color: #E0E0E0;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.notification-time {
+    color: #8B9CAF;
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.notification-item.unread h6 {
+    color: #00E5FF;
+}
+
+.notification-item.unread p {
+    color: #FFFFFF;
+}
+
+.notification-item .btn-primary {
+    background: #0A7AFF;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 15px;
+}
