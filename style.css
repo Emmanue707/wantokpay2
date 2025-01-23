@@ -243,52 +243,13 @@
     border: 2px solid #0A7AFF;
     color: #66B2FF !important;
 }
-/* Landing Page Footer */
+
 .landing-page footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     background: #132F4C;
-    height: 30px;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.landing-page {
-    min-height: 100vh;
-    position: relative;
-    padding-bottom: 30px;
-}
-
-.landing-page footer .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-
-.landing-page footer p {
-    margin: 0;
+    padding: 20px 0;
     color: #B2BAC2;
 }
 
-@media (max-width: 768px) {
-    .landing-page footer {
-        height: 20px;
-    }
-    
-    .landing-page {
-        padding-bottom: 20px;
-    }
-    
-    .landing-page footer p {
-        font-size: 0.8rem;
-    }
-}
 .login-page {
     background: linear-gradient(135deg, #2a3a7c, #c22f2f, #fecb3d) !important;
     background-size: 400% 400% !important;
