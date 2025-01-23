@@ -85,13 +85,12 @@
 /* Mobile Optimization for Dashboard Cards */
 @media (max-width: 768px) {
     .dashboard-page .card.dashboard-card {
-        width: 99.9%;
-        margin: 0 auto;
+        width: 100%;
+        margin: 0;
     }
     
     .container {
-        padding-left: 1px;
-        padding-right: 1px;
+        padding: 0;
         max-width: 100%;
     }
     
@@ -148,10 +147,13 @@
     }
     
     .transaction-table {
-        width: 99.9%;
+        width: 100%;
     }
-}
-.form-select-sm, .form-control-sm {
+    
+    .card {
+        border-radius: 0;
+    }
+}.form-select-sm, .form-control-sm {
     min-width: 100px;
     background: rgba(255, 255, 255, 0.1);
 }
