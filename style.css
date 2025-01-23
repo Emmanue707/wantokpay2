@@ -698,23 +698,13 @@ label {
 }
 
 @media (max-width: 768px) {
-    .icon-nav {
-        position: sticky;
-        top: 0;
-        background: #132F4C;
-        z-index: 1000;
-        padding: 10px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+    .dashboard-page .icon-nav {
+        display: none;
     }
-
-    .icon-nav-items {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
-
-    .icon-nav-item {
-        padding: 8px 15px;
+    
+    /* Remove the top padding since nav is hidden */
+    .dashboard-page {
+        padding-top: 0;
     }
 }
 .icon-nav-items {
