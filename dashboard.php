@@ -331,6 +331,12 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
         </div> <!-- Close last container -->
     </div> <!-- Close any remaining open divs -->
+    
+    <footer>
+        <div class="container text-center">
+            <p>© 2025 WANTOK PAY. Developed by Waghi Tech.</p>
+        </div>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -419,31 +425,6 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     searchInput.addEventListener('input', filterTransactions);
     timeFilter.addEventListener('change', filterTransactions);
     typeFilter.addEventListener('change', filterTransactions);
-});
-
-
-document.getElementById('userProfileBtn').addEventListener('click', function() {
-    // Create new bootstrap modal instance
-    var userProfileModal = new bootstrap.Modal(document.getElementById('userProfileModal'));
-    
-    // Fetch user data via AJAX
-    fetch('get_user_profile.php')
-        .then(response => response.json())
-        .then(data => {
-            // Populate modal with user data
-            document.getElementById('profileUsername').textContent = data.username;
-            document.getElementById('profileEmail').textContent = data.email;
-            document.getElementById('profileCreatedAt').textContent = data.created_at;
-            
-            // Show the modal
-            userProfileModal.show();
-        });
-});
-
-$(document).ready(function() {
-    $('#userProfileBtn').click(function() {
-        $('#userProfileModal').modal('show');
-    });
 });
 
     </script>
