@@ -66,7 +66,6 @@
 
 .dashboard-page .btn {
     border-radius: 8px;
-    padding: 10px 20px;
     font-weight: 500;
     transition: all 0.3s ease;
 }
@@ -81,6 +80,20 @@
 .dashboard-page .btn-success { background: #1DB954 !important; border: none; }
 .dashboard-page .btn-info { background: #00B4D8 !important; border: none; }
 .dashboard-page .btn-warning { background: #FF9800 !important; border: none; }
+
+.dashboard-page .card-body .btn {
+    padding: 20px 24px;
+    font-size: 1.1rem;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-page .card-body .btn i {
+    font-size: 1.3rem;
+    margin-right: 8px;
+}
 
 /* Mobile Optimization for Dashboard Cards */
 @media (max-width: 768px) {
@@ -100,10 +113,14 @@
 
     .btn {
         width: 100%;
-        padding: 12px;
         margin: 0;
     }
-    /* Transaction Filters Mobile View */
+
+    .dashboard-page .card-body .btn {
+        height: 62px;
+        margin-bottom: 8px;
+    }
+}    /* Transaction Filters Mobile View */
     .card-header .d-flex {
         flex-direction: column;
         gap: 10px;
