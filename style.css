@@ -765,7 +765,7 @@ label {
     left: 0;
     right: 0;
     background: #132F4C;
-    padding: 12px 0; /* Reduced from 15px to 12px */
+    padding: 9px 0; /* Reduced from 15px to 12px */
     z-index: 1050;
 }
 
