@@ -740,7 +740,6 @@ label {
 .icon-nav-item i {
     display: block;
 }
-
 /* Fixed Navbar */
 .dashboard-page .navbar {
     position: fixed;
@@ -758,6 +757,20 @@ label {
     padding-bottom: 60px; /* Height of footer */
 }
 
+@media (max-width: 768px) {
+    .dashboard-page footer {
+        height: 20px;
+    }
+
+    .dashboard-page {
+        padding-bottom: 20px;
+    }
+
+    .dashboard-page footer p {
+        font-size: 0.8rem;
+        margin: 0;
+    }
+}
 /* Fixed Footer */
 .dashboard-page footer {
     position: fixed;
