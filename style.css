@@ -814,3 +814,37 @@ label {
     overflow-y: auto;
     padding: 20px 0;
 }
+
+/* Transaction Table Text Styling */
+.transaction-table td {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #B2BAC2;
+}
+
+.transaction-table .text-danger,
+.transaction-table .text-success {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Amount and Fee Columns */
+.transaction-table td:nth-child(4),
+.transaction-table td:nth-child(5) {
+    font-weight: 700;
+    color: #66B2FF;
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .transaction-table td {
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 12px 8px;
+    }
+    
+    .transaction-table td:nth-child(4),
+    .transaction-table td:nth-child(5) {
+        font-size: 1rem;
+    }
+}
