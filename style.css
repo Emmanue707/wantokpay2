@@ -848,3 +848,22 @@ label {
         font-size: 1rem;
     }
 }
+
+/* Adjust top spacing for all dashboard cards */
+.dashboard-page .container.mt-4 {
+    margin-top: 0.5rem !important;
+}
+
+/* Reduce spacing between cards */
+.dashboard-page .row.mb-4 {
+    margin-bottom: 0.5rem !important;
+}
+
+.dashboard-page .card.dashboard-card {
+    margin-bottom: 0.5rem;
+}
+
+/* Tighten up section spacing */
+.section-content {
+    padding: 8px 0;
+}
