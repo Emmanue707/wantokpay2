@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 21, 2025 at 05:51 PM
+-- Generation Time: Jan 31, 2025 at 03:24 PM
 -- Server version: 10.11.10-MariaDB
 -- PHP Version: 7.2.34
 
@@ -20,6 +20,20 @@ SET time_zone = "+00:00";
 --
 -- Database: `u787474055_wantokpay2`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -46,11 +60,41 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id`, `user_id`, `type`, `message`, `link_token`, `amount`, `is_read`, `created_at`, `payment_type`, `transaction_id`, `status`) VALUES
-(1, 2, 'payment_request', 'New payment request of K20 from ekokele', 'pi_3QjktnDUpDhJwyLX0EDHisaE_secret_uZu0aqN2gZEaKHjSi7dPHj297', 20.00, 0, '2025-01-21 17:05:59', NULL, NULL, 'unread'),
+(1, 2, 'payment_request', 'New payment request of K20 from ekokele', 'pi_3QjktnDUpDhJwyLX0EDHisaE_secret_uZu0aqN2gZEaKHjSi7dPHj297', 20.00, 1, '2025-01-21 17:05:59', NULL, NULL, 'unread'),
 (2, 2, 'payment_request', 'New payment request of K20 from ekokele', 'pi_3QjlAyDUpDhJwyLX2sD42b8l_secret_2TciM8fXPboH6PWD6uiL98iql', 20.00, 1, '2025-01-21 17:23:45', NULL, NULL, 'unread'),
 (3, 1, 'payment_request', 'New payment request of K15 from manu', 'pi_3QjlWYDUpDhJwyLX3Q6htMET_secret_pEuUGW5wKOCcw3t9sEsuJ7CBy', 15.00, 1, '2025-01-21 17:46:03', NULL, NULL, 'unread'),
-(4, 2, 'payment_request', 'New payment request of K44 from ekokele', 'pi_3QjlXyDUpDhJwyLX2vyMRvlQ_secret_e41QAbE6OvD5DtldCWNvfjzR4', 44.00, 0, '2025-01-21 17:47:30', NULL, NULL, 'unread'),
-(5, 1, 'payment_request', 'New payment request of K22 from manu', 'pi_3QjlYDDUpDhJwyLX06kuCabv_secret_jsYr98RiHvLA8yhunmXcCM0x8', 22.00, 0, '2025-01-21 17:47:45', NULL, NULL, 'unread');
+(4, 2, 'payment_request', 'New payment request of K44 from ekokele', 'pi_3QjlXyDUpDhJwyLX2vyMRvlQ_secret_e41QAbE6OvD5DtldCWNvfjzR4', 44.00, 1, '2025-01-21 17:47:30', NULL, NULL, 'unread'),
+(5, 1, 'payment_request', 'New payment request of K22 from manu', 'pi_3QjlYDDUpDhJwyLX06kuCabv_secret_jsYr98RiHvLA8yhunmXcCM0x8', 22.00, 1, '2025-01-21 17:47:45', NULL, NULL, 'unread'),
+(6, 1, 'payment_received', 'You received K500 via QR Payment', NULL, 500.00, 0, '2025-01-21 18:04:11', 'qr_payment', 108, 'unread'),
+(7, 1, 'payment_received', 'You received K400 from manu via Manual_transfer', NULL, 400.00, 0, '2025-01-21 18:04:51', 'manual_transfer', 0, 'unread'),
+(8, 2, 'payment_received', 'You received K22 from ekokele via Manual_transfer', NULL, 22.00, 0, '2025-01-21 18:07:38', 'manual_transfer', 0, 'unread'),
+(9, 1, 'payment_received', 'You received K44 from manu via Manual_transfer', NULL, 44.00, 0, '2025-01-21 18:08:07', 'manual_transfer', 0, 'unread'),
+(10, 1, 'payment_received', 'You received K20 from manu via Manual_transfer', NULL, 20.00, 0, '2025-01-21 18:08:13', 'manual_transfer', 0, 'unread'),
+(11, 2, 'payment_received', 'You received K33 from ekokele via Manual_transfer', NULL, 33.00, 0, '2025-01-21 18:12:35', 'manual_transfer', 0, 'unread'),
+(12, 1, 'payment_received', 'You received K555 from manu via Manual_transfer', NULL, 555.00, 0, '2025-01-21 19:28:35', 'manual_transfer', 0, 'unread'),
+(13, 2, 'payment_request', 'New payment request of K200 from manu', 'pi_3QjnAbDUpDhJwyLX3MjZzogq_secret_CIkJARaJkoPrt5JmG1qTQzCzc', 200.00, 0, '2025-01-21 19:31:29', NULL, NULL, 'unread'),
+(14, 1, 'payment_request', 'New payment request of K200 from manu', 'pi_3QjnAjDUpDhJwyLX2tedcbq1_secret_sIBUqf2KP4Vs3ZauMrErnMl7g', 200.00, 1, '2025-01-21 19:31:37', NULL, NULL, 'unread'),
+(15, 2, 'payment_received', 'You received K200 from ekokele via Manual_transfer', NULL, 200.00, 0, '2025-01-21 19:32:45', 'manual_transfer', 0, 'unread'),
+(16, 1, 'payment_received', 'You received K1000 via QR Payment', NULL, 1000.00, 0, '2025-01-21 19:35:34', 'qr_payment', 116, 'unread'),
+(17, 1, 'payment_received', 'You received K99 via QR Payment', NULL, 99.00, 0, '2025-01-21 19:38:02', 'qr_payment', 117, 'unread'),
+(18, 4, 'payment_received', 'You received K20 via QR Payment', NULL, 20.00, 0, '2025-01-22 02:42:34', 'qr_payment', 118, 'unread'),
+(19, 2, 'payment_request', 'New payment request of K55 from Edwin', 'pi_3QjtvSDUpDhJwyLX2aIu8kqe_secret_jLSLTwJEEa0su9ELrV1pSeyxu', 55.00, 1, '2025-01-22 02:44:19', NULL, NULL, 'unread'),
+(20, 4, 'payment_received', 'You received K55 from manu via Manual_transfer', NULL, 55.00, 0, '2025-01-22 02:44:39', 'manual_transfer', 0, 'unread'),
+(21, 4, 'payment_received', 'You received K55 from manu via Manual_transfer', NULL, 55.00, 0, '2025-01-22 02:44:40', 'manual_transfer', 0, 'unread'),
+(22, 4, 'payment_received', 'You received K100 from manu via Manual_transfer', NULL, 100.00, 0, '2025-01-22 02:46:02', 'manual_transfer', 0, 'unread'),
+(23, 2, 'payment_received', 'You received K20 from Edwin via Manual_transfer', NULL, 20.00, 0, '2025-01-22 02:56:09', 'manual_transfer', 0, 'unread'),
+(24, 3, 'payment_received', 'You received K50 via QR Payment', NULL, 50.00, 0, '2025-01-23 12:56:37', 'qr_payment', 123, 'unread'),
+(25, 3, 'payment_request', 'New payment request of K50 from manu', 'pi_3QkQ0TDUpDhJwyLX3b41tx2E_secret_AhFuXFaPHWZfpI6LtWm3ryiZe', 50.00, 1, '2025-01-23 12:59:37', NULL, NULL, 'unread'),
+(26, 2, 'payment_received', 'You received K50 from naomi via Manual_transfer', NULL, 50.00, 0, '2025-01-23 13:00:10', 'manual_transfer', 0, 'unread'),
+(27, 2, 'payment_received', 'You received K50 from naomi via Manual_transfer', NULL, 50.00, 0, '2025-01-23 13:00:12', 'manual_transfer', 0, 'unread'),
+(28, 2, 'payment_received', 'You received K50 from naomi via Manual_transfer', NULL, 50.00, 0, '2025-01-23 13:00:13', 'manual_transfer', 0, 'unread'),
+(29, 2, 'payment_received', 'You received K50 from naomi via Manual_transfer', NULL, 50.00, 0, '2025-01-23 13:00:14', 'manual_transfer', 0, 'unread'),
+(30, 2, 'payment_received', 'You received K50 from naomi via Manual_transfer', NULL, 50.00, 0, '2025-01-23 13:00:15', 'manual_transfer', 0, 'unread'),
+(31, 2, 'payment_received', 'You received K50 from naomi via Manual_transfer', NULL, 50.00, 0, '2025-01-23 13:00:17', 'manual_transfer', 0, 'unread'),
+(32, 2, 'payment_received', 'You received K50 from naomi via Manual_transfer', NULL, 50.00, 0, '2025-01-23 13:00:18', 'manual_transfer', 0, 'unread'),
+(33, 2, 'payment_received', 'You received K50 from naomi via Manual_transfer', NULL, 50.00, 0, '2025-01-23 13:00:19', 'manual_transfer', 0, 'unread'),
+(34, 2, 'payment_received', 'You received K50 from naomi via Manual_transfer', NULL, 50.00, 0, '2025-01-23 13:00:21', 'manual_transfer', 0, 'unread'),
+(35, 2, 'payment_received', 'You received K50 from naomi via Manual_transfer', NULL, 50.00, 0, '2025-01-23 13:00:22', 'manual_transfer', 0, 'unread');
 
 -- --------------------------------------------------------
 
@@ -75,13 +119,21 @@ CREATE TABLE `payment_links` (
 
 INSERT INTO `payment_links` (`id`, `merchant_id`, `amount`, `description`, `recipient_username`, `link_token`, `status`, `created_at`) VALUES
 (1, 1, 20.00, '20 kina', NULL, 'pi_3QjksbDUpDhJwyLX1hQCz6w2_secret_IPOQC4TkUHQvlkM3uo59ARnqK', 'active', '2025-01-21 17:04:46'),
-(2, 1, 20.00, '20 kina', 'manu', 'pi_3QjktnDUpDhJwyLX0EDHisaE_secret_uZu0aqN2gZEaKHjSi7dPHj297', 'active', '2025-01-21 17:05:59'),
+(2, 1, 20.00, '20 kina', 'manu', 'pi_3QjktnDUpDhJwyLX0EDHisaE_secret_uZu0aqN2gZEaKHjSi7dPHj297', 'used', '2025-01-21 17:05:59'),
 (3, 1, 20.00, '20 kina', NULL, 'pi_3QjkwMDUpDhJwyLX0OZ3CNJ9_secret_8jNGh5oO8V8Moni3kriYKEEaK', 'active', '2025-01-21 17:08:38'),
 (4, 1, 20.00, '20 kina', 'manu', 'pi_3QjlAyDUpDhJwyLX2sD42b8l_secret_2TciM8fXPboH6PWD6uiL98iql', 'used', '2025-01-21 17:23:45'),
 (5, 1, 34.00, '34 kina', NULL, 'pi_3QjlD0DUpDhJwyLX2kVZw3AA_secret_dgniIZd5jAfFXH6bHzZ5VFPR2', 'used', '2025-01-21 17:25:50'),
 (6, 2, 15.00, 'Buy pen', 'ekokele', 'pi_3QjlWYDUpDhJwyLX3Q6htMET_secret_pEuUGW5wKOCcw3t9sEsuJ7CBy', 'used', '2025-01-21 17:46:03'),
-(7, 1, 44.00, '44', 'manu', 'pi_3QjlXyDUpDhJwyLX2vyMRvlQ_secret_e41QAbE6OvD5DtldCWNvfjzR4', 'active', '2025-01-21 17:47:30'),
-(8, 2, 22.00, '22', 'ekokele', 'pi_3QjlYDDUpDhJwyLX06kuCabv_secret_jsYr98RiHvLA8yhunmXcCM0x8', 'active', '2025-01-21 17:47:45');
+(7, 1, 44.00, '44', 'manu', 'pi_3QjlXyDUpDhJwyLX2vyMRvlQ_secret_e41QAbE6OvD5DtldCWNvfjzR4', 'used', '2025-01-21 17:47:30'),
+(8, 2, 22.00, '22', 'ekokele', 'pi_3QjlYDDUpDhJwyLX06kuCabv_secret_jsYr98RiHvLA8yhunmXcCM0x8', 'used', '2025-01-21 17:47:45'),
+(9, 2, 200.00, 'Buy shoe', 'manu', 'pi_3QjnAbDUpDhJwyLX3MjZzogq_secret_CIkJARaJkoPrt5JmG1qTQzCzc', 'active', '2025-01-21 19:31:29'),
+(10, 2, 200.00, 'Buy shoe', 'ekokele', 'pi_3QjnAjDUpDhJwyLX2tedcbq1_secret_sIBUqf2KP4Vs3ZauMrErnMl7g', 'used', '2025-01-21 19:31:37'),
+(11, 4, 55.00, 'Drinks', NULL, 'pi_3QjtuyDUpDhJwyLX2dWp5aGq_secret_CVmnWJfv7OtRAYyzRB5rnNGjx', 'active', '2025-01-22 02:43:48'),
+(12, 4, 55.00, 'Drinks', 'manu', 'pi_3QjtvSDUpDhJwyLX2aIu8kqe_secret_jLSLTwJEEa0su9ELrV1pSeyxu', 'used', '2025-01-22 02:44:19'),
+(13, 2, 20.00, 'School', NULL, 'pi_3Qju5MDUpDhJwyLX1QwLkxEp_secret_kFp1dSIRRpLLESXX79DTvnUwC', 'used', '2025-01-22 02:54:32'),
+(14, 2, 20.00, 'Hft', NULL, 'pi_3QjxDzDUpDhJwyLX28koLUkw_secret_QVB8I39fqs8qxGYLGDUTGfsrJ', 'active', '2025-01-22 06:15:39'),
+(15, 2, 50.00, '50 kina', NULL, 'pi_3QkPyPDUpDhJwyLX0tnIxRRt_secret_vwE75wgYf21zfWD3h60FLNqdL', 'active', '2025-01-23 12:57:30'),
+(16, 2, 50.00, 'Naomi salim mone6', 'naomi', 'pi_3QkQ0TDUpDhJwyLX3b41tx2E_secret_AhFuXFaPHWZfpI6LtWm3ryiZe', 'used', '2025-01-23 12:59:37');
 
 -- --------------------------------------------------------
 
@@ -226,7 +278,34 @@ INSERT INTO `transactions` (`id`, `sender_id`, `receiver_id`, `amount`, `fee_amo
 (103, 2, 1, 20.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-21 17:24:22'),
 (104, 2, 1, 34.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-21 17:32:27'),
 (105, 2, 1, 15.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-21 17:38:24'),
-(106, 1, 2, 15.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-21 17:46:53');
+(106, 1, 2, 15.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-21 17:46:53'),
+(107, 2, 1, 29.00, NULL, NULL, 'qr_payment', 'completed', '2025-01-21 17:54:19'),
+(108, 2, 1, 500.00, NULL, NULL, 'qr_payment', 'completed', '2025-01-21 18:04:11'),
+(109, 2, 1, 400.00, 20.00, NULL, 'card_payment', 'completed', '2025-01-21 18:04:51'),
+(110, 1, 2, 22.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-21 18:07:38'),
+(111, 2, 1, 44.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-21 18:08:07'),
+(112, 2, 1, 20.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-21 18:08:13'),
+(113, 1, 2, 33.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-21 18:12:35'),
+(114, 2, 1, 555.00, 27.75, NULL, 'card_payment', 'completed', '2025-01-21 19:28:35'),
+(115, 1, 2, 200.00, 10.00, NULL, 'card_payment', 'completed', '2025-01-21 19:32:45'),
+(116, 2, 1, 1000.00, NULL, NULL, 'qr_payment', 'completed', '2025-01-21 19:35:34'),
+(117, 2, 1, 99.00, NULL, NULL, 'qr_payment', 'completed', '2025-01-21 19:38:02'),
+(118, 2, 4, 20.00, NULL, NULL, 'qr_payment', 'completed', '2025-01-22 02:42:34'),
+(119, 2, 4, 55.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-22 02:44:39'),
+(120, 2, 4, 55.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-22 02:44:40'),
+(121, 2, 4, 100.00, 5.00, NULL, 'card_payment', 'completed', '2025-01-22 02:46:02'),
+(122, 4, 2, 20.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-22 02:56:09'),
+(123, 2, 3, 50.00, NULL, NULL, 'qr_payment', 'completed', '2025-01-23 12:56:37'),
+(124, 3, 2, 50.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-23 13:00:10'),
+(125, 3, 2, 50.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-23 13:00:12'),
+(126, 3, 2, 50.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-23 13:00:13'),
+(127, 3, 2, 50.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-23 13:00:14'),
+(128, 3, 2, 50.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-23 13:00:15'),
+(129, 3, 2, 50.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-23 13:00:17'),
+(130, 3, 2, 50.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-23 13:00:18'),
+(131, 3, 2, 50.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-23 13:00:19'),
+(132, 3, 2, 50.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-23 13:00:21'),
+(133, 3, 2, 50.00, 0.00, NULL, 'card_payment', 'completed', '2025-01-23 13:00:22');
 
 -- --------------------------------------------------------
 
@@ -250,12 +329,20 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `stripe_customer_id`, `created_at`, `has_payment_method`) VALUES
 (1, 'ekokele', 'ekokele707@gmail.com', '$2y$10$pltMfhJJRjNIpWoJPjKceOU80CZMHTtdzjgfei/uvGy/tK7iLWELW', 'cus_RbSK7nFYRVjlj4', '2025-01-15 15:54:00', 1),
-(2, 'manu', 'awardwan@gmail.com', '$2y$10$irnkqkz1/OZzlc34whSIwu/aB4xaA7F45RDBU5K.YNy.Ww/5k401.', 'cus_RbSMPOsTqzMONL', '2025-01-15 16:40:05', 1),
-(3, 'naomi', 'kloudone1@gmail.com', '$2y$10$EBb5EDf9vFwzlI5D9QUZkuV3dyD5AgBvUQA9Ku0lE/yZfPFpVJmZ.', 'cus_RbTTCidAQsZgKT', '2025-01-17 14:27:11', 1);
+(2, 'manu', 'awardwan@gmail.com', '$2y$10$irnkqkz1/OZzlc34whSIwu/aB4xaA7F45RDBU5K.YNy.Ww/5k401.', 'cus_RdB5d4XU6mnPdO', '2025-01-15 16:40:05', 1),
+(3, 'naomi', 'kloudone1@gmail.com', '$2y$10$EBb5EDf9vFwzlI5D9QUZkuV3dyD5AgBvUQA9Ku0lE/yZfPFpVJmZ.', 'cus_RbTTCidAQsZgKT', '2025-01-17 14:27:11', 1),
+(4, 'Edwin', 'edwintope6@gmail.com', '$2y$10$oL7IIIFKvhR1zFMp/EqzG.ZlsEJWaOButcSoBcmwyiI5LRjiv0nxW', 'cus_RdACC6o554AUJ6', '2025-01-22 02:38:32', 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `notifications`
@@ -299,16 +386,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `payment_links`
 --
 ALTER TABLE `payment_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `qr_codes`
@@ -320,13 +413,13 @@ ALTER TABLE `qr_codes`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
