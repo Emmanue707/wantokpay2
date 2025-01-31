@@ -147,10 +147,10 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo htmlspecialchars($user['email']); ?></td>
                                         <td><?php echo date('Y-m-d', strtotime($user['created_at'])); ?></td>
                                         <td>
-                                            <span class="badge bg-<?php echo $user['has_payment_method'] ? 'success' : 'warning'; ?>">
-                                                <?php echo $user['has_payment_method'] ? 'Active' : 'Pending'; ?>
-                                            </span>
-                                        </td>
+    <span class="badge bg-<?php echo $user['is_disabled'] ? 'danger' : 'success'; ?>">
+        <?php echo $user['is_disabled'] ? 'Disabled' : 'Active'; ?>
+    </span>
+</td>
                                         <td>
                                             <button class="btn btn-sm btn-danger" onclick="deleteUser(<?php echo $user['id']; ?>)">
                                                 <i class="bi bi-trash"></i>
@@ -168,7 +168,6 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-
     <footer>
         <div class="container text-center">
             <p>© 2025 WANTOK PAY Admin Panel. Developed by Waghi Tech.</p>
