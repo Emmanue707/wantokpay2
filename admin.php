@@ -201,20 +201,9 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 // Add AJAX call to delete user
             }
         }
-            function toggleUserStatus(userId) {
-                $.ajax({
-                    url: 'toggle_user_status.php',
-                    type: 'POST',
-                    data: { user_id: userId },
-                    success: function(response) {
-                        if (response.success) {
-                            location.reload();
-                        } else {
-                            alert('Error updating user status');
-                        }
-                    }
-                });
-            }
+
+        function toggleUserStatus(userId) {
+            // Add AJAX call to toggle user status
         }
     </script>
 </body>
