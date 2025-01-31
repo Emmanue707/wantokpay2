@@ -11,16 +11,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$_POST['email']]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    if ($user && password_verify($_POST['password'], $user['password_hash'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        header("Location: dashboard.php");
-        exit();
+    if ($user) {
+        if ($user['is_disabled']) {
+            $error = "Account disabled. Please contact Wantok Pay Customer Service.";
+        } else if (password_verify($_POST['password'], $user['password_hash'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            $error = "Invalid credentials";
+        }
     } else {
         $error = "Invalid credentials";
     }
-}
-?>
+}?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

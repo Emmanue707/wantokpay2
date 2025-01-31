@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 31, 2025 at 03:24 PM
+-- Generation Time: Jan 31, 2025 at 04:01 PM
 -- Server version: 10.11.10-MariaDB
 -- PHP Version: 7.2.34
 
@@ -34,6 +34,14 @@ CREATE TABLE `admin` (
   `is_active` tinyint(1) DEFAULT 1,
   `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `email`, `password_hash`, `is_active`, `created_at`) VALUES
+(1, 'admin@wantokpay.com', '$2y$10$dphYrXyi.lhx09SEKPhRDe/MY.3zTySn1SzbD19UbhQUaidX2VfZu', 1, '2025-01-31 15:28:01'),
+(2, 'ekokele707@gmail.com', '$2y$10$m4SnsaV6v5QLyvBBB0nUDu5cy96nuoRI0KzIi/wIbbcoSRzuvhPhi', 1, '2025-01-31 15:29:47');
 
 -- --------------------------------------------------------
 
@@ -320,18 +328,20 @@ CREATE TABLE `users` (
   `password_hash` varchar(255) NOT NULL,
   `stripe_customer_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `has_payment_method` tinyint(1) DEFAULT 0
+  `has_payment_method` tinyint(1) DEFAULT 0,
+  `is_disabled` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `stripe_customer_id`, `created_at`, `has_payment_method`) VALUES
-(1, 'ekokele', 'ekokele707@gmail.com', '$2y$10$pltMfhJJRjNIpWoJPjKceOU80CZMHTtdzjgfei/uvGy/tK7iLWELW', 'cus_RbSK7nFYRVjlj4', '2025-01-15 15:54:00', 1),
-(2, 'manu', 'awardwan@gmail.com', '$2y$10$irnkqkz1/OZzlc34whSIwu/aB4xaA7F45RDBU5K.YNy.Ww/5k401.', 'cus_RdB5d4XU6mnPdO', '2025-01-15 16:40:05', 1),
-(3, 'naomi', 'kloudone1@gmail.com', '$2y$10$EBb5EDf9vFwzlI5D9QUZkuV3dyD5AgBvUQA9Ku0lE/yZfPFpVJmZ.', 'cus_RbTTCidAQsZgKT', '2025-01-17 14:27:11', 1),
-(4, 'Edwin', 'edwintope6@gmail.com', '$2y$10$oL7IIIFKvhR1zFMp/EqzG.ZlsEJWaOButcSoBcmwyiI5LRjiv0nxW', 'cus_RdACC6o554AUJ6', '2025-01-22 02:38:32', 1);
+INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `stripe_customer_id`, `created_at`, `has_payment_method`, `is_disabled`) VALUES
+(1, 'ekokele', 'ekokele707@gmail.com', '$2y$10$pltMfhJJRjNIpWoJPjKceOU80CZMHTtdzjgfei/uvGy/tK7iLWELW', 'cus_RbSK7nFYRVjlj4', '2025-01-15 15:54:00', 1, 0),
+(2, 'manu', 'awardwan@gmail.com', '$2y$10$irnkqkz1/OZzlc34whSIwu/aB4xaA7F45RDBU5K.YNy.Ww/5k401.', 'cus_RdB5d4XU6mnPdO', '2025-01-15 16:40:05', 1, 0),
+(3, 'naomi', 'kloudone1@gmail.com', '$2y$10$EBb5EDf9vFwzlI5D9QUZkuV3dyD5AgBvUQA9Ku0lE/yZfPFpVJmZ.', 'cus_RbTTCidAQsZgKT', '2025-01-17 14:27:11', 1, 0),
+(4, 'Edwin', 'edwintope6@gmail.com', '$2y$10$oL7IIIFKvhR1zFMp/EqzG.ZlsEJWaOButcSoBcmwyiI5LRjiv0nxW', 'cus_RdACC6o554AUJ6', '2025-01-22 02:38:32', 1, 0),
+(5, 'Emmanue707', 'kokele@g.com', '$2y$10$.FclO92kVillVr7zmCDA6umFclwzEk88Rn0NLVbjyaeHoNZ3N8JYy', NULL, '2025-01-31 15:54:37', 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -389,7 +399,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -419,7 +429,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
