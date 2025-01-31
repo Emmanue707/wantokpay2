@@ -987,3 +987,57 @@ label {
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+
+
+/* Admin Dashboard Stats Cards */
+.dashboard-page #dashboard .card:nth-child(1) .card-body {
+    background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
+}
+
+.dashboard-page #dashboard .card:nth-child(2) .card-body {
+    background: linear-gradient(45deg, #4ECDC4, #45B7AF);
+}
+
+.dashboard-page #dashboard .card:nth-child(3) .card-body {
+    background: linear-gradient(45deg, #FFD93D, #FFE566);
+}
+
+.dashboard-page #dashboard .card:nth-child(4) .card-body {
+    background: linear-gradient(45deg, #6C63FF, #837DFF);
+}
+
+.dashboard-page #dashboard .card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.dashboard-page #dashboard .card-body {
+    padding: 25px;
+}
+
+.dashboard-page #dashboard .card-body h5 {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.dashboard-page #dashboard .card-body h3 {
+    color: #FFFFFF;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 15px 0;
+}
+
+.dashboard-page #dashboard .card-body p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.dashboard-page #dashboard .card-body i {
+    font-size: 1.4rem;
+    margin-right: 8px;
+    color: rgba(255, 255, 255, 0.9);
+}
