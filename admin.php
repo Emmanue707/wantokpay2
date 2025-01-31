@@ -67,14 +67,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <a href="#dashboard" class="icon-nav-item active">
                     <i class="bi bi-grid-fill"></i>
                 </a>
-                <td>
-                    <button class="btn btn-sm btn-danger" onclick="deleteUser(<?php echo $user['id']; ?>)">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                    <button class="btn btn-sm btn-warning" onclick="toggleUserStatus(<?php echo $user['id']; ?>)">
-                        <i class="bi bi-toggle-on"></i>
-                    </button>
-                </td>
+              
                 <a href="#users" class="icon-nav-item">
                     <i class="bi bi-people-fill"></i>
                 </a>
