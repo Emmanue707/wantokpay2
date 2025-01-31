@@ -49,9 +49,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Admin Dashboard - WANTOK PAY</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <link href="style.css" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
 </head>
 <body class="dashboard-page">
     <nav class="navbar navbar-expand-lg">
