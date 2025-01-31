@@ -35,6 +35,19 @@ $stmt = $db->prepare("SELECT
 $stmt->execute([$week_start, $month_start, $today]);
 $amounts = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Get transactions with user details
+$stmt = $db->prepare("
+    SELECT t.*, 
+           u1.username as sender_name, 
+           u2.username as receiver_name
+    FROM transactions t
+    LEFT JOIN users u1 ON t.sender_id = u1.id
+    LEFT JOIN users u2 ON t.receiver_id = u2.id
+    ORDER BY t.created_at DESC
+");
+$stmt->execute();
+$transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Get users list
 $stmt = $db->prepare("SELECT * FROM users ORDER BY created_at DESC");
 $stmt->execute();
@@ -168,6 +181,72 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
+
+    <!-- Transactions Section -->
+    <div class="section-content" id="transactions" style="display: none;">
+        <div class="card dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-cash-stack"></i> Transaction History</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Sender</th>
+                                <th>Receiver</th>
+                                <th>Amount</th>
+                                <th>Fee</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($transactions as $transaction): ?>
+                                <tr>
+                                    <td><?php echo date('Y-m-d H:i', strtotime($transaction['created_at'])); ?></td>
+                                    <td><?php echo htmlspecialchars($transaction['sender_name']); ?></td>
+                                    <td><?php echo htmlspecialchars($transaction['receiver_name']); ?></td>
+                                    <td>K<?php echo number_format($transaction['amount'], 2); ?></td>
+                                    <td>K<?php echo number_format($transaction['fee_amount'], 2); ?></td>
+                                    <td><?php echo $transaction['type']; ?></td>
+                                    <td>
+                                        <span class="badge bg-<?php echo $transaction['status'] === 'completed' ? 'success' : 'danger'; ?>">
+                                            <?php echo ucfirst($transaction['status']); ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="section-content" id="stats" style="display: none;">
+        <div class="card dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-bar-chart-fill"></i> Detailed Statistics</h5>
+            </div>
+            <div class="card-body">
+                <!-- Add your detailed stats content here -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Transaction Volume</h6>
+                        <!-- Add chart or detailed stats -->
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Revenue Analysis</h6>
+                        <!-- Add chart or detailed stats -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="container text-center">
             <p>© 2025 WANTOK PAY Admin Panel. Developed by Waghi Tech.</p>
