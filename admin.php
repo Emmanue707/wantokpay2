@@ -183,48 +183,27 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             const iconNavItems = document.querySelectorAll('.icon-nav-item');
             const sections = document.querySelectorAll('.section-content');
 
-            // Show dashboard section by default
-            document.getElementById('dashboard').style.display = 'block';
-
             iconNavItems.forEach(item => {
                 item.addEventListener('click', (e) => {
                     e.preventDefault();
-                    
-                    // Remove active class from all icons
                     iconNavItems.forEach(icon => icon.classList.remove('active'));
-                    
-                    // Add active class to clicked icon
                     item.classList.add('active');
-                    
-                    // Hide all sections
                     sections.forEach(section => section.style.display = 'none');
-                    
-                    // Show selected section
                     const targetId = item.getAttribute('href').substring(1);
                     document.getElementById(targetId).style.display = 'block';
                 });
             });
         });
+
         // User Management Functions
         function deleteUser(userId) {
             if(confirm('Are you sure you want to delete this user?')) {
                 // Add AJAX call to delete user
             }
         }
-            function toggleUserStatus(userId) {
-                $.ajax({
-                    url: 'toggle_user_status.php',
-                    type: 'POST',
-                    data: { user_id: userId },
-                    success: function(response) {
-                        if (response.success) {
-                            location.reload();
-                        } else {
-                            alert('Error updating user status');
-                        }
-                    }
-                });
-            }
+
+        function toggleUserStatus(userId) {
+            // Add AJAX call to toggle user status
         }
     </script>
 </body>
