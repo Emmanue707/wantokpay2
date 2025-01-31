@@ -167,39 +167,6 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
-
-        <!-- User Status -->
-        <div class="section-content" id="user-status" style="display: none;">
-            <div class="card dashboard-card">
-                <div class="card-header">
-                    <h5><i class="bi bi-person-check"></i> User Status</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($users as $user): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($user['username']); ?></td>
-                                        <td>
-                                            <span class="badge bg-<?php echo $user['is_disabled'] ? 'danger' : 'success'; ?>">
-                                                <?php echo $user['is_disabled'] ? 'Disabled' : 'Active'; ?>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <footer>
         <div class="container text-center">
