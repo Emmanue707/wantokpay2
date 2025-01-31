@@ -49,6 +49,8 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Admin Dashboard - WANTOK PAY</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <link href="style.css" rel="stylesheet">
 </head>
 <body class="dashboard-page">
@@ -67,6 +69,14 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <a href="#dashboard" class="icon-nav-item active">
                     <i class="bi bi-grid-fill"></i>
                 </a>
+                <td>
+                    <button class="btn btn-sm btn-danger" onclick="deleteUser(<?php echo $user['id']; ?>)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    <button class="btn btn-sm btn-warning" onclick="toggleUserStatus(<?php echo $user['id']; ?>)">
+                        <i class="bi bi-toggle-on"></i>
+                    </button>
+                </td>
                 <a href="#users" class="icon-nav-item">
                     <i class="bi bi-people-fill"></i>
                 </a>
@@ -195,15 +205,44 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
         });
 
-        // User Management Functions
+        // Delete User Function
         function deleteUser(userId) {
-            if(confirm('Are you sure you want to delete this user?')) {
-                // Add AJAX call to delete user
+            if (confirm('Are you sure you want to delete this user?')) {
+                $.ajax({
+                    url: 'delete_user.php',
+                    type: 'POST',
+                    data: { user_id: userId },
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            alert('Error deleting user');
+                        }
+                    },
+                    error: function() {
+                        alert('Error deleting user');
+                    }
+                });
             }
         }
 
+        // Toggle User Status Function
         function toggleUserStatus(userId) {
-            // Add AJAX call to toggle user status
+            $.ajax({
+                url: 'toggle_user_status.php',
+                type: 'POST',
+                data: { user_id: userId },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert('Error updating user status');
+                    }
+                },
+                error: function() {
+                    alert('Error updating user status');
+                }
+            });
         }
     </script>
 </body>

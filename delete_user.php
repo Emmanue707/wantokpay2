@@ -13,7 +13,7 @@ $db = $database->getConnection();
 $user_id = $_POST['user_id'];
 
 try {
-    $stmt = $db->prepare("UPDATE users SET is_disabled = NOT is_disabled WHERE id = ?");
+    $stmt = $db->prepare("DELETE FROM users WHERE id = ?");
     $result = $stmt->execute([$user_id]);
     
     header('Content-Type: application/json');
